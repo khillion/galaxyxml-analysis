@@ -25,7 +25,7 @@ REPORT = "download_report.json"
 if __name__ == "__main__":
 
     # Parse arguments
-    parser = argparse.ArgumentParser(description='Download repositories containing tools that\
+    parser = argparse.ArgumentParser(description='Clone repositories containing tools that\
                                      are installed in a given Galaxy isntance. It only allows to\
                                      get tools that were installed from a toolshed.')
     parser.add_argument('-g', '--galaxy', help='Galaxy server URL', required=True)

@@ -19,10 +19,10 @@ MOTIF = "toolshed"
 
 
 def list_toolsheds_from_gi(gi):
-    '''
+    """
     Print the list of different toolsheds used for installation
     on the Galaxy server
-    '''
+    """
     dico_toolsheds = {}
 
     for tool in gi.tools.get_tools():
@@ -38,10 +38,10 @@ def list_toolsheds_from_gi(gi):
 
 
 def list_owners_from_gi(gi):
-    '''
+    """
     Print the list of different owners of tools installed
     from toolshed(s) on the Galaxy server
-    '''
+    """
     dico_owners = {}
 
     for tool in gi.tools.get_tools():
@@ -58,9 +58,9 @@ def list_owners_from_gi(gi):
 
 
 def list_tools_number(gi):
-    '''
+    """
     Print number of tools from the Galaxy instance
-    '''
+    """
     cpt_all = 0
     cpt_toolshed = 0
 
