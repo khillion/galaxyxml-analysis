@@ -1,13 +1,8 @@
 #! /usr/bin/env python
 
-## Author(s): Kenzo-Hugo Hillion
-## Contact(s): kenzo-hugo.hillion1@pasteur.fr
-## Python version: 3.6.0
-## Date : 11-28-2016
-
-'''
+"""
 This script aims to list informations on a given Galaxy instance.
-'''
+"""
 
 ###########  Import  ###########
 
@@ -21,6 +16,7 @@ from bioblend import galaxy
 MOTIF = "toolshed"
 
 ###########  Function(s)  ###########
+
 
 def list_toolsheds_from_gi(gi):
     '''
@@ -40,6 +36,7 @@ def list_toolsheds_from_gi(gi):
     for toolshed in dico_toolsheds.keys():
         print (" --> " + toolshed)
 
+
 def list_owners_from_gi(gi):
     '''
     Print the list of different owners of tools installed
@@ -58,6 +55,7 @@ def list_owners_from_gi(gi):
     print ("\n----- Names of owners from toolsheds used on " + gi.base_url)
     for owner in dico_owners.keys():
         print (" --> " + owner + ": " + str(dico_owners[owner]) + " tool(s)")
+
 
 def list_tools_number(gi):
     '''
@@ -80,7 +78,7 @@ def list_tools_number(gi):
 if __name__ == "__main__":
 
     ## Parse arguments
-    parser = argparse.ArgumentParser(description = 'List information about a Galaxy server')
+    parser = argparse.ArgumentParser(description='List information about a Galaxy server')
     parser.add_argument('-g', '--galaxy', help='Galaxy server URL', required=True)
     parser.add_argument('-k', '--api_key', help='API key from Galaxy', required=True)
     parser.add_argument('-t', '--toolsheds', help='List toolsheds from which tools were installed',
@@ -101,12 +99,7 @@ if __name__ == "__main__":
     list_owners = args.owners
     list_numbers = args.numbers
 
-    ## Extra tests for arguments
-    '''
-    Here is the part to perform the different test for the arguments
-    '''
-
-    ###########################################################
+    # ---------------------------------------------------------------------
 
     gi = galaxy.GalaxyInstance(galaxy_site, api_key)
 
