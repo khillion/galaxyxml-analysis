@@ -4,8 +4,9 @@ Repository to gather script to retrieve and analyse Galaxy XML tools from a give
 
 ## Requirements
 
-* bioblend
-* hglib
+In order to clone repositories from the toolshed, you need mercurial on your machine.
+
+All Python libraries required for the different scripts are listed in `requirements.txt`.
 
 You also need to have an account on the Galaxy instance with an API key as well
 as an account on the corresponding toolshed.

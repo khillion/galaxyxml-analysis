@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """
-This script aims to download repository containing tools that are installed
+This script aims to clone repositories containing tools that are installed
 in a given Galaxy instance. It only allows to get tools that were installed
 from a toolshed.
 """
@@ -96,4 +96,4 @@ if __name__ == "__main__":
     if verbose:
         print ("Total number of tools: " + str(cpt_all) + ".")
         print ("Number of tools installed from a toolshed: " + str(cpt_toolshed) + ".")
-        print ("Number of downloaded repos: " + str(cpt_down_repos) + ".")
+        print ("Number of cloned repos: " + str(cpt_down_repos) + ".")
