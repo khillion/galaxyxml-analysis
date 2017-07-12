@@ -61,7 +61,6 @@ if __name__ == "__main__":
     cpt_toolshed = 0
     cpt_down_repos = 0
     dico_tools = {}
-    print(dico_tools)
 
     for tool in gi.tools.get_tools():
         cpt_all += 1
