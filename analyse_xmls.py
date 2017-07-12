@@ -156,9 +156,12 @@ if __name__ == "__main__":
     tool_paths = {}
     for root, dirs, files in os.walk(args.directory):
         for file in files:
-            if file.endswith(".xml"):
+            if file.endswith(".xml") and file[0] != '.':
                 file_path = root + '/' + file
-                tool = etree.parse(file_path)
+                try:
+                    tool = etree.parse(file_path)
+                except etree.XMLSyntaxError:
+                    continue
                 if tool.getroot().tag == 'tool':
                     repo = root.split('/', 1)[1].split('/')[0]
                     installed_tools = list_installed_tools(download_report, repo)
@@ -180,7 +183,9 @@ if __name__ == "__main__":
         # Description ?
         xmls_infos[tool_id]['Description'] = check_description(tool)
         # Citations ?
-        xmls_infos[tool_id]['Citations'] = check_citations(tool)
+        xmls_infos[tool_id]['Citations'] = check_field(tool, 'citations')
+        # Citations or reference in help
+        xmls_infos[tool_id]['Citations_info'] = check_citations(tool)
         # Help ?
         xmls_infos[tool_id]['Help'] = check_field(tool, 'help')
         # Edam operations ?
@@ -215,15 +220,15 @@ if __name__ == "__main__":
 
     # Make list of bar plot in the desired order
     barplot_values = [total['Total'], total['Help'], total['Description'], total['Citations'],
-                      total['H+D+C'], total['edam_operations'], total['edam_topics']]
-    barplot_legend = ['Total', 'Help', 'Description', 'Citations', 'H+D+C', 'edam_operations',
-                      'edam_topics']
+                      total['Citations_info'], total['H+D+C'], total['edam_operations'], total['edam_topics']]
+    barplot_legend = ['Total', 'Help', 'Description', 'Citations', 'Citations_info', 'H+D+C', 'edam_ope',
+                      'edam_top']
 
-    plt.bar([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7], barplot_values, width=0.6,
+    plt.bar([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7, 6.7], barplot_values, width=0.6,
             alpha=0.8, color='#5dade2')
     plt.title(graph_title, fontsize=20)
     plt.ylabel("Number of tool descriptions", fontsize=18)
-    plt.xticks([0, 1, 2, 3, 4, 5, 6], barplot_legend, rotation=45)
+    plt.xticks([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7, 6.7], barplot_legend, rotation=45)
     plt.subplots_adjust(bottom=0.2)
     plt.savefig(file_name)
 
