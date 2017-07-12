@@ -16,11 +16,20 @@ as an account on the corresponding toolshed.
 ### get\_xmls\_from\_galaxy.py
 
 ```
-python3 get_xml_from_galaxy.py -k API_KEY -g GALAXY_URL -u TOOLSHED_USERNAME
+python get_xml_from_galaxy.py -k API_KEY -g GALAXY_URL -u TOOLSHED_USERNAME
 ```
 
 The script will clone all repositories containing tools installed on the given Galaxy instance.
 It also generates a JSON report for further analysis by other scripts (mainly reminding which
 tools are installed on the instance).
 
-### get\_galaxy\_info.py
+### analyse\_xmls.py
+
+This script perform analysis of XMLs by checking the presence of several tags and content:
+
+* `<help>`
+* Non empty `<description>`
+* `<citations>`
+* `<citations>` or the presence of words referring to references in the help message
+* `<edam_operations>`
+* `<edam_topics>`
