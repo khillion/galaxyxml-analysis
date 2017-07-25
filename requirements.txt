@@ -3,4 +3,7 @@ python-hglib
 lxml
 pandas
 matplotlib
+tooldog
+planemo
+requests
 
