@@ -1,0 +1,217 @@
+<tool id="cuffnorm" name="Cuffnorm" version="@VERSION@.2">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>Create normalized expression levels</description>
+  <edam_operations>
+    <edam_operation>operation_3800</edam_operation>
+    <edam_operation>operation_3198</edam_operation>
+    <edam_operation>operation_3258</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3320</edam_topic>
+    <edam_topic>topic_3308</edam_topic>
+    <edam_topic>topic_3170</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command>cuffnorm 2&gt;&amp;1 | head -n 1</version_command>
+  <command><![CDATA[
+        cuffnorm
+            --no-update-check
+            --num-threads="\${GALAXY_SLOTS:-4}"
+            --library-norm-method=$library_norm_method
+            --output-format=$output_format
+
+            @CONDITION_LABELS@
+
+            ## Set advanced parameters for cufflinks
+            #if $advanced_settings.sAdvanced == "Yes":
+                #if str($advanced_settings.library_type) != 'auto':
+                        --library-type=$advanced_settings.library_type
+                #end if
+                $advanced_settings.hits_norm
+            #end if
+            ## Inputs.
+            $gtf_input
+
+            @CONDITION_SAMPLES@
+    ]]></command>
+  <inputs>
+    <param argument="gtf_input" format="gtf,gff3" help="A transcript GFF3 or GTF file produced by cufflinks, cuffcompare, or other source." label="Transcripts" name="gtf_input" type="data"/>
+    <param argument="library_norm_method" label="Library normalization method" name="library_norm_method" type="select">
+      <option selected="true" value="geometric">geometric</option>
+      <option value="classic-fpkm">classic-fpkm</option>
+      <option value="quartile">quartile</option>
+    </param>
+    <param argument="include_read_group_files" help="Read group/attribute datasets provide information on replicates. One of both is provided, depending on the output format." label="Include Read_Group/Attribute Datasets" name="include_read_group_files" type="select">
+      <option selected="true" value="No">No</option>
+      <option value="Yes">Yes</option>
+    </param>
+    <param argument="output_format" help="By default, Cuffnorm reports expression levels in the 'simple-table' tab-delimted text files. The program also reports information about your samples and about the genes, transcripts, TSS groups, and CDS groups as tab delimited text files. Note that these files have a different format than the files used by Cuffdiff. However, you can direct Cuffnorm to report its output in the same format as used by Cuffdiff if you wish" label="Output format" name="output_format" type="select">
+      <option selected="true" value="simple-table">Simple Table</option>
+      <option value="cuffdiff">Cuffdiff format</option>
+    </param>
+    <conditional argument="advanced_settings" label="Author did not provide help for this parameter... " name="advanced_settings">
+      <param argument="sAdvanced" label="Set Advanced Cuffnorm parameters? " name="sAdvanced" type="select">
+        <option selected="true" value="No">No</option>
+        <option value="Yes">Yes</option>
+      </param>
+      <when value="No"/>
+      <when value="Yes">
+        <param argument="library_type" help="" label="Library prep used for input reads" name="library_type" type="select">
+          <option selected="true" value="auto">Auto Detect</option>
+          <option value="ff-firststrand">ff-firststrand</option>
+          <option value="ff-secondstrand">ff-secondstrand</option>
+          <option value="ff-unstranded">ff-unstranded</option>
+          <option value="fr-firststrand">fr-firststrand</option>
+          <option value="fr-secondstrand">fr-secondstrand</option>
+          <option value="fr-unstranded">fr-unstranded</option>
+          <option value="transfrags">transfrags</option>
+        </param>
+        <param argument="hits_norm" help="All Hits: With this option, Cufflinks counts all fragments, including those not compatible with any reference transcript, towards the number of mapped fragments used in the FPKM denominator. Compatible Hits: With this option, Cufflinks counts only those fragments compatible with some reference transcript towards the number of mapped fragments used in the FPKM denominator. Using this mode is generally recommended in Cuffdiff to reduce certain types of bias caused by differential amounts of ribosomal reads which can create the impression of falsely differentially expressed genes. It is active by default." label="Hits included in normalization" name="hits_norm" type="select">
+          <option selected="true" value="--compatible-hits-norm">Compatible Hits</option>
+          <option value="--total-hits-norm">All Hits</option>
+        </param>
+      </when>
+    </conditional>
+  </inputs>
+  <outputs>
+    <data format="tabular" from_work_dir="isoforms.read_group_tracking" hidden="false" label="${tool.name} on ${on_string}: isoforms read group tracking" name="isoforms_read_group">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="genes.read_group_tracking" hidden="false" label="${tool.name} on ${on_string}: genes read group tracking" name="genes_read_group">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="cds.read_group_tracking" hidden="false" label="${tool.name} on ${on_string}: CDs read group tracking" name="cds_read_group">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="tss_groups.read_group_tracking" hidden="false" label="${tool.name} on ${on_string}: TSS groups read group tracking" name="tss_groups_read_group">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="txt" from_work_dir="read_groups.info" hidden="false" label="${tool.name} on ${on_string}: Read Groups" name="read_groups_info">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="isoforms.attr_table" hidden="false" label="${tool.name} on ${on_string}: isoforms read group tracking" name="isoforms_attr">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="genes.attr_table" hidden="false" label="${tool.name} on ${on_string}: genes read group tracking" name="genes_read_group">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="cds.attr_table" hidden="false" label="${tool.name} on ${on_string}: CDs read group tracking" name="cds_read_group">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="tss_groups.attr_table" hidden="false" label="${tool.name} on ${on_string}: TSS groups read group tracking" name="tss_groups_read_group">
+      <filter>(include_read_group_files == 'Yes')</filter>
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="cds.fpkm_tracking" hidden="false" label="${tool.name} on ${on_string}: CDS FPKM tracking" name="cds_fpkm_tracking">
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="cds.count_tracking" hidden="false" label="${tool.name} on ${on_string}: CDS count tracking" name="cds_count_tracking">
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="tss_groups.fpkm_tracking" hidden="false" label="${tool.name} on ${on_string}: TSS groups FPKM tracking" name="tss_groups_fpkm_tracking">
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="tss_groups.count_tracking" hidden="false" label="${tool.name} on ${on_string}: TSS groups count tracking" name="tss_groups_count_tracking">
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="genes.fpkm_tracking" hidden="false" label="${tool.name} on ${on_string}: gene FPKM tracking" name="genes_fpkm_tracking">
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="genes.count_tracking" hidden="false" label="${tool.name} on ${on_string}: gene count tracking" name="genes_count_tracking">
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="isoforms.fpkm_tracking" hidden="false" label="${tool.name} on ${on_string}: transcript FPKM tracking" name="isoforms_fpkm_tracking">
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="isoforms.count_tracking" hidden="false" label="${tool.name} on ${on_string}: transcript count tracking" name="isoforms_count_tracking">
+      <filter>(output_format == 'cuffdiff')</filter>
+    </data>
+    <data format="tabular" from_work_dir="cds.fpkm_table" hidden="false" label="${tool.name} on ${on_string}: CDS FPKM table" name="cds_fpkm_table">
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="cds.count_table" hidden="false" label="${tool.name} on ${on_string}: CDS count table" name="cds_count_table">
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="tss_groups.fpkm_table" hidden="false" label="${tool.name} on ${on_string}: TSS groups FPKM table" name="tss_groups_fpkm_table">
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="tss_groups.count_table" hidden="false" label="${tool.name} on ${on_string}: TSS groups count table" name="tss_groups_count_table">
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="genes.fpkm_table" hidden="false" label="${tool.name} on ${on_string}: gene FPKM table" name="genes_fpkm_table">
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="genes.count_table" hidden="false" label="${tool.name} on ${on_string}: gene count table" name="genes_count_table">
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="isoforms.fpkm_table" hidden="false" label="${tool.name} on ${on_string}: transcript FPKM table" name="isoforms_fpkm_table">
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+    <data format="tabular" from_work_dir="isoforms.count_table" hidden="false" label="${tool.name} on ${on_string}: transcript count table" name="isoforms_count_table">
+      <filter>(output_format == 'simple-table')</filter>
+    </data>
+  </outputs>
+  <tests/>
+  <help><![CDATA[
+**Cuffnorm Overview**
+
+Cuffnorm is part of Cufflinks_. Running Cuffnorm is very similar to running Cuffdiff. Cuffnorm takes a GTF2/GFF3 file of transcripts as input, along with two or more SAM, BAM, or CXB files for two or more samples. It produces a number of output files that contain expression levels and normalized fragment counts at the level of transcripts, primary transcripts, and genes. It also tracks changes in the relative abundance of transcripts sharing a common transcription start site, and in the relative abundances of the primary transcripts of each gene. Tracking the former allows one to see changes in splicing, and the latter lets one see changes in relative promoter use within a gene.. Please cite: Trapnell C, Williams BA, Pertea G, Mortazavi AM, Kwan G, van Baren MJ, Salzberg SL, Wold B, Pachter L. Transcript assembly and abundance estimation from RNA-Seq reveals thousands of new transcripts and switching among isoforms. Nature Biotechnology doi:10.1038/nbt.1621
+
+.. _Cufflinks: http://cole-trapnell-lab.github.io/cufflinks/
+
+------
+
+**Know what you are doing**
+
+.. class:: warningmark
+
+There is no such thing (yet) as an automated gearshift in expression analysis. It is all like stick-shift driving in San Francisco. In other words, running this tool with default parameters will probably not give you meaningful results. A way to deal with this is to **understand** the parameters by carefully reading the `documentation`__ and experimenting. Fortunately, Galaxy makes experimenting easy.
+
+.. __: http://cole-trapnell-lab.github.io/cufflinks/cuffnorm/
+
+------
+
+**Input format**
+
+Cuffdiff takes Cufflinks or Cuffcompare GTF files as input along with two SAM files containing the fragment alignments for two or more samples.
+
+------
+
+**Outputs**
+
+Cuffnorm outputs a set of files containing normalized expression levels for each gene, transcript, TSS group, and CDS group in the experiment. It does not perform differential expression analysis. To assess the significance of changes in expression for genes and transcripts between conditions, use Cuffdiff. Cuffnorm's output files are useful when you have many samples and you simply want to cluster them or plot expression levels of genes important in your study.
+By default, Cuffnorm reports expression levels in the "simple-table" tab-delimted text files. The program also reports information about your samples and about the genes, transcripts, TSS groups, and CDS groups as tab delimited text files. Note that these files have a different format than the files used by Cuffdiff. However, you can direct Cuffnorm to report its output in the same format as used by Cuffdiff if you wish. Simply supply the option --output-format cuffdiff at the command line.
+Cuffnorm will report both FPKM values and normalized, estimates for the number of fragments that originate from each gene, transcript, TSS group, and CDS group. Note that because these counts are already normalized to account for differences in library size, they should not be used with downstream differential expression tools that require raw counts as input.
+To see the details of the simple table format used by Cuffnorm, refer to the simple table expression format, simple table sample attribute format, and simple table feature (e.g. gene) attribute format sections below. 
+    
+-------
+
+**Settings**
+
+All of the options have a default value. You can change any of them. Most of the options in Cuffdiff have been implemented here.
+
+------
+
+**Cuffdiff parameter list**
+
+This is a list of implemented Cuffdiff options::
+
+  --library-norm-method          Library Normalization method : Geometric (default), classic-fpkm, quartile
+  --library-type                 ff-firststrand,ff-secondstrand,ff-unstranded,fr-firstrand,fr-secondstrand,fr-unstranded,transfrags
+  --compatible-hits-norm         With this option, Cufflinks counts only those fragments compatible with some reference transcript towards the number of mapped fragments used in the FPKM denominator. Using this mode is generally recommended in Cuffdiff to reduce certain types of bias caused by differential amounts of ribosomal reads which can create the impression of falsely differentially expressed genes.
+  --total-hits-norm              With this option, Cufflinks counts all fragments, including those not compatible with any reference transcript, towards the number of mapped fragments used in the FPKM denominator
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1038/nbt.1621</citation>
+  </citations>
+</tool>

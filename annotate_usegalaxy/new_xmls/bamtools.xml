@@ -1,0 +1,247 @@
+<tool id="bamtools" name="Convert, Merge, Randomize" version="2.4.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>BAM datasets and perform other transformations</description>
+  <edam_operations>
+    <edam_operation>operation_0258</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <requirements>
+    <requirement type="package" version="2.4.0">bamtools</requirement>
+    <requirement type="package" version="1.3.1">samtools</requirement>
+  </requirements>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        
+            ##set up input files
+            #for $bam_count, $input_bam in enumerate( $input_bams ):
+                ln -s "${input_bam}" "localbam_${bam_count}.bam" &&
+                ln -s "${input_bam.metadata.bam_index}" "localbam_${bam_count}.bam.bai" &&
+            #end for
+            #if str( $analysis_type.analysis_type_selector ) == "convert":
+                #if str( $analysis_type.format_type.format_type_selector ) == "pileup":
+                    #set $reference_fasta_filename = "localref.fa"
+                    #if str( $analysis_type.format_type.reference_source.reference_source_selector ) == "history":
+                        ln -s "${analysis_type.format_type.reference_source.ref_file}" "${reference_fasta_filename}" &&
+                        samtools faidx "${reference_fasta_filename}" 2>&1 || echo "Error running samtools faidx for bamtools convert" >&2 &&
+                    #else:
+                        #set $reference_fasta_filename = str( $analysis_type.format_type.reference_source.ref_file.fields.path )
+                    #end if
+                #end if
+            #end if
+            bamtools
+            #if str( $analysis_type.analysis_type_selector ) == "convert":
+                convert
+                -format ${analysis_type.format_type.format_type_selector}
+                #if str( $analysis_type.format_type.format_type_selector ) == "pileup":
+                    ${analysis_type.format_type.mapqual}
+                    -fasta "${reference_fasta_filename}"
+                #elif str( $analysis_type.format_type.format_type_selector ) == "sam":
+                    ${analysis_type.format_type.noheader}
+                #end if
+                -out $out_file1
+            #elif str( $analysis_type.analysis_type_selector ) == "count":
+                count
+                > $out_file1
+            #elif str( $analysis_type.analysis_type_selector ) == "coverage":
+                coverage
+                -out $out_file1
+            #elif str( $analysis_type.analysis_type_selector ) == "header":
+                header
+                > $out_file1
+            #elif str( $analysis_type.analysis_type_selector ) == "merge":
+                merge
+                -out $out_file1
+            #elif str( $analysis_type.analysis_type_selector ) == "random":
+                random
+                -n ${analysis_type.count}
+                -seed ${analysis_type.seed}
+                -out $out_file1
+            #elif str( $analysis_type.analysis_type_selector ) == "revert":
+                revert
+                ${analysis_type.keepDuplicate}
+                ${analysis_type.keepQualities}
+                -out $out_file1
+            #elif str( $analysis_type.analysis_type_selector ) == "sort":
+                sort
+                ${analysis_type.byname}
+                -out $out_file1
+            #end if
+            #for $bam_count, $input_bam in enumerate( $input_bams ):
+                -in "localbam_${bam_count}.bam"
+            #end for
+        
+    ]]></command>
+  <inputs>
+    <param argument="input_bams" format="bam" label="BAM dataset(s) to filter" multiple="True" name="input_bams" type="data"/>
+    <conditional argument="analysis_type" label="Author did not provide help for this parameter... " name="analysis_type">
+      <param argument="analysis_type_selector" help="See help below for detailed description of each tool" label="Select BAM manipulation" name="analysis_type_selector" type="select">
+        <option value="convert">Convert</option>
+        <option value="count">Count</option>
+        <option value="coverage">Coverage</option>
+        <option value="header">Header</option>
+        <option value="merge">Merge</option>
+        <option value="random">Random</option>
+        <option value="revert">Revert</option>
+      </param>
+      <when value="convert">
+        <conditional argument="format_type" label="Author did not provide help for this parameter... " name="format_type">
+          <param argument="format_type_selector" help="Select what to convert your BAM to" label="Author did not provide help for this parameter... " name="format_type_selector" type="select">
+            <option value="bed">BED</option>
+            <option value="fasta">FASTA</option>
+            <option value="fastq">FASTQ</option>
+            <option value="json">JSON</option>
+            <option value="pileup">Pileup</option>
+            <option value="sam">SAM</option>
+            <option value="yaml">YAML</option>
+          </param>
+          <when value="bed"/>
+          <when value="fasta"/>
+          <when value="fastq"/>
+          <when value="json"/>
+          <when value="yaml"/>
+          <when value="pileup">
+            <conditional argument="reference_source" label="Author did not provide help for this parameter... " name="reference_source">
+              <param argument="reference_source_selector" label="Choose the source for the reference list" name="reference_source_selector" type="select">
+                <option value="cached">Locally cached</option>
+                <option value="history">History</option>
+              </param>
+              <when value="cached">
+                <param argument="ref_file" label="Using reference genome" name="ref_file" type="select">
+                  <options from_data_table="sam_fa_indexes"/>
+                </param>
+              </when>
+              <when value="history">
+                <param argument="ref_file" format="fasta" label="Using reference file" name="ref_file" type="data"/>
+              </when>
+            </conditional>
+            <param argument="mapqual" checked="false" falsevalue="" label="Print quality scores?" name="mapqual" truevalue="-mapqual" type="boolean"/>
+          </when>
+          <when value="sam">
+            <param argument="noheader" checked="false" falsevalue="" label="Do not print header" name="noheader" truevalue="-noheader" type="boolean"/>
+          </when>
+        </conditional>
+      </when>
+      <when value="count"/>
+      <when value="coverage"/>
+      <when value="header"/>
+      <when value="merge"/>
+      <when value="random">
+        <param argument="count" help="No duplicate checking is perfomed" label="Number of random alignments to grab" name="count" type="integer" value="10000"/>
+        <param argument="seed" help="Use the same seed for reproducible results" label="Random number generator seed" name="seed" type="integer" value="1024"/>
+      </when>
+      <when value="revert">
+        <param argument="keepDuplicate" checked="false" falsevalue="" help="Do not remove duplicate marks" label="Keep duplicates marked" name="keepDuplicate" truevalue="-keepDuplicate" type="boolean"/>
+        <param argument="keepQualities" checked="false" falsevalue="" help="Do not replace qualities with contect of OQ tag" label="Keep base qualities" name="keepQualities" truevalue="-keepQualities" type="boolean"/>
+      </when>
+    </conditional>
+  </inputs>
+  <outputs>
+    <data format="txt" hidden="false" name="out_file1">
+      <change_format>
+        <when format="bed" input="analysis_type.format_type.format_type_selector" value="bed"/>
+        <when format="fasta" input="analysis_type.format_type.format_type_selector" value="fasta"/>
+        <when format="fastq" input="analysis_type.format_type.format_type_selector" value="fastq"/>
+        <when format="sam" input="analysis_type.format_type.format_type_selector" value="sam"/>
+        <when format="pileup" input="analysis_type.format_type.format_type_selector" value="pileup"/>
+        <when format="tabular" input="analysis_type.analysis_type_selector" value="coverage"/>
+        <when format="bam" input="analysis_type.analysis_type_selector" value="merge"/>
+        <when format="bam" input="analysis_type.analysis_type_selector" value="random"/>
+        <when format="bam" input="analysis_type.analysis_type_selector" value="revert"/>
+        <when format="bam" input="analysis_type.analysis_type_selector" value="sort"/>
+      </change_format>
+    </data>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bam" name="input_bams" value="bamtools-input1.bam"/>
+      <param name="analysis_type_selector" value="convert"/>
+      <param name="format_type_selector" value="pileup"/>
+      <param name="reference_source_selector" value="history"/>
+      <param name="mapqual" value="true"/>
+      <param ftype="fasta" name="ref_file" value="bamtools-fasta.fa"/>
+      <output file="bamtools-convert-pileup.pu" name="output_bam"/>
+    </test>
+    <test>
+      <param ftype="bam" name="input_bams" value="bamtools-input1.bam"/>
+      <param name="analysis_type_selector" value="count"/>
+      <output file="bamtools-count.tab" name="output_bam"/>
+    </test>
+    <test>
+      <param ftype="bam" name="input_bams" value="bamtools-input1.bam"/>
+      <param name="analysis_type_selector" value="coverage"/>
+      <output file="bamtools-coverage.tab" name="output_bam"/>
+    </test>
+    <test>
+      <param ftype="bam" name="input_bams" value="bamtools-input1.bam"/>
+      <param name="analysis_type_selector" value="header"/>
+      <output file="bamtools-header.txt" name="output_bam"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What is does**
+
+BAMTools is a collection of utilities for manipulation on BAM files. It is based on BAMtools suite of tools by Derek Barnett (https://github.com/pezmaster31/bamtools).
+This Galaxy implementation of BAMTools utilities includes seven utilities - Convert, Count, Coverage, Header, Merge, Random, and Revert - decsribed in detail below.
+
+-----
+
+**Convert**
+
+Converts BAM dataset(s) into BED, FASTA, FASTQ, JSON, Pileup, SAM, or YAML formats. Note that the conversion to the pileup format requires providing a reference sequence either
+cashed at this Galaxy instance, or provided by you as a FASTA dataset from History.
+
+-----
+
+**Count**
+
+Counts a number of alignments in a BAM dataset(s).
+
+-----
+
+**Coverage**
+
+Prints per-base coverage for a BAM dataset.
+
+-----
+
+**Header**
+
+Prints header from a BAM dataset(s).
+
+------
+
+**Merge**
+
+Merges multiple BAM datasets into a single one. Obviously, you need to select multiple BAMs as input, which is done by pressing the "**Add new BAM dataset(s) to filter**" button.
+
+------
+
+**Random**
+
+Grabs a specified number of random lines from BAM dataset(s).
+
+------
+
+**Revert**
+
+Removes duplicate marks and restores original (non-recalibrated) base qualities.
+
+-----
+
+.. class:: infomark
+
+**More information**
+
+Additional information about BAMtools can be found at https://github.com/pezmaster31/bamtools/wiki
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btr174</citation>
+  </citations>
+</tool>
