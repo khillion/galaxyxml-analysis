@@ -11,9 +11,15 @@ import os
 import sys
 import argparse
 import requests
+import time
+import logging
 from collections import defaultdict
 
 from lxml import etree
+import bibtexparser
+
+logging.basicConfig(level=logging.INFO)
+LOGGER = logging.getLogger(__name__)
 
 ###########  Constant(s)  ###########
 
@@ -31,6 +37,41 @@ def list_installed_tools(download_report, repo):
     for tool in download_report[repo]['tools']:
         list_tools.append(tool['name'])
     return list_tools
+
+
+def get_doi(id_query):
+    """
+    Get doi from pmid or pmcid
+    """
+    req = "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?ids=" + id_query
+    doi = "not_found_corresponding_doi"
+    try:
+        xml_req = etree.fromstring(requests.get(req).text)
+        time.sleep(0.4)
+    except:
+        pass
+    if xml_req.find('record') is not None:
+        try:
+            doi = xml_req.find('record').attrib['doi']
+            LOGGER.info("successfully got doi from " + id_query)
+        except:
+            LOGGER.info("Could not find doi corresponding to " + id_query)
+    return doi
+
+
+def load_macro(tool, macro_path):
+    """
+    Load macro content and attach it as a child node to the root of tool.
+    """
+    macro = etree.parse(macro_path)
+    for exp in tool.findall("expand"):
+        for mac in macro.findall("xml"):
+            if exp.attrib.get('macro', '1') == mac.attrib.get('name', '2'):
+                for child in mac:
+                    # Add corresponding content to the tool
+                    tool.getroot().append(child)
+        # Remove expand from the tool
+        tool.getroot().remove(exp)
 
 
 ###########  Main  ###########
@@ -58,7 +99,7 @@ if __name__ == "__main__":
 
     # Process outfile name and graph title
     if args.out_file:
-        outfile_name = args.out_file + '.json'
+        outfile_name = args.out_file + '.tsv'
     else:
         outfile_name = OUTFILE
 
@@ -94,38 +135,49 @@ if __name__ == "__main__":
     # - build mapping
     for tool in biotools:
         for publication in tool['publication']:
+            doi = 'no_doi_biotools'
             if publication['doi'] is not None:
-                doi_to_biot[publication['doi']].append(tool['id'])
+                doi = publication['doi']
             else:
                 if publication['pmid'] is not None:
                     id_query = publication['pmid']
                 elif publication['pmcid'] is not None:
                     id_query = publication['pmcid']
-                req = "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?ids=" + id_query
-                try:
-                    xml_req = etree.fromstring(requests.get(req).text)
-                except:
-                    pass
-                if xml_req.find('record') is not None:
-                    try:
-                        doi_to_biot[xml_req.find('record').attrib['doi']].append(tool['id'])
-                        print("successfully got doi from " + id_query)
-                    except:
-                        print("Could not find doi corresponding to " + id_query)
+                doi = get_doi(id_query)
+            doi_to_biot[doi].append(tool['id'])
+    doi_to_biot['no_id_in_bibtex'] = 'no_id_in_bibtex'
 
     # Build list XML doi biotools_id
     final_list = "#XML\tdoi\tbiotools_id\n"
     for xml in tool_paths.keys():
         tool = etree.parse(xml)
+        if tool.find('macros') is not None:
+            for mac_file in tool.find('macros'):
+                if mac_file.tag == 'import':
+                    macro_path = os.path.dirname(xml) + "/" + mac_file.text
+                    load_macro(tool, macro_path)
         if tool.find('citations') is not None:
             citations = tool.find('citations')
             for citation in citations:
-                if citation.attrib.get('type', None) == 'doi':
+                cit_type = citation.attrib.get('type', None)
+                if cit_type == 'doi':
                     doi = citation.text
+                elif cit_type == 'bibtex':
+                    if 'doi =' in citation.text:
+                        bib = bibtexparser.loads(citation.text)
+                        print(bib.entries[0]['doi'])
+                        doi = "doi_in_bibtex"
+                    elif 'pmid' in citation.text:
+                        doi = "pmid_in_bibtex"
+                    elif 'pmcid' in citation.text:
+                        doi = "pmcid_in_bibtex"
+                    else:
+                        doi = 'no_id_in_bibtex'
                 else:
                     continue
-                if doi_to_biot[doi]:
-                    final_list += xml + "\t" + doi + "\t" + str(doi_to_biot[doi]) + "\n"
+                final_list += xml + "\t" + doi + "\t" + str(doi_to_biot.get(doi, 'not_found')) + "\n"
+        else:
+            final_list += xml + "\tno_citation\tno_citation\n"
 
     with open(outfile_name, 'w') as of:
         of.write(final_list)
