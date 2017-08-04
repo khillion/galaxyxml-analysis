@@ -1,0 +1,58 @@
+<tool id="samtools_bedcov" name="BedCov" version="2.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>calculate read depth for a set of genomic intervals</description>
+  <edam_operations>
+    <edam_operation>operation_3184</edam_operation>
+    <edam_operation>operation_2426</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        ## Ensure simlinks have unique filenames
+        #for $i, $bam in enumerate( $input_bams ):
+            ln -s -f '${bam}' '${i}.bam' &&
+            ln -s -f '${bam.metadata.bam_index}' '${i}.bam.bai' &&
+        #end for
+
+        samtools bedcov
+            '${input_bed}'
+            #for $i in range(len( $input_bams )):
+                '${i}.bam'
+            #end for
+            > '${output}'
+    ]]></command>
+  <inputs>
+    <param argument="input_bed" format="bed" label="Genemic intervals (in BED format)" name="input_bed" type="data"/>
+    <param argument="input_bams" format="bam" label="BAM file(s)" multiple="true" name="input_bams" type="data"/>
+  </inputs>
+  <outputs>
+    <data format="tabular" hidden="false" label="${tool.name} on ${on_string}" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input_bed" value="eboVir3.1.bed"/>
+      <param ftype="bam" name="input_bams" value="eboVir3.bam"/>
+      <output file="samtools_bedcov_out1.tab" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="input_bed" value="eboVir3.1.bed"/>
+      <param ftype="bam" name="input_bams" value="eboVir3.bam,eboVir3.2.bam"/>
+      <output file="samtools_bedcov_out2.tab" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Calculates read depth for regions listed in a BED dataset using ``samtools bedcov`` command::
+
+ samtools bedcov [INPUT BED] [INPUT BAM1] ... [INPUT BAMn] > [OUTPUT]
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btp352</citation>
+  </citations>
+</tool>

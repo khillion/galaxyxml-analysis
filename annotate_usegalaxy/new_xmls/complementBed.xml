@@ -1,0 +1,49 @@
+<tool id="bedtools_complementbed" name="ComplementBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>Extract intervals not represented by an interval file</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        complementBed
+        -i "$input"
+        -g "$genome"
+        > "$output"
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="input" type="data"/>
+  </inputs>
+  <outputs>
+    <data format_source="input" hidden="false" label="Complemen of ${input.name}" metadata_source="input" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input" value="a.bed"/>
+      <param name="genome" value="mm9_chr1.len"/>
+      <output file="complementBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools complement returns all intervals in a genome that are not covered by at least one interval in the input BED/GFF/VCF file.
+
+.. image:: $PATH_TO_IMAGES/complement-glyph.png
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

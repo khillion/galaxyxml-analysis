@@ -1,0 +1,86 @@
+<tool id="sam_to_bam" name="SAM-to-BAM" version="2.1.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>convert SAM to BAM</description>
+  <edam_operations>
+    <edam_operation>operation_3184</edam_operation>
+    <edam_operation>operation_2426</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        #if $source.index_source == "history":
+            ln -s '${source.ref_file}' input.fa &&
+            samtools faidx input.fa &&
+        #else
+            ln -s '${source.index.fields.path}' input.fa &&
+            ln -s '${source.index.fields.path}.fai' input.fa.fai &&
+        #end if
+
+        samtools view
+            -b
+            -@ \${GALAXY_SLOTS:-1}
+            -t input.fa.fai '$input1' |
+
+        samtools sort
+            -O bam
+            -@ \${GALAXY_SLOTS:-1}
+            -o '$output1'
+            -T temp
+    ]]></command>
+  <inputs>
+    <conditional argument="source" label="Author did not provide help for this parameter... " name="source">
+      <param argument="index_source" label="Choose the source for the reference genome" name="index_source" type="select">
+        <option value="cached">Use a built-in genome</option>
+        <option value="history">Use a genome from the history</option>
+      </param>
+      <when value="cached">
+        <param argument="input1" format="sam" label="SAM file to convert" name="input1" type="data"/>
+        <param argument="index" label="Using reference genome" name="index" type="select">
+          <options from_data_table="fasta_indexes">
+            <filter column="1" key="dbkey" ref="input1" type="data_meta"/>
+          </options>
+        </param>
+      </when>
+      <when value="history">
+        <param argument="input1" format="sam" label="SAM file to convert" name="input1" type="data"/>
+        <param argument="ref_file" format="fasta" label="Using reference file" name="ref_file" type="data"/>
+      </when>
+    </conditional>
+  </inputs>
+  <outputs>
+    <data format="bam" hidden="false" label="${tool.name} on ${on_string}: converted BAM" name="output1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="index_source" value="history"/>
+      <param ftype="sam" name="input1" value="sam_to_bam_in1.sam"/>
+      <param dbkey="equCab2" ftype="fasta" name="ref_file" value="chr_m.fasta"/>
+      <output file="sam_to_bam_out1.bam" ftype="bam" name="output1"/>
+    </test>
+    <test>
+      <param name="index_source" value="cached"/>
+      <param dbkey="equCab2" ftype="sam" name="input1" value="sam_to_bam_in1.sam"/>
+      <param name="index" value="equCab2chrM"/>
+      <output file="sam_to_bam_out2.bam" ftype="bam" name="output1"/>
+    </test>
+    <test>
+      <param name="index_source" value="history"/>
+      <param ftype="sam" name="input1" value="sam_to_bam_noheader_in2.sam"/>
+      <param dbkey="equCab2" ftype="fasta" name="ref_file" value="chr_m.fasta"/>
+      <output file="sam_to_bam_out3.bam" ftype="bam" name="output1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Converts SAM dataset into its binary, BAM, representation using the ``samtools view`` and ``sort`` commands.
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btp352</citation>
+  </citations>
+</tool>

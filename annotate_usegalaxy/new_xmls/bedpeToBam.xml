@@ -1,0 +1,53 @@
+<tool id="bedtools_bedpetobam" name="BEDPE to BAM" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>converter</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools bedpetobam
+            -mapq $mapq
+            -i '$input'
+            -g $genome
+            > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bed,gff,vcf" label="BED/VCF/GFF file" name="input" type="data"/>
+    <param argument="mapq" help="(-mapq)" label="Set a mapping quality (SAM MAPQ field) value for all BED entries" name="mapq" type="integer" value="255"/>
+  </inputs>
+  <outputs>
+    <data format="bam" hidden="false" metadata_source="input" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input" value="bedpeToBamBed1.bed"/>
+      <param name="genome" value="mm9.len"/>
+      <output file="bedpeToBam_result1.bam" ftype="bam" lines_diff="72" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+Converts feature records to BAM format.
+
+.. class:: warningmark
+
+BED files must be at least BED4 to create BAM (needs name field).
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

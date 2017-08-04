@@ -137,7 +137,7 @@ if __name__ == "__main__":
         for publication in tool['publication']:
             doi = 'no_doi_biotools'
             if publication['doi'] is not None:
-                doi = publication['doi']
+                doi = publication['doi'].replace('doi:','')
             else:
                 if publication['pmid'] is not None:
                     id_query = publication['pmid']

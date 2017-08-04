@@ -1,0 +1,57 @@
+<tool id="samtools_rmdup" name="RmDup" version="2.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>remove PCR duplicates</description>
+  <edam_operations>
+    <edam_operation>operation_3184</edam_operation>
+    <edam_operation>operation_2426</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+    samtools rmdup
+        #if str( $bam_paired_end_type.bam_paired_end_type_selector ) == "PE"
+            ${bam_paired_end_type.force_se}
+        #else:
+            -s
+        #end if
+        '$input1'
+        '$output1'
+    ]]></command>
+  <inputs>
+    <param argument="input1" format="bam" label="BAM File" name="input1" type="data"/>
+    <conditional argument="bam_paired_end_type" label="Author did not provide help for this parameter... " name="bam_paired_end_type">
+      <param argument="bam_paired_end_type_selector" label="Is this paired-end or single end data" name="bam_paired_end_type_selector" type="select">
+        <option selected="true" value="PE">BAM is paired-end</option>
+        <option value="SE">BAM is single-end (-s)</option>
+      </param>
+      <when value="PE">
+        <param argument="force_se" checked="False" falsevalue="" label="Treat as single-end" name="force_se" truevalue="-S" type="boolean"/>
+      </when>
+      <when value="SE"/>
+    </conditional>
+  </inputs>
+  <outputs>
+    <data format="bam" hidden="false" name="output1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bam" name="input1" value="samtools-rmdup-input1.bam"/>
+      <param name="bam_paired_end_type_selector" value="PE"/>
+      <param name="force_se"/>
+      <output file="samtools-rmdup-test1.bam" ftype="bam" name="output1" sort="True"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Remove potential PCR duplicates: if multiple read pairs have identical external coordinates, only retain the pair with highest mapping quality. In the paired-end mode, this command ONLY works with FR orientation and requires ISIZE is correctly set. It does not work for unpaired reads (e.g. two ends mapped to different chromosomes or orphan reads).
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btp352</citation>
+  </citations>
+</tool>

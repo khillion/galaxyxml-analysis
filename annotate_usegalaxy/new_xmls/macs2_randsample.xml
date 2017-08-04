@@ -1,0 +1,74 @@
+<tool id="macs2_randsample" name="MACS2 randsample" version="@VERSION_STRING@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>Randomly sample number or percentage of total reads</description>
+  <edam_operations>
+    <edam_operation>operation_3222</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3169</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        
+        macs2 randsample
+            -t '${ infile }'
+            -o '${ outfile }'
+            --seed '${ seed }'
+
+            --format '${ infile.extension.upper() }'
+
+            @tag_size@
+
+        #if $method_options.method_options_selector == 'percentage':
+            --percentage '${ method_options.percentage }'
+        #else:
+            --number '${ method_options.number }'
+        #end if
+        
+    ]]></command>
+  <inputs>
+    <param argument="infile" format="sam,bam,bed" label="Sequencing alignment file" name="infile" type="data"/>
+    <conditional argument="method_options" label="Author did not provide help for this parameter... " name="method_options">
+      <param argument="method_options_selector" label="Select action to be performed" name="method_options_selector" type="select">
+        <option selected="true" value="percentage">Percentage</option>
+        <option value="number">Number</option>
+      </param>
+      <when value="percentage">
+        <param argument="percentage" help="Percentage of tags you want to keep. Input 80.0 for 80%.(--percentage)" label="Percentage of tags you want to keep" name="percentage" type="float" value="80.0"/>
+      </when>
+      <when value="number">
+        <param argument="number" help="Note that the number of tags in output is approximate as the number specified here (--number)" label="Number of tags you want to keep" name="number" type="integer" value="800000"/>
+      </when>
+    </conditional>
+    <param argument="seed" help="Set the random seed while down sampling data. Must be a positive integer in order to be effective. (--seed)" label="Random seed number" min="0" name="seed" type="integer" value="1"/>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" label="${tool.name} on ${on_string}" name="outfile"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="infile" value="ChIP_200K.bed"/>
+      <param name="method_options_selector" value="percentage"/>
+      <param name="percentage" value="80.0"/>
+      <param name="seed" value="1"/>
+      <output file="bdgrandsample_output.bed" name="outfile"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+        
+**What it does**
+
+This is **randsample** utility from the MACS2_ Package. It randomly samples reads by number or percentage from an input file.
+
+.. _MACS2: https://github.com/taoliu/MACS
+
+@citation@
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1186/gb-2008-9-9-r137</citation>
+  </citations>
+</tool>

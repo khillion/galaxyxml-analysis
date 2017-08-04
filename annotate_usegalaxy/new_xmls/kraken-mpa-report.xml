@@ -1,0 +1,78 @@
+<tool id="kraken-mpa-report" name="Kraken-mpa-report" version="1.2.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>view report of classification for multiple samples</description>
+  <edam_operations>
+    <edam_operation>operation_3460</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0091</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+
+#for $input_count, $input_classification in enumerate( $classification ):
+    ln -s "${input_classification}" "sample_${input_count}" &&
+#end for
+
+@SET_DATABASE_PATH@ && kraken-mpa-report @INPUT_DATABASE@
+
+#for $input_count, $input_classification in enumerate( $classification ):
+    "sample_${input_count}"
+#end for
+
+${show_zeros}
+${header_line}
+
+> "$output_report"
+
+    ]]></command>
+  <inputs>
+    <param argument="classification" format="tabular" label="Kraken output" multiple="True" name="classification" type="data"/>
+    <param argument="show_zeros" checked="False" falsevalue="" help="--show-zeros" label="Display taxa even if they lack a read in any sample" name="show_zeros" truevalue="--show-zeros" type="boolean"/>
+    <param argument="header_line" checked="False" falsevalue="" help="--header-line" label="Display a header line indicating sample IDs" name="header_line" truevalue="--header-line" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="tabular" hidden="false" name="output_report"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="tabular" name="classification" value="kraken_mpa_report_input1.tab,kraken_mpa_report_input2.tab"/>
+      <param name="show_zeros" value="--show-zeros"/>
+      <param name="header_line" value="--header-line"/>
+      <param name="kraken_database" value="test_db"/>
+      <output file="kraken_mpa_report_test1_output.tab" ftype="tabular" name="output_report"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+
+.. class:: warningmark
+
+**Note**: the database used must be the same as the one used in the original Kraken run
+
+-----
+
+**What is Does**
+
+Kraken-mpa-report summarizes read counts across taxonomic ranks for multiple samples. This is convenient for comparing results across multiple expreriments, conditions, locations, etc. It support sthe following parameters::
+
+--show-zeros    Display taxa even if they lack a read in any sample
+--header-line   Display a header line indicating sample IDs
+                (sample IDs are the filenames)
+
+-----
+
+**Output**
+
+The output of kraken-mpa-report is tab-delimited, with one line per taxon.
+
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
+  </citations>
+</tool>

@@ -30,6 +30,6 @@ if __name__ == "__main__":
         input_xml = files[0]
         output_xml = 'new_xmls/' + input_xml.split('/')[-1]
         biotool_id = files[2]
-        command = " ".join(["tooldog -g", biotool_id, "--existing_desc", input_xml, "-f", output_xml])
+        command = " ".join(["tooldog -g", biotool_id, "--existing_desc", input_xml, "-f", output_xml, "-v"])
         print("Running", command, "...")
         os.system(command)

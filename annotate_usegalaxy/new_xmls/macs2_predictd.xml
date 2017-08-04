@@ -1,0 +1,69 @@
+<tool id="macs2_predictd" name="MACS2 predictd" version="@VERSION_STRING@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>Predict 'd' or fragment size from alignment results</description>
+  <edam_operations>
+    <edam_operation>operation_3222</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3169</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        
+        macs2 predictd
+
+        -i ${ ' '.join(["'%s'" % $x for $x in $infiles ]) }
+        @tag_size@
+        @effective_genome_size@
+        --bw '${ band_width }'
+        @mfold_command@
+
+        ## remove the timepoint and strip the output
+        2>&1 | awk -F: '{print $4}' | awk '{$1=$1}1'
+
+        > '${ outfile }'
+
+        &&
+
+        Rscript predictd
+        
+    ]]></command>
+  <inputs>
+    <param argument="infiles" format="bam,sam,bed" help="If multiple files are given, then they will all be read and combined. Note that pair-end data is not supposed to work with this command. (-i)" label="ChIP-seq alignment file" multiple="True" name="infiles" type="data"/>
+  </inputs>
+  <outputs>
+    <data format="txt" hidden="false" label="${tool.name} on ${on_string} - d value" name="outfile"/>
+    <data format="pdf" from_work_dir="predictd_model.pdf" hidden="false" label="${tool.name} on ${on_string} - X-correlation image" name="outfile_image"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="infiles" value="Control_200K.bed,ChIP_200K.bed"/>
+      <param name="effective_genome_size_options_selector" value="user_defined"/>
+      <param name="gsize" value="3300000000"/>
+      <param name="tsize" value=""/>
+      <param name="band_width" value="300"/>
+      <param name="lower" value="5"/>
+      <param name="upper" value="50"/>
+      <output file="predictd_on_ChIP_200K_and_Control_200K.txt" name="outfile"/>
+      <output compare="sim_size" file="predictd_on_ChIP_200K_and_Control_200K.pdf" name="outfile_image"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+This is **predictd** utility from the MACS2_ Package. It predicts the *d* value or fragment size from alignment results.
+
+.. _MACS2: https://github.com/taoliu/MACS
+
+@citation@
+
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1186/gb-2008-9-9-r137</citation>
+  </citations>
+</tool>

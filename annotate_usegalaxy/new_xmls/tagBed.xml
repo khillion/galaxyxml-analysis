@@ -1,0 +1,61 @@
+<tool id="bedtools_tagbed" name="TagBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>tag BAM alignments based on overlaps with interval files</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        #set files = '" "'.join( [ str( $file ) for $file in $inputB ] )
+        bedtools tag
+        -i "${inputA}"
+        -files "${files}"
+        -f $overlap
+        $strand
+        -tag "${tag}"
+        $field
+        > "${output}"
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bam" label="BAM file" name="inputA" type="data"/>
+    <param argument="inputB" format="bed,gff,vcf" label="BED/VCF/GFF file" multiple="True" name="inputB" type="data"/>
+    <param area="false" argument="tag" label="Specify the tag to use" name="tag" type="text" value="YB"/>
+    <param argument="field" label="Field from the annotation files to populate tags?" name="field" type="select">
+      <option selected="true" value="-labels">Labels</option>
+      <option value="-scores">Scores</option>
+      <option value="-names">Names</option>
+      <option value="-labels -intervals">Intervals</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="bam" hidden="false" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bam" name="inputA" value="srma_in3.bam"/>
+      <param ftype="bed" name="inputB" value="tagBed1.bed"/>
+      <param name="field" value="-names"/>
+      <output file="tagBed_result1.bam" ftype="bam" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+Annotates a BAM file based on overlaps with multiple BED/GFF/VCF files on the intervals in an input bam file
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

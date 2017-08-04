@@ -1,0 +1,74 @@
+<tool id="bedtools_bedtoigv" name="BED to IGV" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>create batch script for taking IGV screenshots</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedToIgv
+        -i '$input'
+        #if $sort:
+            -sort $sort
+        #end if
+        $clps
+        $name
+        -slop $slop
+        -img $img
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bed,gff,gff3,vcf" label="Create IGV batch script the following BED file" name="input" type="data"/>
+    <param argument="sort" help="The type of BAM sorting you would like to apply to each image." label="Sort BAM file by" name="sort" type="select">
+      <option value="">No sorting at all (default)</option>
+      <option value="base">base</option>
+      <option value="position">position</option>
+      <option value="strand">strand</option>
+      <option value="quality">quality</option>
+      <option value="sample">sample</option>
+      <option value="readGroup">readGroup</option>
+    </param>
+    <param argument="clps" checked="false" falsevalue="" label="Collapse the aligned reads prior to taking a snapshot?" name="clps" truevalue="-clps" type="boolean"/>
+    <param argument="name" checked="false" falsevalue="" help="Default is to use chr:start-pos." label="Use the name field (column 4) for each image's filename." name="name" truevalue="-name" type="boolean"/>
+    <param argument="slop" label="Number of flanking base pairs on the left and right of the image." min="0" name="slop" type="integer" value="0"/>
+    <param argument="img" label="Select the type of image to be created." name="img" type="select">
+      <option value="png">png</option>
+      <option value="eps">eps</option>
+      <option value="svg">svg</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="txt" hidden="false" label="BED to IGV on ${input.name}" metadata_source="input" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input" value="bed12.bed"/>
+      <output file="igv_bed_script.txt" ftype="txt" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+Creates a batch script to create IGV images at each interval defined in a BED/GFF/VCF file.
+
+**Notes**
+
+(1)  The resulting script is meant to be run from within IGV.
+(2)  It is assumed that prior to running the script, you've loaded the proper genome and tracks.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

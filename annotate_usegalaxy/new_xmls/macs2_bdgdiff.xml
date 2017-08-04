@@ -1,0 +1,80 @@
+<tool id="macs2_bdgdiff" name="MACS2 bdgdiff" version="@VERSION_STRING@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>Differential peak detection based on paired four bedgraph files</description>
+  <edam_operations>
+    <edam_operation>operation_3222</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3169</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        
+        macs2 bdgdiff
+            --t1 '${ t1 }'
+            --t2 '${ t2 }'
+            --c1 '${ c1 }'
+            --c2 '${ c2 }'
+            --cutoff '${ cutoff }'
+            --min-len '${ minlen }'
+            --depth1 '${ depth.depth1 }'
+            --depth2 '${ depth.depth2 }'
+            --max-gap '${ maxgap }'
+            -o c1.bed c2.bed both.bed &&
+
+            awk '!/^track name/' "c1.bed" > '${ output_cond1 }' &&
+            awk '!/^track name/' "c2.bed" > '${ output_cond1 }' &&
+            awk '!/^track name/' "both.bed" > '${ output_both }'
+
+        
+    ]]></command>
+  <inputs>
+    <param argument="t1" format="bedgraph" label="BedGraph for Treatment experiment 1" name="t1" type="data"/>
+    <param argument="t2" format="bedgraph" label="BedGraph for Treatment experiment 2" name="t2" type="data"/>
+    <param argument="c1" format="bedgraph" label="BedGraph for Control experiment 1" name="c1" type="data"/>
+    <param argument="c2" format="bedgraph" label="Bedgraph for Control experiment 2" name="c2" type="data"/>
+    <param argument="cutoff" help="Default=1.0 correspoinding to likelihood ratio of 1,000 (--cutoff)" label="Cutoff of log10 likelihood ratio cutoff" name="cutoff" type="float" value="1.0"/>
+    <param argument="minlen" help=" Try bigger value to remove small regions. Default=200 (--min-len)" label="Minimum length of differential region" name="minlen" type="integer" value="200"/>
+    <section expanded="True" help="Sequencing depths will be used to calculate scaling factor for each sample, to down-scale larger sample to the level of smaller one. For example, while comparing condition 1 (10 Million reads) and condition 2 (20 million reads), use --depth1 10 --depth2 20, then pileup value in bedGraph for condition 2 will be divided by 2." name="depth" title="Sequencing depth">
+      <param argument="depth1" help="Default=1 (--depth1)" label="Sequence depth of condition 1 in million reads" name="depth1" type="integer" value="1"/>
+      <param argument="depth2" help="Default=1 (--depth2)" label="Sequence depth of condition 2 in million reads" name="depth2" type="integer" value="1"/>
+    </section>
+    <param argument="maxgap" help="Consider a wider gap for broad marks. Maximum gap should be smaller than minimum length. Default=100 (--max-gap)." label="Maximum gap to merge nearby differential regions" name="maxgap" type="integer" value="100"/>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" label="${tool.name} on ${on_string} (Condition 1)" name="output_cond1"/>
+    <data format="bed" hidden="false" label="${tool.name} on ${on_string} (Condition 2)" name="output_cond2"/>
+    <data format="bed" hidden="false" label="${tool.name} on ${on_string} (Common)" name="output_both"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bedgraph" name="t1" value="bdgdiff_t1.bdg"/>
+      <param ftype="bedgraph" name="t2" value="bdgdiff_t2.bdg"/>
+      <param ftype="bedgraph" name="c1" value="bdgdiff_c1.bdg"/>
+      <param ftype="bedgraph" name="c2" value="bdgdiff_c2.bdg"/>
+      <param name="cutoff" value="1.0"/>
+      <param name="minlen" value="200"/>
+      <param name="depth1" value="10"/>
+      <param name="depth2" value="1"/>
+      <param name="maxgap" value="100"/>
+      <output name="output_cond1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+    
+**What it does**
+
+This is **bdgdiff** utility from the MACS2_ Package. It performs differential peak detection based on paired four bedgraph files.
+
+.. _MACS2: https://github.com/taoliu/MACS
+
+@citation@
+    
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1186/gb-2008-9-9-r137</citation>
+  </citations>
+</tool>

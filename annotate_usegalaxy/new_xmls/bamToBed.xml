@@ -1,0 +1,86 @@
+<tool id="bedtools_bamtobed" name="BAM to BED" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>converter</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+
+        #if $input.extension == 'bam' and $option == "-bedpe":
+            samtools sort -n "${input}" ./input &&
+        #else
+            ln -s "${input}" ./input.bam &&
+        #end if
+
+        bedtools bamtobed
+        $option
+        $ed_score
+        $split
+        #if $tag and str($tag).strip():
+          -tag "${tag}"
+        #end if
+        -i ./input.bam
+        > "${output}"
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bam" label="Convert the following BAM file to BED" name="input" type="data"/>
+    <param argument="option" label="What type of BED output would you like" name="option" type="select">
+      <option value="">Create a 6-column BED file</option>
+      <option value="-bed12">Create a full, 12-column "blocked" BED file</option>
+      <option value="-bedpe">Create a paired-end, BEDPE format</option>
+    </param>
+    <param argument="ed_score" checked="false" falsevalue="" help="(-ed)" label="Use alignment's edit-distance for BED score" name="ed_score" truevalue="-ed" type="boolean"/>
+    <param area="false" argument="tag" help="(-tag)" label="Use other NUMERIC BAM alignment tag as the BED score" name="tag" optional="true" type="text"/>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" label="${input.name} (as BED)" metadata_source="input" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bam" name="input" value="srma_in3.bam"/>
+      <param name="option" value=""/>
+      <param name="tag" value=""/>
+      <output file="bamToBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bam" name="input" value="srma_in3.bam"/>
+      <param name="option" value=""/>
+      <param name="tag" value="NM"/>
+      <output file="bamToBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools bamtobed is a conversion utility that converts sequence alignments in BAM format into BED, BED12, and/or BEDPE records.
+
+.. class:: infomark
+
+The "Report spliced BAM alignment..." option breaks BAM alignments with the "N" (splice) operator into distinct BED entries.
+For example, using this option on a CIGAR such as 50M1000N50M would, by default, produce a single BED record that spans 1100bp.
+However, using this option, it would create two separate BED records that are each 50bp in size and are separated by 1000bp (the size of the N operation).
+This is important for RNA-seq and structural variation experiments.
+
+
+.. class:: warningmark
+
+If using a custom BAM alignment TAG as the BED score, note that this must be a numeric tag (e.g., type "i" as in NM:i:0).
+
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

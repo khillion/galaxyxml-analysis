@@ -1,0 +1,125 @@
+<tool id="bedtools_makewindowsbed" name="MakeWindowsBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>make interval windows across a genome</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools makewindows
+        #if $type.type_select == 'genome':
+            -g '$type.genome'
+        #else:
+            -b '$type.input'
+        #end if
+        #if $action.action_select == 'windowsize':
+            -w $action.windowsize
+            #if $action.step_size.step_size_select == 'yes':
+                -s $action.step_size.step_size
+            #end if
+        #else:
+            -n $action.number
+            -s $action.step_size
+        #end if
+        $sourcename
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <conditional argument="type" label="Author did not provide help for this parameter... " name="type">
+      <param argument="type_select" label="Work with" name="type_select" type="select">
+        <option selected="true" value="bed">Bed File</option>
+        <option value="genome">Genome File</option>
+      </param>
+      <when value="bed">
+        <param argument="input" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="input" type="data"/>
+      </when>
+      <when value="genome"/>
+    </conditional>
+    <conditional argument="action" label="Author did not provide help for this parameter... " name="action">
+      <param argument="action_select" label="Work with" name="action_select" type="select">
+        <option selected="true" value="windowsize">Set WindowSize</option>
+        <option value="number">Give Number of Windows</option>
+      </param>
+      <when value="windowsize">
+        <param argument="windowsize" help="i.e. same number of nucleotide in each window" label="Divide each input interval (either a chromosome or a BED interval) to fixed-sized windows" name="windowsize" type="integer" value="1"/>
+        <conditional argument="step_size" label="Author did not provide help for this parameter... " name="step_size">
+          <param argument="step_size_select" help="Used to create 'sliding' windows. Defaults to window size (non-sliding windows)." label="Specify Step size? i.e. how many base pairs to step before creating a new window" name="step_size_select" type="select">
+            <option value="yes">Yes</option>
+            <option selected="true" value="no">No</option>
+          </param>
+          <when value="yes">
+            <param argument="step_size" label="Specify it" name="step_size" type="integer" value="100"/>
+          </when>
+          <when value="no"/>
+        </conditional>
+      </when>
+      <when value="number">
+        <param argument="number" help="i.e. same number of windows, with varying window sizes" label="Divide each input interval (either a chromosome or a BED interval) to fixed number of windows" name="number" type="integer" value="1"/>
+        <param argument="step_size" label="Specify it" name="step_size" type="integer" value="100"/>
+      </when>
+    </conditional>
+    <param argument="sourcename" label="ID Naming Options" name="sourcename" type="select">
+      <option selected="true" value="">Default</option>
+      <option value="-i src">use the source interval's name</option>
+      <option value="-i winnum">use the window number as the ID (e.g. 1,2,3,4...)</option>
+      <option value="-i srcwinnum">use the source interval's name with the window number.</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="type_select" value="genome"/>
+      <param ftype="tabular" name="genome" value="mm9_chr1.len"/>
+      <param name="action_select" value="windowsize"/>
+      <param name="windowsize" value="1000000"/>
+      <output file="makeWindowBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param name="type_select" value="genome"/>
+      <param ftype="tabular" name="genome" value="mm9_chr1.len"/>
+      <param name="action_select" value="windowsize"/>
+      <param name="windowsize" value="1000000"/>
+      <param name="step_size_select" value="yes"/>
+      <param name="step_size" value="50000"/>
+      <output file="makeWindowBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param name="type_select" value="genome"/>
+      <param ftype="tabular" name="genome" value="mm9_chr1.len"/>
+      <param name="action_select" value="number"/>
+      <param name="number" value="100"/>
+      <param name="step_size" value="10000"/>
+      <output file="makeWindowBed_result3.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param name="type_select" value="bed"/>
+      <param ftype="bed" name="input" value="makeWindowBed1.bed"/>
+      <param name="action_select" value="number"/>
+      <param name="number" value="15"/>
+      <param name="step_size" value="100"/>
+      <output file="makeWindowBed_result4.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+Makes adjacent or sliding windows across a genome or BED file.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

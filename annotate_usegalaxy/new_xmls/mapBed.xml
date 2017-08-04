@@ -1,0 +1,90 @@
+<tool id="bedtools_map" name="MapBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>apply a function to a column for each overlapping interval</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools map
+        -a "${inputA}"
+        -b "${inputB}"
+        $strand
+        @C_AND_O_ARGUMENT@
+        -f $overlap
+        $reciprocal
+        $split
+        $header
+        #if $genome.genome_choose == "-g" :
+            -g $genome.genome
+        #end if
+        > "${output}"
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bam,bed,vcf,gff,gff3" label="File A (BAM/BED/VCF/GFF)" name="inputA" type="data"/>
+    <param argument="inputB" format="bam,bed,gff,vcf,gff3" label="File B (BAM/BED/VCF/GFF)" name="inputB" type="data"/>
+    <param argument="reciprocal" checked="false" falsevalue="" help="If set, the overlap between the BAM alignment and the BED interval must affect the above fraction of both the alignment and the BED interval. (-r)" label="Require reciprocal overlap" name="reciprocal" truevalue="-r" type="boolean"/>
+    <conditional argument="genome" label="Author did not provide help for this parameter... " name="genome">
+      <param argument="genome_choose" checked="false" falsevalue="" help="(-g)" label="Treat split/spliced BAM or BED12 entries as distinct BED intervals when computing coverage." name="genome_choose" truevalue="-g" type="boolean"/>
+      <when value="-g"/>
+      <when value=""/>
+    </conditional>
+  </inputs>
+  <outputs>
+    <data format_source="inputA" hidden="false" label="Mapping of ${inputB.name} into ${inputA.name}" metadata_source="inputA" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="mapBed1.bed"/>
+      <param ftype="bed" name="inputB" value="mapBed2.bed"/>
+      <output file="mapBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="mapBed1.bed"/>
+      <param ftype="bed" name="inputB" value="mapBed2.bed"/>
+      <output file="mapBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="mapBed1.bed"/>
+      <param ftype="bed" name="inputB" value="mapBed2.bed"/>
+      <param name="strand" value="-S"/>
+      <output file="mapBed_result3.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="mapBed1.bed"/>
+      <param ftype="bed" name="inputB" value="mapBed2.bed"/>
+      <param name="strand" value="-s"/>
+      <output file="mapBed_result4.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools map allows one to map overlapping features in a B file onto features in an A file and apply statistics and/or summary operations on those features.
+
+.. image:: $PATH_TO_IMAGES/map-glyph.png
+
+.. class:: infomark
+
+bedtools map requires each input file to be sorted by genome coordinate. For BED files, this can be done with sort -k1,1 -k2,2n. Other sorting criteria are allowed if a genome file (-g) is provides that specifies the expected chromosome order.
+
+.. class:: infomark
+
+The map tool is substantially faster in versions 2.19.0 and later. The plot below demonstrates the increased speed when, for example, counting the number of exome alignments that align to each exon. The bedtools times are compared to the bedops bedmap utility as a point of reference.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

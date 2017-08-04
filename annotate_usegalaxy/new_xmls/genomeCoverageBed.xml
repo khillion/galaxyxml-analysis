@@ -1,0 +1,175 @@
+<tool id="bedtools_genomecoveragebed" name="Genome Coverage" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>compute the coverage over an entire genome</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools genomecov
+        #if $input_type.input_type_select == 'bam'
+            -ibam '$input_type.input'
+        #else
+            -i '$input_type.input'
+            -g '$input_type.genome'
+        #end if
+
+        $split
+        $strand
+
+        #if str($report.report_select) == "bg":
+            #if $report.zero_regions:
+                $report.zero_regions
+            #else:
+                -bg
+            #end if
+
+            #if str($report.scale):
+              -scale $report.scale
+            #end if
+        #else:
+            #if str($report.max):
+              -max $report.max
+            #end if
+        #end if
+        $d
+        $dz
+        $five
+        $three
+
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <conditional argument="input_type" label="Author did not provide help for this parameter... " name="input_type">
+      <param argument="input_type_select" label="Input type" name="input_type_select" type="select">
+        <option value="bed">BED/VCF/GFF</option>
+        <option value="bam">BAM</option>
+      </param>
+      <when value="bed">
+        <param argument="input" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="input" type="data"/>
+      </when>
+      <when value="bam">
+        <param argument="input" format="bam" label="BAM file" name="input" type="data"/>
+      </when>
+    </conditional>
+    <conditional argument="report" label="Author did not provide help for this parameter... " name="report">
+      <param argument="report_select" label="Output type" name="report_select" type="select">
+        <option selected="true" value="bg">BedGraph coverage file</option>
+        <option value="hist">Data suiteable for Histogram</option>
+      </param>
+      <when value="bg">
+        <param argument="zero_regions" checked="False" falsevalue="" help="If set, regions without any coverage will also be reported.  (-bga)" label="Report regions with zero coverage" name="zero_regions" truevalue="-bga" type="boolean"/>
+        <param argument="scale" help="Each bedGraph coverage value is multiplied by this factor before being reported. Useful for normalizing coverage by, e.g., reads per million (RPM). (-scale)" label="Scale the coverage by a constant factor" name="scale" type="float" value="1.0"/>
+      </when>
+      <when value="hist">
+        <param argument="max" help="Combine all positions with a depth &gt;= max into a single bin in the histogram. (-max)" label="Specify max depth" name="max" type="integer" value="0"/>
+      </when>
+    </conditional>
+    <param argument="strand" help="(-strand)" label="Calculate coverage based on" name="strand" type="select">
+      <option value="">both strands combined</option>
+      <option value="-strand +">positive strand only</option>
+      <option value="-strand -">negative strand only</option>
+    </param>
+    <param argument="d" checked="False" falsevalue="" help="(-d)" label="Report the depth at each genome position with 1-based coordinates" name="d" truevalue="-d" type="boolean"/>
+    <param argument="dz" checked="False" falsevalue="" help="(-dz)" label="Report the depth at each genome position with 0-based coordinatess" name="dz" truevalue="-dz" type="boolean"/>
+    <param argument="five" checked="False" falsevalue="" help="Instead of entire interval. (-5)" label="Calculate coverage of 5&#8217; positions" name="five" truevalue="-5" type="boolean"/>
+    <param argument="three" checked="False" falsevalue="" help="Instead of entire interval. (-3)" label="Calculate coverage of 3&#8217; positions" name="three" truevalue="-3" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="bedgraph" hidden="false" name="output">
+      <change_format>
+        <when format="tabular" input="report.report_select" value="hist"/>
+      </change_format>
+    </data>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input_type_select" value="bed"/>
+      <param ftype="bed" name="input" value="genomeCoverageBed1.bed"/>
+      <param ftype="tabular" name="genome" value="genomeCoverageBed1.len"/>
+      <param name="report_select" value="hist"/>
+      <output file="genomeCoverageBed_result1.bed" ftype="tabular" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+This tool calculates the genome-wide coverage of intervals defined in a BAM or BED file and reports them in BedGraph format.
+
+.. image:: $PATH_TO_IMAGES/genomecov-glyph.png
+
+.. class:: warningmark
+
+The input BED or BAM file must be sorted by chromosome name (but doesn't necessarily have to be sorted by start position).
+
+-----
+
+**Example 1**
+
+Input (BED format)-
+Overlapping, un-sorted intervals::
+
+    chr1    140 176
+    chr1    100 130
+    chr1    120 147
+
+
+Output (BedGraph format)-
+Sorted, non-overlapping intervals, with coverage value on the 4th column::
+
+    chr1    100 120 1
+    chr1    120 130 2
+    chr1    130 140 1
+    chr1    140 147 2
+    chr1    147 176 1
+
+-----
+
+**Example 2 - with ZERO-Regions selected (assuming hg19)**
+
+Input (BED format)-
+Overlapping, un-sorted intervals::
+
+    chr1    140 176
+    chr1    100 130
+    chr1    120 147
+
+
+BedGraph output will contain five columns:
+
+    * 1. Chromosome name (or 'genome' for whole-genome coverage)
+    * 2. Coverage depth
+    * 3. The number of bases on chromosome (or genome) with depth equal to column 2.
+    * 4. The size of chromosome (or entire genome) in base pairs
+    * 5. The fraction of bases on chromosome (or entire genome) with depth equal to column 2.
+
+**Example Output**:
+
+    chr2L       0           1379895     23011544    0.0599653
+    chr2L       1           837250      23011544    0.0363839
+    chr2L       2           904442      23011544    0.0393038
+    chr2L       3           913723      23011544    0.0397072
+    chr2L       4           952166      23011544    0.0413778
+    chr2L       5           967763      23011544    0.0420555
+    chr2L       6           986331      23011544    0.0428624
+    chr2L       7           998244      23011544    0.0433801
+    chr2L       8           995791      23011544    0.0432735
+    chr2L       9           996398      23011544    0.0432999
+
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

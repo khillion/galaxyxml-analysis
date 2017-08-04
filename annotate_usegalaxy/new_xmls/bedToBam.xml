@@ -1,0 +1,51 @@
+<tool id="bedtools_bedtobam" name="BED to BAM" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>converter</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools bedtobam
+        $bed12
+        -mapq $mapq
+        -g $genome
+        -i '$input'
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bed" label="Convert the following BED file to BAM" name="input" type="data"/>
+    <param argument="bed12" checked="false" falsevalue="" help="If Selected, bedToBam will convert blocked BED features (e.g., gene annotaions) into 'spliced' BAM alignments by creating an appropriate CIGAR string. (-bed12)" label="Indicate that the input BED file is in BED12 (a.k.a 'blocked' BED) format" name="bed12" truevalue="-bed12" type="boolean"/>
+    <param argument="mapq" help="(-mapq)" label="Set a mapping quality (SAM MAPQ field) value for all BED entries" name="mapq" type="integer" value="255"/>
+  </inputs>
+  <outputs>
+    <data format="bam" hidden="false" label="${input.name} (as BAM)" metadata_source="input" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input" value="bedToBam1.bed"/>
+      <param ftype="tabular" name="genome" value="mm9_chr1.len"/>
+      <output file="bedToBam_result.bam" ftype="bam" lines_diff="4" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedToBam converts features in a feature file to BAM format. This is useful as an efficient means of storing large genome annotations in a compact, indexed format for visualization purposes.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

@@ -1,0 +1,74 @@
+<tool id="bedtools_coveragebed" name="Compute both the depth and breadth of coverage" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>of features in file B on the features in file A (bedtools coverage)</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        #set inputBs = "' '".join([str($file) for $file in $inputB])
+
+        bedtools coverage
+        $d
+        $hist
+        $split
+        $strandedness
+        -a '$inputA'
+        -b '$inputBs'
+        | sort -k1,1 -k2,2n
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bam,bed,gff,gff3,vcf" help="BAM/BED/GFF/VCF format" label="File A (on which coverage is calculated)" name="inputA" type="data"/>
+    <param argument="inputB" format="bam,bed,gff,gff3,vcf" help="BAM/BED/GFF/VCF format" label="File(s) B (for which coverage is calculated)" multiple="true" name="inputB" type="data"/>
+    <param argument="strandedness" checked="false" falsevalue="" help="Only report hits in B that overlap A on the same strand. By default, overlaps are reported without respect to strand (-s)" label="Force strandedness" name="strandedness" truevalue="-s" type="boolean"/>
+    <param argument="d" checked="false" falsevalue="" help="Positions reported are one based. Each position and depth follow the complete B feature (-d)" label="Report the depth at each position in each A feature" name="d" truevalue="-d" type="boolean"/>
+    <param argument="hist" checked="false" falsevalue="" help="Additional columns after each feature in A: 1) depth 2) # bases at depth 3) size of A 4) % of A at depth (-hist)" label="Report a histogram of coverage for each feature in A as well as a summary histogram for all features in A" name="hist" truevalue="-hist" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" label="Count of overlaps on ${inputA.name}" metadata_source="inputA" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="coverageBedA.bed"/>
+      <param ftype="bed" name="genome" value="coverageBedB.bed"/>
+      <output file="coverageBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+`bedtools coverage`_ computes both the *depth* and *breadth* of coverage of features in
+file B on the features in file A. For example, ``bedtools coverage`` can compute the coverage of sequence alignments
+(file B) across 1 kilobase (arbitrary) windows (file A) tiling a genome of interest.
+One advantage that ``bedtools coverage`` offers is that it not only *counts* the number of features that
+overlap an interval in file A, it also computes the fraction of bases in the interval in A that were overlapped by one or more features.
+Thus, ``bedtools coverage`` also computes the *breadth* of coverage for each interval in A.
+
+.. _bedtools coverage: http://bedtools.readthedocs.org/en/latest/content/tools/coverage.html
+
+.. class:: infomark
+
+The lines in the output will be comprised of each interval in A, followed by:
+
+1. The number of features in B that overlapped (by at least one base pair) the A interval.
+2. The number of bases in A that had non-zero coverage from features in B.
+3. The length of the entry in A.
+4. The fraction of bases in A that had non-zero coverage from features in B.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

@@ -1,0 +1,71 @@
+<tool id="macs2_bdgpeakcall" name="MACS2 bdgpeakcall" version="@VERSION_STRING@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>Call peaks from bedGraph output</description>
+  <edam_operations>
+    <edam_operation>operation_3222</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3169</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        
+
+        macs2 bdgpeakcall
+        --ifile '${ infile }'
+        --cutoff '${ cutoff }'
+        --min-length '${ minlen }'
+        --max-gap '${ maxgap }'
+        ${ cutoff_analysis } 
+        ${ notrackline }
+        --ofile '${ outfile }'
+
+        
+    ]]></command>
+  <inputs>
+    <param argument="infile" format="bedgraph" label="MACS score in bedGraph" name="infile" type="data"/>
+    <param argument="cutoff" help="Cutoff depends on which method you used for score track. If the file contains pvalue scores from MACS2, score 5 means pvalue 1e-5. Default=5.0 (--cutoff)" label="Cutoff for peaks" name="cutoff" type="float" value="5.0"/>
+    <param argument="minlen" help="better to set it as d value. Default=200 (--min-length)" label="Minimum length of peak" name="minlen" type="integer" value="200"/>
+    <param argument="maxgap" help="better to set it as tag size Default=30 (--max-gap)" label="Maximum gap between significant points in a peak" name="maxgap" type="integer" value="30"/>
+    <param argument="cutoff_analysis" checked="False" falsevalue="" help="While set, bdgpeakcall will analyze number or total length of peaks that can be called by different cutoff then output a summary table to help user decide a better cutoff. Note, --min-len and --max-gap may affect the results. Default=False (--cutoff-analysis)" label="Perform cutoff analysis" name="cutoff_analysis" truevalue="--cutoff-analysis" type="boolean"/>
+    <param argument="notrackline" checked="False" falsevalue="--no-trackline" help="required by UCSC Genome Browser (--no-trackline)" label="Include trackline into bedGraph output" name="notrackline" truevalue="" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="bedgraph" hidden="false" label="${tool.name} on ${on_string}" name="outfile"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bedgraph" name="infile" value="bdgpeakcall_input.bdg"/>
+      <param name="cutoff" value="5.0"/>
+      <param name="minlen" value="200"/>
+      <param name="maxgap" value="30"/>
+      <output name="outfile"/>
+    </test>
+    <test>
+      <param ftype="bedgraph" name="infile" value="bdgpeakcall_input.bdg"/>
+      <param name="cutoff" value="5.0"/>
+      <param name="minlen" value="200"/>
+      <param name="maxgap" value="30"/>
+      <param name="cutoff_analysis" value="true"/>
+      <output file="bdgpeakcall_output_cutoff.bdg" name="outfile"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+    
+**What it does**
+
+This is **bdgpeakcall** utility from the MACS2_ Package. It calls peaks from bedGraph output.
+
+.. _MACS2: https://github.com/taoliu/MACS
+
+
+@citation@
+    
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1186/gb-2008-9-9-r137</citation>
+  </citations>
+</tool>

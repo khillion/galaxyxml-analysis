@@ -1,0 +1,74 @@
+<tool id="bedtools_flankbed" name="FlankBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>create new intervals from the flanks of existing intervals</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        flankBed
+        $pct
+        $strand
+        -g $genome
+        -i '$input'
+
+        #if $addition.addition_select == 'b':
+            -b $addition.b
+        #else:
+            -l $addition.l
+            -r $addition.r
+        #end if
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="input" type="data"/>
+    <param argument="pct" checked="false" falsevalue="" help="E.g. if used on a 1000bp feature, -l 0.50, will add 500 bp &#8220;upstream&#8221;. (-pct)" label="Define -l and -r as a fraction of the feature&#8217;s length" name="pct" truevalue="-pct" type="boolean"/>
+    <param argument="strand" checked="false" falsevalue="" help="For example. if used, -l 500 for a negative-stranded feature, it will add 500 bp to the end coordinate. (-s)" label="Define -l and -r based on strand" name="strand" truevalue="-s" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format_source="input" hidden="false" metadata_source="input" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input" value="a.bed"/>
+      <param name="genome" value="mm9_chr1.len"/>
+      <param name="addition_select" value="b"/>
+      <param name="b" value="5"/>
+      <output file="flankBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="input" value="a.bed"/>
+      <param name="genome" value="mm9_chr1.len"/>
+      <param name="addition_select" value="lr"/>
+      <param name="l" value="2"/>
+      <param name="r" value="3"/>
+      <output file="flankBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools flank will optionally create flanking intervals whose size is user-specified fraction of the original interval.
+
+.. image:: $PATH_TO_IMAGES/flank-glyph.png
+
+.. class:: warningmark
+
+In order to prevent creating intervals that violate chromosome boundaries, bedtools flank requires a genome file defining the length of each chromosome or contig.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

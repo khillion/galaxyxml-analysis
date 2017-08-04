@@ -2,10 +2,12 @@
   <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
   <description>from taxonomic profile</description>
   <edam_operations>
-    <edam_operation>operation_0337</edam_operation>
+    <edam_operation>operation_2403</edam_operation>
   </edam_operations>
   <edam_topics>
-    <edam_topic>topic_3174</edam_topic>
+    <edam_topic>topic_0622</edam_topic>
+    <edam_topic>topic_0091</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
   </edam_topics>
   <requirements>
     <requirement type="package" version="2.6.1">krona</requirement>

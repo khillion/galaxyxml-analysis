@@ -1,0 +1,65 @@
+<tool id="bedtools_jaccard" name="JaccardBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>calculate the distribution of relative distances between two files</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools jaccard
+            $strand
+            $split
+            $reciprocal
+            -f $overlap
+            -a '$inputA'
+            -b '$inputB'
+            > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="inputA" type="data"/>
+    <param argument="inputB" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="inputB" type="data"/>
+    <param argument="strand" checked="false" falsevalue="" help="That is, only report hits in B that overlap A on the same strand. By default, overlaps are reported without respect to strand. (-s)" label="Force strandedness" name="strand" truevalue="-s" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format_source="inputA" hidden="false" label="Intersection of ${inputA.name} and ${inputB.name}" metadata_source="inputA" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="jaccardBed1.bed"/>
+      <param ftype="bed" name="inputB" value="jaccardBed2.bed"/>
+      <output file="jaccardBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="jaccardBed1.bed"/>
+      <param ftype="bed" name="inputB" value="jaccardBed2.bed"/>
+      <param name="overlap" value="0.1"/>
+      <output file="jaccardBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+By default, bedtools jaccard reports the length of the intersection, the length of the union (minus the intersection), the final Jaccard statistic reflecting the similarity of the two sets, as well as the number of intersections.
+Whereas the bedtools intersect tool enumerates each an every intersection between two sets of genomic intervals, one often needs a single statistic reflecting the similarity of the two sets based on the intersections between them. The Jaccard statistic is used in set theory to represent the ratio of the intersection of two sets to the union of the two sets. Similarly, Favorov et al [1] reported the use of the Jaccard statistic for genome intervals: specifically, it measures the ratio of the number of intersecting base pairs between two sets to the number of base pairs in the union of the two sets. The bedtools jaccard tool implements this statistic, yet modifies the statistic such that the length of the intersection is subtracted from the length of the union. As a result, the final statistic ranges from 0.0 to 1.0, where 0.0 represents no overlap and 1.0 represent complete overlap.
+
+.. image:: $PATH_TO_IMAGES/jaccard-glyph.png
+
+.. class:: warningmark
+
+The jaccard tool requires that your data is pre-sorted by chromosome and then by start position (e.g., sort -k1,1 -k2,2n in.bed > in.sorted.bed for BED files).
+
+@REFERENCES@
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

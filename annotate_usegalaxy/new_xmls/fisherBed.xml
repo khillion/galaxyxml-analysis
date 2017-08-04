@@ -1,0 +1,56 @@
+<tool id="bedtools_fisher" name="FisherBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>calculate Fisher statistic between two feature files</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools fisher
+        $strand
+        $split
+        -a '$inputA'
+        -b '$inputB'
+        -f $overlap
+        -g $genome
+        $reciprocal
+        $m
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="inputA" type="data"/>
+    <param argument="inputB" format="bed,gff,vcf,gff3" label="BED/VCF/GFF file" name="inputB" type="data"/>
+    <param argument="m" checked="False" falsevalue="" help="(-m)" label="Merge overlapping intervals before looking at overlap" name="m" truevalue="-m" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format_source="inputA" hidden="false" label="Fisher Test on ${inputA.name} and ${inputB.name}" metadata_source="inputA" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="fisherBed1.bed"/>
+      <param ftype="bed" name="inputB" value="fisherBed2.bed"/>
+      <param ftype="tabular" name="genome" value="fisherBed.len"/>
+      <output file="fisherBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+Perform fisher&#8217;s exact test on the number of overlaps/unique intervals between 2 files.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

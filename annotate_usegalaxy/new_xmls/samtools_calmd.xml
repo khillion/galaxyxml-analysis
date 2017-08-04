@@ -1,0 +1,105 @@
+<tool id="samtools_calmd" name="CalMD" version="2.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>recalculate MD/NM tags</description>
+  <edam_operations>
+    <edam_operation>operation_3184</edam_operation>
+    <edam_operation>operation_2426</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        #if str( $reference_source.reference_source_selector ) == "history":
+            #set ref_fa = 'ref.fa'
+            ln -s '${reference_source.ref_fasta}' ref.fa &&
+            samtools faidx ref.fa &&
+        #else:
+            #set ref_fa = str( $reference_source.ref_fasta.fields.path )
+        #end if
+
+        samtools calmd
+            #if str($option_set.option_sets) == 'advanced':
+                $option_set.change_identical $option_set.modify_quality $option_set.compute_cap $option_set.extended_baq
+            #end if
+            -b
+            '$input_bam'
+            '$ref_fa'
+            > '$calmd_output'
+    ]]></command>
+  <inputs>
+    <param argument="input_bam" format="bam" label="BAM file to recalculate" name="input_bam" type="data"/>
+    <conditional argument="reference_source" label="Author did not provide help for this parameter... " name="reference_source">
+      <param argument="reference_source_selector" label="Choose the source for the reference genome" name="reference_source_selector" type="select">
+        <option value="cached">Use a built-in genome</option>
+        <option value="history">Use a genome from the history</option>
+      </param>
+      <when value="cached">
+        <param argument="ref_fasta" label="Using reference genome" name="ref_fasta" type="select">
+          <options from_data_table="fasta_indexes">
+            <filter column="1" key="dbkey" ref="input_bam" type="data_meta"/>
+          </options>
+        </param>
+      </when>
+      <when value="history">
+        <param argument="ref_fasta" format="fasta" label="Using reference file" name="ref_fasta" type="data"/>
+      </when>
+    </conditional>
+    <conditional argument="option_set" label="Author did not provide help for this parameter... " name="option_set">
+      <param argument="option_sets" label="Options" name="option_sets" type="select">
+        <option value="default">Use defaults</option>
+        <option value="advanced">Advanced options</option>
+      </param>
+      <when value="default"/>
+      <when value="advanced">
+        <param argument="change_identical" checked="False" falsevalue="" label="Change identical bases to '='" name="change_identical" truevalue="-e" type="boolean"/>
+        <param argument="modify_quality" checked="False" falsevalue="" label="Modify the quality string" name="modify_quality" truevalue="-A" type="boolean"/>
+        <param argument="compute_cap" checked="False" falsevalue="" label="Compute BQ or cap baseQ by BAQ" name="compute_cap" truevalue="-r" type="boolean"/>
+        <param argument="extended_baq" checked="False" falsevalue="" label="Extended BAQ for better sensitivity" name="extended_baq" truevalue="-E" type="boolean"/>
+      </when>
+    </conditional>
+  </inputs>
+  <outputs>
+    <data format="bam" hidden="false" label="${tool.name} on ${on_string}" name="calmd_output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="option_sets" value="default"/>
+      <param name="input_bam" value="phiX.bam"/>
+      <param name="reference_source_selector" value="history"/>
+      <param name="ref_fasta" value="phiX.fasta"/>
+      <output file="samtools_calmd_out_1.bam" ftype="bam" name="calmd_output"/>
+    </test>
+    <test>
+      <param name="option_sets" value="advanced"/>
+      <param name="change_identical" value="true"/>
+      <param name="extended_baq" value="true"/>
+      <param name="input_bam" value="phiX.bam"/>
+      <param name="reference_source_selector" value="history"/>
+      <param name="ref_fasta" value="phiX.fasta"/>
+      <output file="samtools_calmd_out_2.bam" ftype="bam" name="calmd_output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Generates the MD tag using the ``samtools calmd`` command. If the MD tag (see SAM format reference below for explanation of SAM/BAM tags) is already present, this command will give a warning if the MD tag generated is different from the existing tag. Outputs a BAM file.
+
+-----
+
+**NM and MD tags**
+
+From the SAM format specification::
+
+  MD (string)  String for mismatching positions. Regex : [0-9]+(([A-Z]|\^[A-Z]+)[0-9]+)*7
+  NM (indeger) Edit distance to the reference, including ambiguous bases but excluding clipping
+
+See references for more information about SAM format tags.
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btp352</citation>
+  </citations>
+</tool>

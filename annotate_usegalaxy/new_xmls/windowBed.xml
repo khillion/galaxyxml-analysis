@@ -1,0 +1,103 @@
+<tool id="bedtools_windowbed" name="WindowBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>find overlapping intervals within a window around an interval</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools window
+        #if $inputA.is_of_type('bam'):
+            -abam '$inputA'
+        #else:
+            -a '$inputA'
+        #end if
+        -b '$inputB'
+        $bed
+        $strandB
+        #if $addition.addition_select == 'window':
+            -w $addition.w
+        #elif $addition.addition_select == 'lr':
+            -l $addition.l
+            -r $addition.r
+        #end if
+        $original
+        $number
+        $nooverlaps
+        $header
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bed,bam,vcf,gff,gff3" label="BED/VCF/GFF/BAM file" name="inputA" type="data"/>
+    <param argument="inputB" format="bed,gff,vcf,gff3" label="BED/VCF/GFF file" name="inputB" type="data"/>
+    <param argument="bed" checked="false" falsevalue="" help="(-bed)" label="When using BAM input, write output as BED. The default is to write output in BAM when using a bam file" name="bed" truevalue="-bed" type="boolean"/>
+    <conditional argument="addition" label="Author did not provide help for this parameter... " name="addition">
+      <param argument="addition_select" label="Choose what you want to do" name="addition_select" type="select">
+        <option value="window">Add Base pairs for **both** upstream and downstream of each entry in A when searching for overlaps in B</option>
+        <option value="lr">Add Base pairs **separately** for upstream and downstream of each entry in A when searching for overlaps in B</option>
+      </param>
+      <when value="window">
+        <param argument="w" label="Base pairs to add upstream and downstream" name="w" type="integer" value="1000"/>
+      </when>
+      <when value="lr">
+        <param argument="l" help="Allows one to create assymetrical &#8220;windows&#8221;. Default is 1000bp. (-l)" label="Base pairs added upstream (left) of each entry in A when searching for overlaps in B" name="l" type="integer" value="1000"/>
+        <param argument="r" help="Allows one to create assymetrical &#8220;windows&#8221;. Default is 1000bp. (-r)" label="Base pairs added downstream (right) of each entry in A when searching for overlaps in B" name="r" type="integer" value="1000"/>
+      </when>
+    </conditional>
+    <param argument="strandB" label="Calculation based on strandedness?" name="strandB" type="select">
+      <option selected="true" value="">Report any hit in B</option>
+      <option value="-sm">Only report hits in B that overlap A on the **same** strand</option>
+      <option value="-Sm">Only report hits in B that overlap A on the **opposite** strand</option>
+    </param>
+    <param argument="original" checked="false" falsevalue="" help="In other words, just report the fact at least one overlap was found in B. (-u)" label="Write original A entry once if any overlaps found in B" name="original" truevalue="-u" type="boolean"/>
+    <param argument="number" checked="false" falsevalue="" help="Reports 0 for A entries that have no overlap with B (-c)" label="For each entry in A, report the number of hits in B" name="number" truevalue="-c" type="boolean"/>
+    <param argument="nooverlaps" checked="false" falsevalue="" help="(-v)" label="Only report those entries in A that have no overlaps with B" name="nooverlaps" truevalue="-v" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format_source="inputA" hidden="false" label="" metadata_source="inputA" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="windowBedA.bed"/>
+      <param ftype="bed" name="inputB" value="windowBedB.bed"/>
+      <output file="windowBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="windowBedA.bed"/>
+      <param ftype="bed" name="inputB" value="windowBedB.bed"/>
+      <param name="addition_select" value="window"/>
+      <param name="w" value="5000"/>
+      <output file="windowBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="windowBedA.bed"/>
+      <param ftype="bed" name="inputB" value="windowBedB.bed"/>
+      <param name="addition_select" value="lr"/>
+      <param name="l" value="200"/>
+      <param name="r" value="20000"/>
+      <output file="windowBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+Similar to bedtools intersect, window searches for overlapping features in A and B. However, window adds a specified number (1000, by default) of base pairs upstream and downstream of each feature in A. In effect, this allows features in B that are &#8220;near&#8221; features in A to be detected.
+
+.. image:: $PATH_TO_IMAGES/window-glyph.png
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

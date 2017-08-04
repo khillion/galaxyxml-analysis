@@ -1,0 +1,104 @@
+<tool id="bedtools_intersectbed" name="Intersect intervals" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>find overlapping intervals in various ways</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        #set inputBs = '" "'.join( [ str( $file ) for $file in $inputB ] )
+        #set modes = ' '.join( str($overlap_mode).split(',') )
+
+        bedtools intersect
+            #if $inputA.is_of_type('bam'):
+                -abam "${inputA}"
+            #else:
+                -a "${inputA}"
+            #end if
+
+            -b "${inputBs}"
+            $split
+            $strand
+            #if str($fraction) != "None" and str($fraction):
+              -f "${fraction}"
+            #end if
+            $reciprocal
+            $invert
+            $once
+            $header
+            $modes
+            $count
+            > "${output}"
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bed,bam,vcf,gff,gff3" label="BED/VCF/GFF/BAM file" name="inputA" type="data"/>
+    <param argument="inputB" format="bed,bam,gff,vcf,gff3" label="One or more BAM/BED/GFF/VCF file(s)" multiple="True" name="inputB" type="data"/>
+    <param argument="overlap_mode" label="What should be written to the output file?" multiple="True" name="overlap_mode" type="select">
+      <option selected="true" value="-wa">Write the original entry in A for each overlap (-wa)</option>
+      <option value="-wb">Write the original entry in B for each overlap. Useful for knowing what A overlaps. Restricted by the fraction- and reciprocal option (-wb)</option>
+      <option value="-wo">Write the original A and B entries plus the number of base pairs of overlap between the two features. Only A features with overlap are reported. Restricted by the fraction- and reciprocal option (-wo)</option>
+      <option value="-wao">Write the original A and B entries plus the number of base pairs of overlap between the two features. However, A features w/o overlap are also reported with a NULL B feature and overlap = 0. Restricted by the fraction- and reciprocal option (-wao)</option>
+      <option value="-loj">Perform a "left outer join". That is, for each feature in A report each overlap with B.  If no overlaps are found, report a NULL feature for B (-loj)</option>
+    </param>
+    <param area="false" argument="fraction" help="Alignments are only retained if the overlap with the an interval in the BED file comprises at least this fraction of the BAM alignment's length.  For example, to require that the overlap affects 50% of the BAM alignment, use 0.50. (-f)" label="Minimum overlap required as a fraction of the BAM alignment" name="fraction" type="text"/>
+    <param argument="invert" checked="false" falsevalue="" help="(-v)" label="Report only those alignments that **do not** overlap the BED file" name="invert" truevalue="-v" type="boolean"/>
+    <param argument="once" checked="false" falsevalue="" help="Just report the fact &gt;=1 hit was found. (-u)" label="Write the original A entry _once_ if _any_ overlaps found in B." name="once" truevalue="-u" type="boolean"/>
+    <param argument="count" checked="false" falsevalue="" help="Reports 0 for A entries that have no overlap with B. (-c)" label="For each entry in A, report the number of overlaps with B." name="count" truevalue="-c" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format_source="inputA" hidden="false" metadata_source="inputA" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="intersectBed1.bed"/>
+      <param ftype="bed" name="inputB" value="intersectBed2.bed"/>
+      <param name="overlap_mode" value="-wa"/>
+      <param name="split" value="False"/>
+      <output file="intersectBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="intersectBed1.bed"/>
+      <param ftype="bed" name="inputB" value="intersectBed2.bed"/>
+      <param name="overlap_mode" value="-wa,-wb"/>
+      <param name="split" value="False"/>
+      <output file="intersectBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="intersectBed1.bed"/>
+      <param ftype="bed" name="inputB" value="intersectBed2.bed"/>
+      <param name="invert" value="True"/>
+      <param name="split" value="False"/>
+      <output file="intersectBed_result3.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+By far, the most common question asked of two sets of genomic features is whether or not any of the features in the two sets &#8220;overlap&#8221; with one another. This is known as feature intersection. bedtools intersect allows one to screen for overlaps between two sets of genomic features. Moreover, it allows one to have fine control as to how the intersections are reported. bedtools intersect works with both BED/GFF/VCF and BAM files as input.
+
+.. image:: $PATH_TO_IMAGES/intersect-glyph.png
+
+.. class:: infomark
+
+Note that each BAM alignment is treated individually. Therefore, if one end of a paired-end alignment overlaps an interval in the BED file, yet the other end does not, the output file will only include the overlapping end.
+
+.. class:: infomark
+
+Note that a BAM alignment will be sent to the output file **once** even if it overlaps more than one interval in the BED file.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

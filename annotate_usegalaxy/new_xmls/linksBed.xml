@@ -1,0 +1,61 @@
+<tool id="bedtools_links" name="LinksBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>create a HTML page of links to UCSC locations</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools links
+            -base "${basename}"
+            -org "${org}"
+            -db "${db}"
+            -i "${input}"
+            > "${output}"
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="input" type="data"/>
+    <param area="false" argument="basename" label="The 'basename' for the UCSC genome browser" name="basename" type="text" value="http://genome.ucsc.edu"/>
+    <param area="false" argument="org" help="e.g. mouse, human (-org)" label="Organism name" name="org" type="text" value="human"/>
+    <param area="false" argument="db" help="(-db)" label="The genome build" name="db" type="text" value="hg19"/>
+  </inputs>
+  <outputs>
+    <data format="html" hidden="false" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input" value="linksBed1.bed"/>
+      <param name="basename" value="http://genome.ucsc.edu"/>
+      <param name="org" value=""/>
+      <param name="db" value=""/>
+      <output file="linksBed_result1.html" ftype="html" lines_diff="2" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="input" value="linksBed1.bed"/>
+      <param name="basename" value="http://genome.ucsc.edu"/>
+      <param name="org" value="mouse"/>
+      <param name="db" value="mm9"/>
+      <output file="linksBed_result2.html" ftype="html" lines_diff="2" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+Creates an HTML file with links to an instance of the UCSC Genome Browser for all features / intervals in a file. This is useful for cases when one wants to manually inspect through a large set of annotations or features.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

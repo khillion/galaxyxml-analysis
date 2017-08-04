@@ -1,0 +1,52 @@
+<tool id="samtools_flagstat" name="Flagstat" version="2.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>tabulate descriptive stats for BAM datset</description>
+  <edam_operations>
+    <edam_operation>operation_3184</edam_operation>
+    <edam_operation>operation_2426</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        samtools flagstat '$input1' > '$output1'
+    ]]></command>
+  <inputs>
+    <param argument="input1" format="bam" label="BAM File to report statistics of" name="input1" type="data"/>
+  </inputs>
+  <outputs>
+    <data format="txt" hidden="false" name="output1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bam" name="input1" value="samtools_flagstat_input1.bam"/>
+      <output file="samtools_flagstat_out1.txt" name="output1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Uses ``samtools flagstat`` command to print descriptive information for a BAM dataset. Here is an example of such information::
+
+  200 + 0 in total (QC-passed reads + QC-failed reads)
+  0 + 0 secondary
+  0 + 0 supplementary
+  0 + 0 duplicates
+  25 + 0 mapped (12.50%:nan%)
+  200 + 0 paired in sequencing
+  100 + 0 read1
+  100 + 0 read2
+  0 + 0 properly paired (0.00%:nan%)
+  0 + 0 with itself and mate mapped
+  25 + 0 singletons (12.50%:nan%)
+  0 + 0 with mate mapped to a different chr
+  0 + 0 with mate mapped to a different chr (mapQ>=5)
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btp352</citation>
+  </citations>
+</tool>

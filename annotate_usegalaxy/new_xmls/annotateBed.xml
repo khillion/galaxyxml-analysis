@@ -1,0 +1,84 @@
+<tool id="bedtools_annotatebed" name="AnnotateBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>annotate coverage of features from multiple files</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+
+        bedtools annotate
+        -i "${inputA}"
+        #if $names.names_select == 'yes':
+            -files
+            #for $bed in $names.beds:
+                "${bed.input}"
+            #end for
+
+            -names
+            #for $bed in $names.beds:
+                "${bed.inputName}"
+            #end for
+        #else:
+            #set files = '" "'.join( [ str( $file ) for $file in $names.beds ] )
+            -files "${files}"
+            #set names = '" "'.join( [ str( $name.display_name ) for $name in $names.beds ] )
+            -names "${names}"
+        #end if
+        $strand
+        $counts
+        $both
+        > "${output}"
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="inputA" type="data"/>
+    <conditional argument="names" label="Author did not provide help for this parameter... " name="names">
+      <param argument="names_select" label="Specify names for each file" name="names_select" type="select">
+        <option selected="true" value="no">No</option>
+        <option value="yes">Yes</option>
+      </param>
+      <when value="yes">
+        <repeat name="beds" title="Add BED files and names">
+          <param argument="input" format="bed" label="BED file" name="input" type="data"/>
+          <param area="false" argument="inputName" label="Name of the file" name="inputName" type="text"/>
+        </repeat>
+      </when>
+      <when value="no">
+        <param argument="beds" format="bed" label="BED file" multiple="True" name="beds" type="data"/>
+      </when>
+    </conditional>
+    <param argument="counts" checked="false" falsevalue="" help="Default is to report solely the fraction of -i covered by each file." label="Report the count of features followed by the % coverage for each annotation file" name="counts" truevalue="-counts" type="boolean"/>
+    <param argument="both" checked="false" falsevalue="" help="Default is to report solely the fraction of the input file covered by each file." label="Report the count of features followed by the % coverage for each annotation file" name="both" truevalue="-both" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="annotateBed1.bed"/>
+      <param name="names_select" value="no"/>
+      <param name="beds" value="annotateBed2.bed,annotateBed3.bed,annotateBed4.bed"/>
+      <output file="annotateBed_result.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools annotate, well, annotates one BED/VCF/GFF file with the coverage and number of overlaps observed from multiple other BED/VCF/GFF files. In this way, it allows one to ask to what degree one feature coincides with multiple other feature types with a single command.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

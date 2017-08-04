@@ -1,0 +1,111 @@
+<tool id="bedtools_shufflebed" name="ShuffleBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>randomly redistrubute intervals in a genome</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools shuffle
+        -g '$genome'
+        -i '$inputA'
+        $bedpe
+        #if str($seed.seed_choose) == "True":
+            -seed $seed.seed
+        #end if
+        #if str($add_bed.add_bed_select) == "not_be":
+            -excl $add_bed.excl
+            -f $add_bed.overlap
+        #elif str($add_bed.add_bed_select) == "be":
+            -incl $add_bed.incl
+        #end if
+        $chrom
+        $chromfirst
+        $no_overlap
+        $allow_beyond
+        -maxTries $maxtries
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="inputA" type="data"/>
+    <param argument="bedpe" checked="False" falsevalue="" label="The file is in BEDPE format" name="bedpe" truevalue="-bedpe" type="boolean"/>
+    <param argument="chrom" checked="False" falsevalue="" help="Solely permute their location on the chromosome. By default, both the chromosome and position are randomly chosen. (-chrom)" label="Keep features in the input file on the same chromosome" name="chrom" truevalue="-chrom" type="boolean"/>
+    <conditional argument="add_bed" label="Author did not provide help for this parameter... " name="add_bed">
+      <param argument="add_bed_select" label="Choose an additional BED file" name="add_bed_select" type="select">
+        <option selected="true" value="no">No additional BED file</option>
+        <option value="not_be">Coordinates in which features from -i should not be placed?</option>
+        <option value="be">coordinates in which features from -i should be placed?</option>
+      </param>
+      <when value="no"/>
+      <when value="not_be">
+        <param argument="excl" format="bed" label="Choose File" name="excl" type="data"/>
+      </when>
+      <when value="be">
+        <param argument="incl" format="bed" label="Choose File" name="incl" type="data"/>
+      </when>
+    </conditional>
+    <param argument="chromfirst" checked="False" falsevalue="" help="Instead of choosing a position randomly among the entire genome (the default), first choose a chrom randomly, and then choose a random start coordinate on that chrom. This leads to features being ~uniformly distributed among the chroms, as opposed to features being distribute as a function of chrom size. (-chromFirst)" label="Choose chromosome first" name="chromfirst" truevalue="-chromFirst" type="boolean"/>
+    <param argument="maxtries" help="(-maxTries)" label="Max. number of attempts to find a home for a shuffled interval in the presence of -incl or -excl" name="maxtries" type="integer" value="1000"/>
+    <param argument="no_overlap" checked="False" falsevalue="" help="(-noOverlapping)" label="Don&#8217;t allow shuffled intervals to overlap" name="no_overlap" truevalue="-noOverlapping" type="boolean"/>
+    <param argument="allow_beyond" checked="False" falsevalue="" help="(-allowBeyondChromEnd)" label="Allow the original the length of the original records to extebd beyond the length of the chromosome" name="allow_beyond" truevalue="-allowBeyondChromEnd" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="shuffleBed1.bed"/>
+      <param ftype="tabular" name="genome" value="shuffleBed.len"/>
+      <param name="chrom" value=""/>
+      <param name="seed_choose" value="True"/>
+      <param name="seed" value="1"/>
+      <output file="shuffleBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="shuffleBed1.bed"/>
+      <param ftype="tabular" name="genome" value="shuffleBed.len"/>
+      <param name="chrom" value="True"/>
+      <param name="seed_choose" value="True"/>
+      <param name="seed" value="1"/>
+      <output file="shuffleBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="shuffleBed1.bed"/>
+      <param ftype="tabular" name="genome" value="shuffleBed.len"/>
+      <param ftype="bed" name="excl" value="shuffleBed2.bed"/>
+      <param name="seed_choose" value="True"/>
+      <param name="seed" value="1"/>
+      <output file="shuffleBed_result3.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="shuffleBed1.bed"/>
+      <param ftype="bed" name="genome" value="shuffleBed.len"/>
+      <param name="allow_beyond" value="True"/>
+      <param name="seed_choose" value="True"/>
+      <param name="seed" value="1"/>
+      <output file="shuffleBed_result4.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools shuffle will randomly permute the genomic locations of a feature file among a genome defined in a genome file. One can also provide an &#8220;exclusions&#8221; BED/GFF/VCF file that lists regions where you do not want the permuted features to be placed. For example, one might want to prevent features from being placed in known genome gaps. shuffle is useful as a null basis against which to test the significance of associations of one feature with another.
+
+.. image:: $PATH_TO_IMAGES/shuffle-glyph.png
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

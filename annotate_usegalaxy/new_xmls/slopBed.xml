@@ -1,0 +1,73 @@
+<tool id="bedtools_slopbed" name="SlopBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>adjust the size of intervals</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools slop
+        $pct
+        $strand
+        -g '$genome'
+        -i '$inputA'
+        #if $addition.addition_select == 'b':
+            -b $addition.b
+        #else:
+            -l $addition.l
+            -r $addition.r
+        #end if
+        $header
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="inputA" format="bed,vcf,gff,gff3" label="BED/VCF/GFF file" name="inputA" type="data"/>
+    <param argument="pct" checked="false" falsevalue="" help="E.g. if used on a 1000bp feature, -l 0.50, will add 500 bp &#8220;upstream&#8221;" label="Define -l and -r as a fraction of the feature&#8217;s length" name="pct" truevalue="-pct" type="boolean"/>
+    <param argument="strand" checked="false" falsevalue="" help="If used, -l 500 for a negative-stranded feature, it will add 500 bp to the end coordinate" label="Define -l and -r based on strand" name="strand" truevalue="-s" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="inputA" value="a.bed"/>
+      <param ftype="bed" name="genome" value="mm9_chr1.len"/>
+      <param name="addition_select" value="b"/>
+      <param name="b" value="5"/>
+      <output file="slopBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="a.bed"/>
+      <param ftype="bed" name="genome" value="mm9_chr1.len"/>
+      <param name="addition_select" value="lr"/>
+      <param name="l" value="2"/>
+      <param name="r" value="3"/>
+      <output file="slopBed_result2.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools slop will increase the size of each feature in a feature file by a user-defined number of bases. While something like this could be done with an awk '{OFS="\t" print $1,$2-&lt;slop>,$3+&lt;slop>}', bedtools slop will restrict the resizing to the size of the chromosome (i.e. no start &lt; 0 and no end > chromosome size).
+
+.. image:: $PATH_TO_IMAGES/slop-glyph.png
+
+.. class:: warningmark
+
+In order to prevent the extension of intervals beyond chromosome boundaries, bedtools slop requires a genome file defining the length of each chromosome or contig.
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

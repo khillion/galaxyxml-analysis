@@ -1,0 +1,46 @@
+<tool id="bedtools_spacingbed" name="SpacingBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>reports the distances between features</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        bedtools spacing
+        -i '$input'
+        > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bed,vcf,gff,gff3,bam" label="BED/VCF/GFF/BAM file" name="input" type="data"/>
+  </inputs>
+  <outputs>
+    <data format_source="input" hidden="false" label="Spaces between intervals of ${input}" metadata_source="input" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input" value="a.bed"/>
+      <output file="spacingBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+Report the spacing between intervals in a file.
+
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

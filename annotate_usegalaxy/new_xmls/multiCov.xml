@@ -1,0 +1,71 @@
+<tool id="bedtools_multicovtbed" name="MultiCovBed" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>counts coverage from multiple BAMs at specific intervals</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        #for $i, $bam in enumerate( $bams ):
+            ln -s -f $bam ${i}.bam &&
+            ln -s -f $bam.metadata.bam_index ${i}.bam.bai &&
+        #end for
+
+        bedtools multicov
+            -bed '$input'
+            -bams
+            #for $i, $bam in enumerate( $bams ):
+                '${i}.bam'
+            #end for
+            $strand
+            -f $overlap
+            $reciprocal
+            $split
+            -q $q
+            $duplicate
+            $failed
+            $proper
+            > '$output'
+
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bed" label="Sorted BED file" name="input" type="data"/>
+    <param argument="bams" format="bam" label="BAM file" multiple="True" name="bams" type="data"/>
+    <param argument="q" help="(-q)" label="Minimum mapping quality (MAPQ) allowed" name="q" type="integer" value="0"/>
+    <param argument="duplicate" checked="False" falsevalue="" help="Default counts non-duplicates only. (-D)" label="Include duplicate reads" name="duplicate" truevalue="-D" type="boolean"/>
+    <param argument="failed" checked="false" falsevalue="" help="Default counts pass-QC reads only (-F)" label="Include failed-QC reads" name="failed" truevalue="-F" type="boolean"/>
+    <param argument="proper" checked="false" falsevalue="" help="Default counts all alignments with MAPQ &gt; -q argument, regardless of the BAM FLAG field. (-p)" label="Only count proper pairs" name="proper" truevalue="-p" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format_source="input" hidden="false" metadata_source="input" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="input" value="multiCov1.bed"/>
+      <param ftype="bam" name="bams" value="srma_in3.bam,srma_in3.bam"/>
+      <param name="q" value="1"/>
+      <param name="split" value="False"/>
+      <output file="multiCovBed_result1.bed" ftype="bed" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools multicov, reports the count of alignments from multiple position-sorted and indexed BAM files that overlap intervals in a BED file. Specifically, for each BED interval provided, it reports a separate count of overlapping alignments from each BAM file.
+
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

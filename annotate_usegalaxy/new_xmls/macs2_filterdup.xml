@@ -1,0 +1,60 @@
+<tool id="macs2_filterdup" name="MACS2 filterdup" version="@VERSION_STRING@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>Remove duplicate reads at the same position</description>
+  <edam_operations>
+    <edam_operation>operation_3222</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3169</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        macs2 filterdup
+            -i '${ infile }'
+            -o '${ outfile }'
+        --format '${ infile.extension.upper() }'
+        @effective_genome_size@
+        @tag_size@
+        --pvalue '${ pvalue }'
+        #if str( $keep_dup_options.keep_dup_options_selector ) == "user":
+            --keep-dup '${ keep_dup_options.user_keepdup }'
+        #else
+            --keep-dup '${ keep_dup_options.keep_dup_options_selector }'
+        #end if
+    
+    ]]></command>
+  <inputs>
+    <param argument="infile" format="sam,bam,bed" label="Sequencing alignment file" name="infile" type="data"/>
+    <param area="false" argument="pvalue" help="Default=1e-5 (--pvalue)" label="Pvalue cutoff for binomial distribution test" name="pvalue" type="text" value="1e-5"/>
+  </inputs>
+  <outputs>
+    <data format="bed" hidden="false" label="${tool.name} on ${on_string}" name="outfile"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bed" name="infile" value="ChIP_200K_w_dups.bed"/>
+      <param name="pvalue" value="1e-5"/>
+      <param name="keep_dup_options_selector" value="auto"/>
+      <param name="effective_genome_size_options_selector" value="user_defined"/>
+      <param name="gsize" value="3300000000"/>
+      <output file="filterdup_on_ChIP_200K_w_dups.bed" name="outfile"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+This is **filterdup** utility from the MACS2_ Package. It removes duplicate reads and converts results to BED format.
+
+.. _MACS2: https://github.com/taoliu/MACS
+
+@citation@
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1186/gb-2008-9-9-r137</citation>
+  </citations>
+</tool>

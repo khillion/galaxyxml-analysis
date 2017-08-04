@@ -1,0 +1,46 @@
+<tool id="bedtools_bamtofastq" name="Convert from BAM to FastQ" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>BEDTools is an extensive suite of utilities for comparing genomic features in BED format.</description>
+  <edam_operations>
+    <edam_operation>operation_2429</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        bedtools bamtofastq
+        $tags
+        -i '$input'
+        -fq '$output'
+        #if $fq2:
+           -fq2 '$output2'
+        #end if
+    ]]></command>
+  <inputs>
+    <param argument="input" format="bam" label="Convert the following BAM file to FASTQ" name="input" type="data"/>
+    <param argument="tags" checked="False" falsevalue="" label="Create FASTQ based on the mate info in the BAM R2 and Q2 tags." name="tags" truevalue="-tags" type="boolean"/>
+    <param argument="fq2" checked="False" falsevalue="" label="FASTQ for second end.             Used if BAM contains paired-end data. BAM should be sorted by query name if creating paired FASTQ with this option." name="fq2" truevalue="-fq2" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="fastq" hidden="false" label="${input.name} (as FASTQ)" metadata_source="input" name="output"/>
+    <data format="fastq2" hidden="false" label="${input.name} (as FASTQ)" metadata_source="input" name="output2">
+      <filter>fq2 is True</filter>
+    </data>
+  </outputs>
+  <help><![CDATA[
+
+**What it does**
+
+bedtools bamtofastq is a conversion utility for extracting FASTQ records from sequence alignments in BAM format.
+
+@REFERENCES@
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq033</citation>
+  </citations>
+</tool>

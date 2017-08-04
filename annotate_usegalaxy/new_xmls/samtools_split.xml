@@ -1,0 +1,49 @@
+<tool id="samtools_split" name="Split" version="@TOOL_VERSION@">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <description>BAM dataset on readgroups</description>
+  <edam_operations>
+    <edam_operation>operation_3184</edam_operation>
+    <edam_operation>operation_2426</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        samtools split -f 'Read_Group_%!.bam'
+        #if $header:
+            -u '${output}:${header}'
+        #else:
+            -u '${output}'
+        #end if
+        "${input_bam}"
+    ]]></command>
+  <inputs>
+    <param argument="input_bam" format="bam" label="BAM file" name="input_bam" type="data"/>
+    <param argument="header" format="bam,sam" label="Replace header in output file" name="header" optional="True" type="data"/>
+  </inputs>
+  <outputs>
+    <data format="bam" hidden="false" label="${tool.name} on ${on_string}" name="output">
+      <discover_datasets directory="" ext="bam" pattern="Read_Group_(?P&lt;designation&gt;.+)\.bam" visible="true"/>
+    </data>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="bam" name="input_bam" value="phiX.bam"/>
+      <output file="samtools_split_out.bam" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Splits BAM files on readgroups.
+
+This tool is based on ``samtools split`` command. It will generate multiple output datasets for each redagroup from the input dataset.
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btp352</citation>
+  </citations>
+</tool>
