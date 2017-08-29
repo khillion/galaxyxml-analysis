@@ -2,8 +2,8 @@
 
 """
 This script aims to clone repositories containing tools that are installed
-in a given Galaxy instance. It only allows to get tools that were installed
-from a toolshed.
+in a given Galaxy instance. It only allows to get the last version of tools
+that were installed from a toolshed.
 """
 
 #  Import  #

@@ -1,0 +1,7 @@
+bioblend
+python-hglib
+lxml
+pandas
+matplotlib
+bibtexparser
+

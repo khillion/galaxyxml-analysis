@@ -116,6 +116,22 @@ def list_installed_tools(download_report, repo):
         list_tools.append(tool['name'])
     return list_tools
 
+
+def load_macro(tool, macro_path):
+    """
+    Load macro content and attach it as a child node to the root of tool.
+    """
+    macro = etree.parse(macro_path)
+    for exp in tool.findall("expand"):
+        for mac in macro.findall("xml"):
+            if exp.attrib.get('macro', '1') == mac.attrib.get('name', '2'):
+                for child in mac:
+                    # Add corresponding content to the tool
+                    tool.getroot().append(child)
+        # Remove expand from the tool
+        tool.getroot().remove(exp)
+
+
 ###########  Main  ###########
 
 if __name__ == "__main__":
@@ -153,7 +169,7 @@ if __name__ == "__main__":
     download_report = json.load(json_down_report)
 
     # Get paths of all XML tools (key of dict with macro as value if it exists)
-    tool_paths = {}
+    tool_paths = []
     for root, dirs, files in os.walk(args.directory):
         for file in files:
             if file.endswith(".xml") and file[0] != '.':
@@ -163,19 +179,21 @@ if __name__ == "__main__":
                 except etree.XMLSyntaxError:
                     continue
                 if tool.getroot().tag == 'tool':
+                    # Macro ?
+                    if tool.find('macros') is not None:
+                        for mac_file in tool.find('macros'):
+                            if mac_file.tag == 'import':
+                                macro_path = os.path.dirname(file_path) + "/" + mac_file.text
+                                load_macro(tool, macro_path)
                     repo = root.split('/', 1)[1].split('/')[0]
                     installed_tools = list_installed_tools(download_report, repo)
                     if tool.getroot().attrib['id'] in installed_tools:
-                        if tool.getroot().find('macros') is None:
-                            tool_paths[file_path] = 0
-                        else:
-                            macro = tool.getroot().find('macros')[0].text
-                            tool_paths[file_path] = root + '/' + macro
+                        tool_paths.append(file_path)
 
     # Get information about each XMLs
     xmls_infos = {}
     cpt_tool = 0  # For number of tool XMLs
-    for xml in tool_paths.keys():
+    for xml in tool_paths:
         tool = etree.parse(xml)
         cpt_tool += 1
         tool_id = tool.getroot().attrib['id']
@@ -192,16 +210,6 @@ if __name__ == "__main__":
         xmls_infos[tool_id]['edam_operations'] = check_field(tool, 'edam_operations')
         # Edam topics ?
         xmls_infos[tool_id]['edam_topics'] = check_field(tool, 'edam_topics')
-        # Macro ?
-        if tool_paths[xml]:
-            if not xmls_infos[tool_id]['Citations']:
-                xmls_infos[tool_id]['Citations'] = check_macro_field(tool_paths[xml], 'Citations')
-            if not xmls_infos[tool_id]['Help']:
-                xmls_infos[tool_id]['Help'] = check_macro_field(tool_paths[xml], 'help')
-            if not xmls_infos[tool_id]['edam_operations']:
-                xmls_infos[tool_id]['edam_operations'] = check_macro_field(tool_paths[xml], 'edam_operations')
-            if not xmls_infos[tool_id]['edam_topics']:
-                xmls_infos[tool_id]['edam_topics'] = check_macro_field(tool_paths[xml], 'edam_topics')
 
     # Make plots
     df_export = pd.DataFrame.from_dict(xmls_infos)
