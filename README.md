@@ -1,35 +1,18 @@
 # galaxyxml-analysis
 
-Repository to gather script to retrieve and analyse Galaxy XML tools from a given instance and perform analysis of their content.
+This repository gathers several scripts and methods for analysis and testing of tools.
 
 ## Requirements
 
-In order to clone repositories from the toolshed, you need mercurial on your machine.
+Requirements vary depending the directory you are in. Every directory should contain one
+`requirements.txt` to deal with the dependencies.
 
-All Python libraries required for the different scripts are listed in `requirements.txt`.
+## List of directories
 
-You also need to have an account on the Galaxy instance with an API key as well
-as an account on the corresponding toolshed.
+### annotate\_usegalaxy
 
-## How it works ?
+### galaxyxml\_analysis
 
-### get\_xmls\_from\_galaxy.py
+### testing\_tools
 
-```
-python get_xml_from_galaxy.py -k API_KEY -g GALAXY_URL -u TOOLSHED_USERNAME
-```
-
-The script will clone all repositories containing tools installed on the given Galaxy instance.
-It also generates a JSON report for further analysis by other scripts (mainly reminding which
-tools are installed on the instance).
-
-### analyse\_xmls.py
-
-This script perform analysis of XMLs by checking the presence of several tags and content:
-
-* `<help>`
-* Non empty `<description>`
-* `<citations>`
-* `<citations>` or the presence of words referring to references in the help message
-* `<edam_operations>`
-* `<edam_topics>`
+It aims to run [ToolDog](https://github.com/bio-tools/tooldog) on every entries from [https://bio.tools](https://bio.tools).
