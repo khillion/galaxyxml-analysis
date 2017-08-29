@@ -11,7 +11,11 @@ Requirements vary depending the directory you are in. Every directory should con
 
 ### annotate\_usegalaxy
 
+Aims to run [ToolDog](https://github.com/bio-tools/tooldog) to add missing metadata to existing Galaxy XML descriptions.
+
 ### galaxyxml\_analysis
+
+Different scripts to retrieve information from a given Galaxy instance.
 
 ### testing\_tools
 
