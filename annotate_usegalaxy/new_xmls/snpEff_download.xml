@@ -1,0 +1,38 @@
+<tool id="snpEff_download" name="SnpEff Download" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Download a new database</description>
+  <edam_operations>
+    <edam_operation>operation_2423</edam_operation>
+    <edam_operation>operation_3225</edam_operation>
+    <edam_operation>operation_3661</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3673</edam_topic>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+snpEff download -dataDir '$snpeff_db.files_path' -v '$genome_version'
+    ]]></command>
+  <inputs>
+    <param area="false" argument="genome_version" label="Select the genome version you want to download (e.g. GRCh38.86, GRCh37.75, hg38, or GRCm38.86)" name="genome_version" type="text" value=""/>
+  </inputs>
+  <outputs>
+    <data format="snpeffdb" hidden="false" label="${tool.name} @SNPEFF_VERSION@ ${genome_version}" name="snpeff_db"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="genome_version" value="ebola_zaire"/>
+      <output name="snpeff_db"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+@EXTERNAL_DOCUMENTATION@
+    ]]></help>
+  <citations>
+    <citation type="doi">doi:10.4161/fly.19695</citation>
+  </citations>
+</tool>

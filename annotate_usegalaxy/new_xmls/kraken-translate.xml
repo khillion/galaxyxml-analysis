@@ -1,5 +1,5 @@
 <tool id="kraken-translate" name="Kraken-translate" version="1.2.1">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>
         convert taxonomy IDs to names
     </description>

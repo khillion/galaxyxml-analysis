@@ -1,5 +1,5 @@
 <tool id="cufflinks" name="Cufflinks" version="@VERSION@.2">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>transcript assembly and FPKM (RPKM) estimates for RNA-Seq data</description>
   <edam_operations>
     <edam_operation>operation_3800</edam_operation>

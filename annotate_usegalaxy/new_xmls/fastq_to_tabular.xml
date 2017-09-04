@@ -1,0 +1,110 @@
+<tool id="fastq_to_tabular" name="FASTQ to Tabular" version="1.1.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>converter</description>
+  <edam_operations>
+    <edam_operation>operation_0004</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <requirements>
+    <requirement type="package" version="1.0.0">galaxy_sequence_utils</requirement>
+  </requirements>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[fastq_to_tabular.py '$input_file' '$output_file' $descr_columns '${input_file.extension[len( 'fastq' ):]}']]></command>
+  <inputs>
+    <param argument="input_file" format="fastqsanger,fastqcssanger,fastqillumina,fastqsolexa" label="FASTQ file to convert" name="input_file" type="data"/>
+    <param argument="descr_columns" help="Typically 2 to take the ID (first word) and decription (rest) as two columns, or 1 to give a single column" label="How many columns to divide title string into?" name="descr_columns" type="integer" value="1"/>
+  </inputs>
+  <outputs>
+    <data format="tabular" hidden="false" name="output_file"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="descr_columns" value="1"/>
+      <output file="fastq_to_tabular_out_1.tabular" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqcssanger" name="input_file" value="sanger_full_range_as_cssanger.fastqcssanger"/>
+      <param name="descr_columns" value="1"/>
+      <output file="fastq_to_tabular_out_2.tabular" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="descr_columns" value="2"/>
+      <output file="fastq_to_tabular_out_3.tabular" name="output_file"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+This tool converts FASTQ sequencing reads to a Tabular file.
+
+It is conventional to take the first word of the FASTQ "@" title line as the identifier, and any remaining text to be a free form description.
+It is therefore often useful to split this text into two columns in Galaxy (identifier and any description) by setting **How many columns to divide title string into?** to **2**.
+In some cases the description can be usefully broken up into more columns -- see the examples .
+
+Tab characters, if present in the source FASTQ title, will be converted to spaces.
+
+-----	
+
+**Example**
+
+Consider the following two 454 reads in Sanger FASTQ format (using line wrapping for display, but do note not all tools will accept line wrapped FASTQ files)::
+
+ @FSRRS4401BE7HA [length=395] [gc=36.46] [flows=800] [phred_min=0] [phred_max=40] [trimmed_length=95]
+ tcagTTAAGATGGGATAATATCCTCAGATTGCGTGATGAACTTTGTTCTGGTGGAGGAGAAGGAAGTGCATTCGACGTAT
+ GCCCGTTTGTCGATATTTGtatttaaagtaatccgtcacaaatcagtgacataaatattatttagatttcgggagcaact
+ ttatttattccacaagcaggtttaaattttaaatttaaattattgcagaagactttaaattaacctcgttgtcggagtca
+ tttgttcggttattggtcgaaagtaaccncgggaagtgccgaaaactaacaaacaaaagaagatagtgaaattttaatta
+ aaanaaatagccaaacgtaactaactaaaacggacccgtcgaggaactgccaacggacgacacagggagtagnnn
+ +FSRRS4401BE7HA [length=395] [gc=36.46] [flows=800] [phred_min=0] [phred_max=40] [trimmed_length=95]
+ FFFDDDDDDDA666?688FFHGGIIIIIIIIIIIIIIIIIIHHHIIIIIIIIIGHGFFFFF====DFFFFFFFFFFFFFF
+ D???:3104/76=:5...4.3,,,366////4<ABBAAA=CCFDDDDDDDD:666CDFFFF=<ABA=;:333111<===9
+ 9;B889FFFFFFDDBDBDDD=8844231..,,,-,,,,,,,,1133..---17111,,,,,22555131121.--.,333
+ 11,.,,3--,,.,,--,3511123..--!,,,,--,----9,,,,8=,,-,,,-,,,,---26:9:5-..1,,,,11//,
+ ,,,!,,1917--,,,,-3.,--,,17,,,,---+11113.030000,,,044400036;96662.//;7><;!!!
+ @FSRRS4401BRRTC [length=145] [gc=38.62] [flows=800] [phred_min=0] [phred_max=38] [trimmed_length=74]
+ tcagCCAGCAATTCCGACTTAATTGTTCTTCTTCCATCATTCATCTCGACTAACAGTTCTACGATTAATGAGTTTGGCtt
+ taatttgttgttcattattgtcacaattacactactgagactgccaaggcacncagggataggnn
+ +FSRRS4401BRRTC [length=145] [gc=38.62] [flows=800] [phred_min=0] [phred_max=38] [trimmed_length=74]
+ FFFFFFFFFDDDDFFFFGFDDDDBAAAAA=<4444@@B=555:BBBBB@@?8:8<?<89898<84442;==3,,,514,,
+ ,11,,,.,,21777555513,..--1115758.//34488><<;;;;9944/!/4,,,57855!!
+
+By default this is converted into a 3 column tabular file, with the full FASTQ title used as column 1:
+
+=================================================================================================== ============== ==============
+FSRRS4401BE7HA [length=395] [gc=36.46] [flows=800] [phred_min=0] [phred_max=40] [trimmed_length=95] tcagTTAA...nnn FFFDDDDD...!!!
+FSRRS4401BRRTC [length=145] [gc=38.62] [flows=800] [phred_min=0] [phred_max=38] [trimmed_length=74] tcagCCAG...gnn FFFFFFFF...5!!
+=================================================================================================== ============== ==============
+
+If you specified the title should be turned into 2 columns, you'd get 4 columns in total:
+
+============== ==================================================================================== ============== ==============
+FSRRS4401BE7HA [length=395] [gc=36.46] [flows=800] [phred_min=0] [phred_max=40] [trimmed_length=95] tcagTTAA...nnn FFFDDDDD...!!!
+FSRRS4401BRRTC [length=145] [gc=38.62] [flows=800] [phred_min=0] [phred_max=38] [trimmed_length=74] tcagCCAG...gnn FFFFFFFF...5!!
+============== ==================================================================================== ============== ==============
+
+Similarly, for this example treating the title string as 7 columns makes sense:
+
+============== ============ ========== =========== ============= ============== =================== ============== ==============
+FSRRS4401BE7HA [length=395] [gc=36.46] [flows=800] [phred_min=0] [phred_max=40] [trimmed_length=95] tcagTTAA...nnn FFFDDDDD...!!!
+FSRRS4401BRRTC [length=145] [gc=38.62] [flows=800] [phred_min=0] [phred_max=38] [trimmed_length=74] tcagCCAG...gnn FFFFFFFF...5!!
+============== ============ ========== =========== ============= ============== =================== ============== ==============
+
+Note the sequences and quality strings have been truncated for display purposes in the above tables.
+
+------
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq281</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
+  </citations>
+</tool>

@@ -1,0 +1,74 @@
+<tool id="stringtie_merge" name="StringTie merge" version="1.3.3">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>transcripts</description>
+  <edam_operations>
+    <edam_operation>operation_3258</edam_operation>
+    <edam_operation>operation_3680</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3308</edam_topic>
+    <edam_topic>topic_3170</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+        stringtie --merge
+        -p \${GALAXY_SLOTS:-1}
+        #if $guide_gff:
+            -G '$guide_gff'
+        #end if
+        -m $min_len
+        -c $min_cov
+        -F $min_fpkm
+        -T $min_tpm
+        -f $min_iso
+        -g $gap_len
+        $keep_introns
+        #set inputs = "' '".join(str($input_gtf).split(','))
+        -o '$out_gtf' '$inputs'
+    ]]></command>
+  <inputs>
+    <param argument="input_gtf" format="gtf,gff3" help="In GTF or GFF3 format" label="Transcripts" multiple="true" name="input_gtf" type="data"/>
+    <param argument="guide_gff" format="gtf,gff3" label="Reference annotation to include in the merging" name="guide_gff" optional="true" type="data"/>
+    <param argument="min_len" label="Minimum input transcript length to include in the merge" name="min_len" type="integer" value="50"/>
+    <param argument="min_cov" label="Minimum input transcript coverage to include in the merge" name="min_cov" type="integer" value="0"/>
+    <param argument="min_fpkm" label="Minimum input transcript FPKM to include in the merge" name="min_fpkm" type="float" value="1.0"/>
+    <param argument="min_tpm" label="Minimum input transcript TPM to include in the merge" name="min_tpm" type="float" value="1.0"/>
+    <param argument="min_iso" label="Minimum isoform fraction" name="min_iso" type="float" value="0.01"/>
+    <param argument="gap_len" label="Gap between transcripts to merge together" name="gap_len" type="integer" value="250"/>
+    <param argument="keep_introns" checked="false" falsevalue="" help="By default these are not kept unless there is strong evidence for them" label="Keep merged transcripts with retained introns" name="keep_introns" truevalue="-i" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="gtf" hidden="false" name="out_gtf"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="gtf" name="input_gtf" value="stringtie_out1.gtf,stringtie_out2.gtf,stringtie_out3.gtf,stringtie_out4.gtf"/>
+      <param ftype="gtf" name="guide_gff" value="stringtie_in.gtf"/>
+      <output file="stringtie_merge_out1.gtf" ftype="gtf" lines_diff="2" name="out_gtf"/>
+    </test>
+    <test>
+      <param ftype="gtf" name="input_gtf" value="stringtie_merge_in1.gtf,stringtie_merge_in2.gtf"/>
+      <param ftype="gtf" name="guide_gff" value="stringtie_merge_in3.gtf"/>
+      <output file="stringtie_merge_out2.gtf" ftype="gtf" lines_diff="2" name="out_gtf"/>
+    </test>
+    <test>
+      <param ftype="gtf" name="input_gtf" value="stringtie_merge_in1.gtf,stringtie_merge_in2.gtf"/>
+      <output ftype="gtf" name="out_gtf"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does?**
+
+This is a special usage mode of StringTie_, distinct from the assembly usage mode. In the merge mode, StringTie takes as input a list of GTF/GFF files and merges/assembles these transcripts into a non-redundant set of transcripts. This mode is used in the new differential analysis pipeline to generate a global, unified set of transcripts (isoforms) across multiple RNA-Seq samples.
+
+If a reference annotation is provided, StringTie will assemble the transfrags from the input GTF files with the reference transcripts.
+
+.. _StringTie: http://ccb.jhu.edu/software/stringtie/
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1038/nbt.3122</citation>
+  </citations>
+</tool>

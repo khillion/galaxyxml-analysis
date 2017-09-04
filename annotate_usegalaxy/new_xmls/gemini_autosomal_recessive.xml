@@ -1,0 +1,95 @@
+<tool id="gemini_recessive_and_dominant" name="GEMINI autosomal recessive/dominant" version="@VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Find variants meeting an autosomal recessive/dominant model</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_3197</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0080</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+
+        gemini
+
+            #if str($rec_or_dom) == 'recessive':
+                ## start autosomal_recessive
+                autosomal_recessive
+            #else:
+                ## start autosomal_dominant
+                autosomal_dominant
+            #end if
+
+            #if str($report.report_selector) != 'all':
+                --columns "${report.columns}"
+            #end if
+
+            @CMDLN_SQL_FILTER_FILTER_OPTION@
+
+            -d $d
+            #if int($min_kindreds) > 0:
+                --min-kindreds $min_kindreds
+            #end if
+
+            #if str($families).strip():
+                --families "$families"
+            #end if
+
+            $lenient
+            $allow_unaffected
+
+            #if int($min_gq) > 0:
+                --min-gq $min_gq
+            #end if
+
+            #if int($gt_pl_max) > -1:
+                --gt-pl-max $gt_pl_max
+            #end if
+
+            "${ infile }"
+            > "${ outfile }"
+
+    ]]></command>
+  <inputs>
+    <param argument="rec_or_dom" help="" label="Autosomal ..." name="rec_or_dom" type="select">
+      <option value="recessive">recessive</option>
+      <option value="dominant">dominant</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="tabular" hidden="false" name="outfile"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="gemini.sqlite" name="infile" value="gemini_autosomal_input.db"/>
+      <param name="rec_or_dom" value="dominant"/>
+      <param name="report_selector" value="column_filter"/>
+      <param name="columns" value="gene,chrom,impact"/>
+      <param name="lenient" value="true"/>
+      <output file="gemini_autosomal_dominant_result.tabular" name="outfile"/>
+    </test>
+    <test>
+      <param ftype="gemini.sqlite" name="infile" value="gemini_autosomal_input.db"/>
+      <param name="rec_or_dom" value="recessive"/>
+      <param name="report_selector" value="column_filter"/>
+      <param name="columns" value="gene,chrom,impact"/>
+      <param name="lenient" value="true"/>
+      <output file="gemini_autosomal_recessive.tabular" name="outfile"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Assuming you have defined the familial relationships between samples when loading your VCF into GEMINI, one can leverage a
+built-in tool for identifying variants that meet an autosomal recessive or dominant inheritance pattern.
+The reported variants will be restricted to those variants having the potential to impact the function of affecting protein coding transcripts.
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1371/journal.pcbi.1003153</citation>
+  </citations>
+</tool>

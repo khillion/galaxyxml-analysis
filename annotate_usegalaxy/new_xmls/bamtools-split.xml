@@ -1,5 +1,5 @@
 <tool id="bamSplit" name="Split" version="2.4.0">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>BAM datasets on variety of attributes</description>
   <edam_operations>
     <edam_operation>operation_0258</edam_operation>

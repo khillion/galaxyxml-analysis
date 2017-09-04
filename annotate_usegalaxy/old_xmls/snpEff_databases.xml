@@ -1,0 +1,31 @@
+<tool id="snpEff_databases" name="SnpEff available databases" version="@WRAPPER_VERSION@.0">
+    <description></description>
+    <macros>
+        <import>snpEff_macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <expand macro="stdio" />
+    <expand macro="version_command" />
+    <command><![CDATA[
+snpEff databases | grep -v '^---' | sed 's/^Genome/#Genome/' | sed 's/  *//g' > '$snpeff_dbs'
+    ]]></command>
+    <inputs>
+    </inputs>
+    <outputs>
+        <data format="tabular" name="snpeff_dbs" label="${tool.name} @SNPEFF_VERSION@ available databases" />
+    </outputs>
+    <tests>
+        <test>
+            <output name="snpeff_dbs">
+                <assert_contents>
+                    <has_text text="ebola_zaire" />
+                </assert_contents>
+            </output>
+        </test>
+    </tests>
+    <help><![CDATA[
+@EXTERNAL_DOCUMENTATION@
+    ]]></help>
+    <expand macro="citations" />
+</tool>
+

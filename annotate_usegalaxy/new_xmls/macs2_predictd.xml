@@ -1,5 +1,5 @@
 <tool id="macs2_predictd" name="MACS2 predictd" version="@VERSION_STRING@.0">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>Predict 'd' or fragment size from alignment results</description>
   <edam_operations>
     <edam_operation>operation_3222</edam_operation>

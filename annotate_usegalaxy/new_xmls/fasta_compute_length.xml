@@ -1,0 +1,86 @@
+<tool id="fasta_compute_length" name="Compute sequence length" version="1.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Convert between various FASTQ quality formats for a list of inputs.</description>
+  <edam_operations>
+    <edam_operation>operation_0004</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[fasta_compute_length.py $input $output $keep_first $keep_first_word]]></command>
+  <inputs>
+    <param argument="input" format="fasta" label="Compute length for these sequences" name="input" type="data"/>
+    <param argument="keep_first" help="'0' = keep the whole thing" label="How many title characters to keep?" name="keep_first" type="integer" value="0"/>
+    <param argument="keep_first_word" checked="false" falsevalue="id_and_desc" help="Stripping the description will truncate the fasta header to just the sequence ID. Otherwise the header description will be kept. This step is done before the 'How many characters to keep' option." label="Strip fasta description from header?" name="keep_first_word" truevalue="id_only" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="tabular" hidden="false" name="output"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input" value="454.fasta"/>
+      <param name="keep_first" value="0"/>
+      <param name="keep_first_word" value="id_and_desc"/>
+      <output file="fasta_tool_compute_length_1.out" name="output"/>
+    </test>
+    <test>
+      <param name="input" value="extract_genomic_dna_out1.fasta"/>
+      <param name="keep_first" value="0"/>
+      <param name="keep_first_word" value="id_and_desc"/>
+      <output file="fasta_tool_compute_length_2.out" name="output"/>
+    </test>
+    <test>
+      <param name="input" value="454.fasta"/>
+      <param name="keep_first" value="14"/>
+      <param name="keep_first_word" value="id_and_desc"/>
+      <output file="fasta_tool_compute_length_3.out" name="output"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+**What it does**
+
+This tool counts the length of each fasta sequence in the file. The output file has two columns per line (separated by tab): fasta titles and lengths of the sequences. The option *How many characters to keep?* allows to select a specified number of letters from the beginning of each FASTA entry.
+
+-----
+
+**Example**
+
+Suppose you have the following FASTA formatted sequences from a Roche (454) FLX sequencing run::
+
+    >EYKX4VC02EQLO5 length=108 xy=1826_0455 region=2 run=R_2007_11_07_16_15_57_
+    TCCGCGCCGAGCATGCCCATCTTGGATTCCGGCGCGATGACCATCGCCCGCTCCACCACG
+    TTCGGCCGGCCCTTCTCGTCGAGGAATGACACCAGCGCTTCGCCCACG
+    >EYKX4VC02D4GS2 length=60 xy=1573_3972 region=2 run=R_2007_11_07_16_15_57_
+    AATAAAACTAAATCAGCAAAGACTGGCAAATACTCACAGGCTTATACAATACAAATGTAAfa
+
+Running this tool while setting **How many characters to keep?** to **14** will produce this::
+
+    EYKX4VC02EQLO5  108
+    EYKX4VC02D4GS2   60
+
+However, if your IDs are not all the same length, you may wish to just keep the fasta ID, and not the description::
+
+    >EYKX4VC02EQLO5 length=108 xy=1826_0455 region=2 run=R_2007_11_07_16_15_57_
+    TCCGCGCCGAGCATGCCCATCTTGGATTCCGGCGCGATGACCATCGCCCGCTCCACCACG
+    TTCGGCCGGCCCTTCTCGTCGAGGAATGACACCAGCGCTTCGCCCACG
+    >EYKX4VC length=60 xy=1573_3972 region=2 run=R_2007_11_07_16_15_57_
+    AATAAAACTAAATCAGCAAAGACTGGCAAATACTCACAGGCTTATACAATACAAATGTAAfa
+
+Running this tool with **Strip fasta description from header** set to **True** and **How many characters to keep?** set to **0** will produce::
+
+    EYKX4VC02EQLO5  108
+    EYKX4VC     60
+
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq281</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
+  </citations>
+</tool>

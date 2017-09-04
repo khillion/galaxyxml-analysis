@@ -1,0 +1,123 @@
+<tool id="fastq_trimmer" name="FASTQ Trimmer" version="1.0.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>by column</description>
+  <edam_operations>
+    <edam_operation>operation_0004</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <requirements>
+    <requirement type="package" version="1.0.0">galaxy_sequence_utils</requirement>
+  </requirements>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[fastq_trimmer.py '$input_file' '$output_file' '${offset_type['left_column_offset']}' '${offset_type['right_column_offset']}' '${offset_type['base_offset_type']}' '${input_file.extension[len( 'fastq' ):]}' '$keep_zero_length']]></command>
+  <inputs>
+    <param argument="input_file" format="fastqsanger,fastqcssanger" label="FASTQ File" name="input_file" type="data"/>
+    <conditional argument="offset_type" label="Author did not provide help for this parameter... " name="offset_type">
+      <param argument="base_offset_type" help="Use Absolute for fixed length reads (Illumina, SOLiD)&lt;br&gt;Use Percentage for variable length reads (Roche/454)" label="Define Base Offsets as" name="base_offset_type" type="select">
+        <option selected="true" value="offsets_absolute">Absolute Values</option>
+        <option value="offsets_percent">Percentage of Read Length</option>
+      </param>
+      <when value="offsets_absolute">
+        <param argument="left_column_offset" help="Values start at 0, increasing from the left" label="Offset from 5' end" name="left_column_offset" type="integer" value="0"/>
+        <param argument="right_column_offset" help="Values start at 0, increasing from the right" label="Offset from 3' end" name="right_column_offset" type="integer" value="0"/>
+      </when>
+      <when value="offsets_percent">
+        <param argument="left_column_offset" label="Offset from 5' end" name="left_column_offset" type="float" value="0"/>
+        <param argument="right_column_offset" label="Offset from 3' end" name="right_column_offset" type="float" value="0"/>
+      </when>
+    </conditional>
+    <param argument="keep_zero_length" checked="false" falsevalue="exclude_zero_length" label="Keep reads with zero length" name="keep_zero_length" truevalue="keep_zero_length" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="input" hidden="false" name="output_file"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="base_offset_type" value="offsets_absolute"/>
+      <param name="left_column_offset" value="0"/>
+      <param name="right_column_offset" value="0"/>
+      <param name="keep_zero_length" value="keep_zero_length"/>
+      <output file="sanger_full_range_original_sanger.fastqsanger" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="base_offset_type" value="offsets_absolute"/>
+      <param name="left_column_offset" value="30"/>
+      <param name="right_column_offset" value="64"/>
+      <param name="keep_zero_length" value="exclude_zero_length"/>
+      <output file="empty_file.dat" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="base_offset_type" value="offsets_percent"/>
+      <param name="left_column_offset" value="50"/>
+      <param name="right_column_offset" value="50"/>
+      <param name="keep_zero_length" value="exclude_zero_length"/>
+      <output file="empty_file.dat" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="base_offset_type" value="offsets_absolute"/>
+      <param name="left_column_offset" value="45"/>
+      <param name="right_column_offset" value="45"/>
+      <param name="keep_zero_length" value="exclude_zero_length"/>
+      <output file="fastq_trimmer_out1.fastqsanger" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="base_offset_type" value="offsets_percent"/>
+      <param name="left_column_offset" value="47.87"/>
+      <param name="right_column_offset" value="47.87"/>
+      <param name="keep_zero_length" value="exclude_zero_length"/>
+      <output file="fastq_trimmer_out1.fastqsanger" name="output_file"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What is does**
+    
+This tool allows you to trim the ends of reads.
+
+You can specify either absolute or percent-based offsets. Offsets are calculated, starting at 0, from the respective end to be trimmed. When using the percent-based method, offsets are rounded to the nearest integer. 
+
+For example, if you have a read of length 36::
+  
+  @Some FASTQ Sanger Read
+  CAATATGTNCTCACTGATAAGTGGATATNAGCNCCA
+  +
+  =@@.@;B-%?8>CBA@>7@7BBCA4-48%<;;%<B@
+  
+And you set absolute offsets of 2 and 9::
+  
+  @Some FASTQ Sanger Read
+  ATATGTNCTCACTGATAAGTGGATA
+  +
+  @.@;B-%?8>CBA@>7@7BBCA4-4
+  
+Or you set percent offsets of 6% and 20% (corresponds to absolute offsets of 2,7 for a read length of 36)::
+  
+  @Some FASTQ Sanger Read
+  ATATGTNCTCACTGATAAGTGGATATN
+  +
+  @.@;B-%?8>CBA@>7@7BBCA4-48%
+  
+-----
+
+.. class:: warningmark
+
+Trimming a color space read will cause any adapter base to be lost.
+
+------
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq281</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
+  </citations>
+</tool>

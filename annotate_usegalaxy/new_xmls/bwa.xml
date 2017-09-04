@@ -1,5 +1,5 @@
 <tool id="bwa" name="Map with BWA" version="@VERSION@.2">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>- map short reads (&lt; 100 bp) against reference genome</description>
   <edam_operations>
     <edam_operation>operation_3198</edam_operation>

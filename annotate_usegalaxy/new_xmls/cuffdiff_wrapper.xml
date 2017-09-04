@@ -1,5 +1,5 @@
 <tool id="cuffdiff" name="Cuffdiff" version="@VERSION@.5">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>find significant changes in transcript expression, splicing, and promoter use</description>
   <edam_operations>
     <edam_operation>operation_3800</edam_operation>

@@ -1,0 +1,147 @@
+<tool id="fastq_quality_trimmer" name="FASTQ Quality Trimmer" version="1.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>by sliding window</description>
+  <edam_operations>
+    <edam_operation>operation_0004</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <requirements>
+    <requirement type="package" version="1.0.1">galaxy_sequence_utils</requirement>
+  </requirements>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[python '$__tool_directory__/fastq_trimmer_by_quality.py' '$input_file' '$output_file' -f '${input_file.extension[len( 'fastq' ):]}' -s $window_size
+    -t $step_size -e $trim_ends -a $aggregation_action -x $exclude_count -c '$score_comparison' -q $quality_score
+    #if $keep_zero_length:
+        -k
+    #end if
+  ]]></command>
+  <inputs>
+    <param argument="input_file" format="fastqsanger,fastqcssanger" label="FASTQ File" name="input_file" type="data"/>
+    <param argument="keep_zero_length" checked="false" label="Keep reads with zero length" name="keep_zero_length" type="boolean" truevalue="keep_zero_length" falsevalue=""/>
+    <param argument="trim_ends" label="Trim ends" name="trim_ends" type="select">
+      <option selected="true" value="53">5' and 3'</option>
+      <option value="5">5' only</option>
+      <option value="3">3' only</option>
+    </param>
+    <param argument="window_size" label="Window size" name="window_size" type="integer" value="1"/>
+    <param argument="step_size" label="Step Size" name="step_size" type="integer" value="1"/>
+    <param argument="exclude_count" label="Maximum number of bases to exclude from the window during aggregation" name="exclude_count" type="integer" value="0"/>
+    <param argument="aggregation_action" label="Aggregate action for window" name="aggregation_action" type="select">
+      <option selected="true" value="min">min score</option>
+      <option value="max">max score</option>
+      <option value="sum">sum of scores</option>
+      <option value="mean">mean of scores</option>
+    </param>
+    <param argument="score_comparison" label="Trim until aggregate score is" name="score_comparison" type="select">
+      <option value="&gt;">&gt;</option>
+      <option selected="true" value="&gt;=">&gt;=</option>
+      <option value="==">==</option>
+      <option value="!=">!=</option>
+      <option value="&lt;">&lt;</option>
+      <option value="&lt;=">&lt;=</option>
+    </param>
+    <param argument="quality_score" label="Quality Score" name="quality_score" type="float" value="0"/>
+  </inputs>
+  <outputs>
+    <data format_source="input_file" hidden="false" name="output_file"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="keep_zero_length" value="false"/>
+      <param name="trim_ends" value="53"/>
+      <param name="window_size" value="1"/>
+      <param name="step_size" value="1"/>
+      <param name="exclude_count" value="0"/>
+      <param name="aggregation_action" value="min"/>
+      <param name="score_comparison" value="&gt;="/>
+      <param name="quality_score" value="20"/>
+      <output file="sanger_full_range_quality_trimmed_out_1.fastqsanger" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="keep_zero_length" value="false"/>
+      <param name="trim_ends" value="5"/>
+      <param name="window_size" value="1"/>
+      <param name="step_size" value="1"/>
+      <param name="exclude_count" value="0"/>
+      <param name="aggregation_action" value="min"/>
+      <param name="score_comparison" value="&gt;="/>
+      <param name="quality_score" value="20"/>
+      <output file="sanger_full_range_quality_trimmed_out_2.fastqsanger" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="keep_zero_length" value="false"/>
+      <param name="trim_ends" value="3"/>
+      <param name="window_size" value="1"/>
+      <param name="step_size" value="1"/>
+      <param name="exclude_count" value="0"/>
+      <param name="aggregation_action" value="min"/>
+      <param name="score_comparison" value="&gt;="/>
+      <param name="quality_score" value="20"/>
+      <output file="sanger_full_range_quality_trimmed_out_3.fastqsanger" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="keep_zero_length" value="false"/>
+      <param name="trim_ends" value="53"/>
+      <param name="window_size" value="2"/>
+      <param name="step_size" value="1"/>
+      <param name="exclude_count" value="1"/>
+      <param name="aggregation_action" value="min"/>
+      <param name="score_comparison" value="&gt;="/>
+      <param name="quality_score" value="1"/>
+      <output file="sanger_full_range_original_sanger.fastqsanger" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="keep_zero_length" value="true"/>
+      <param name="trim_ends" value="53"/>
+      <param name="window_size" value="1"/>
+      <param name="step_size" value="1"/>
+      <param name="exclude_count" value="0"/>
+      <param name="aggregation_action" value="min"/>
+      <param name="score_comparison" value="&gt;="/>
+      <param name="quality_score" value="999"/>
+      <output file="sanger_full_range_empty_reads.fastqsanger" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="keep_zero_length" value="false"/>
+      <param name="trim_ends" value="53"/>
+      <param name="window_size" value="1"/>
+      <param name="step_size" value="1"/>
+      <param name="exclude_count" value="0"/>
+      <param name="aggregation_action" value="min"/>
+      <param name="score_comparison" value="&gt;="/>
+      <param name="quality_score" value="999"/>
+      <output file="empty_file.dat" name="output_file"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+This tool allows you to trim the ends of reads based upon the aggregate value of quality scores found within a sliding window; a sliding window of size 1 is equivalent to 'simple' trimming of the ends.
+
+The user specifies the aggregating action (min, max, sum, mean) to perform on the quality score values found within the sliding window to be used with the user defined comparison operation and comparison value.
+
+The user can provide a maximum count of bases that can be excluded from the aggregation within the window. When set, this tool will first check the aggregation of the entire window, then after removing 1 value, then after removing 2 values, up to the number declared. Setting this value to be equal to or greater than the window size will cause no trimming to occur.
+
+-----
+
+.. class:: warningmark
+
+Trimming a color space read will cause any adapter base to be lost.
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq281</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
+  </citations>
+</tool>

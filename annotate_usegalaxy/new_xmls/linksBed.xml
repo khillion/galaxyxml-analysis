@@ -1,5 +1,5 @@
 <tool id="bedtools_links" name="LinksBed" version="@WRAPPER_VERSION@.0">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>create a HTML page of links to UCSC locations</description>
   <edam_operations>
     <edam_operation>operation_2429</edam_operation>

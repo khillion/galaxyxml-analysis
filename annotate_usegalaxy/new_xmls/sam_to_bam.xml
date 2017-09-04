@@ -1,5 +1,5 @@
 <tool id="sam_to_bam" name="SAM-to-BAM" version="2.1.1">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>convert SAM to BAM</description>
   <edam_operations>
     <edam_operation>operation_3184</edam_operation>

@@ -1,0 +1,72 @@
+<tool id="fastq_masker_by_quality" name="FASTQ Masker" version="1.0.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>by quality score</description>
+  <edam_operations>
+    <edam_operation>operation_0004</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <requirements>
+    <requirement type="package" version="1.0.0">galaxy_sequence_utils</requirement>
+  </requirements>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[fastq_masker_by_quality.py '$input_file' '$output_file' -f '${input_file.extension[len( 'fastq' ):]}' -s '${quality_score}' -c '${score_comparison}'
+      #if $mask_type.value == 'lowercase'
+      --lowercase
+      #else
+      -m '${mask_type}'
+      #end if
+  ]]></command>
+  <inputs>
+    <param argument="input_file" format="fastqsanger" label="File to mask" name="input_file" type="data"/>
+    <param argument="mask_type" label="Mask input with" name="mask_type" type="select">
+      <option value="N">N's</option>
+      <option value="lowercase">Lowercase</option>
+    </param>
+    <param argument="score_comparison" label="When score is" name="score_comparison" type="select">
+      <option selected="true" value="le">Less than or equal</option>
+      <option value="lt">Less than</option>
+      <option value="eq">Equal to</option>
+      <option value="ne">Not Equal to</option>
+      <option value="ge">Greater than</option>
+      <option value="gt">Greater than or equal</option>
+    </param>
+    <param argument="quality_score" label="Quality score" name="quality_score" type="integer" value="0"/>
+  </inputs>
+  <outputs>
+    <data format="fastqsanger" hidden="false" name="output_file"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="mask_type" value="N"/>
+      <param name="score_comparison" value="le"/>
+      <param name="quality_score" value="20"/>
+      <output file="sanger_full_range_masked_N.fastqsanger" name="output_file"/>
+    </test>
+    <test>
+      <param ftype="fastqsanger" name="input_file" value="sanger_full_range_original_sanger.fastqsanger"/>
+      <param name="mask_type" value="lowercase"/>
+      <param name="score_comparison" value="le"/>
+      <param name="quality_score" value="20"/>
+      <output file="sanger_full_range_masked_lowercase.fastqsanger" name="output_file"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+This tool allows masking base characters in FASTQ format files dependent upon user specified quality score value and comparison method.
+
+This tool is not available for use on color space (csSanger) formats.
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq281</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
+  </citations>
+</tool>

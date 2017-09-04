@@ -1,5 +1,5 @@
 <tool id="kraken-report" name="Kraken-report" version="1.2.1">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>
         view a sample report of your classification
     </description>

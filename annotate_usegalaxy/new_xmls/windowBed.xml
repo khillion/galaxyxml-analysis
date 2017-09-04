@@ -1,5 +1,5 @@
 <tool id="bedtools_windowbed" name="WindowBed" version="@WRAPPER_VERSION@.0">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>find overlapping intervals within a window around an interval</description>
   <edam_operations>
     <edam_operation>operation_2429</edam_operation>

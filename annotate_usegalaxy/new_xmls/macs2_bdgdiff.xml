@@ -1,5 +1,5 @@
 <tool id="macs2_bdgdiff" name="MACS2 bdgdiff" version="@VERSION_STRING@.0">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>Differential peak detection based on paired four bedgraph files</description>
   <edam_operations>
     <edam_operation>operation_3222</edam_operation>

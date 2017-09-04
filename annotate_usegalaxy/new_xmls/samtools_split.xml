@@ -1,5 +1,5 @@
 <tool id="samtools_split" name="Split" version="@TOOL_VERSION@">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>BAM dataset on readgroups</description>
   <edam_operations>
     <edam_operation>operation_3184</edam_operation>

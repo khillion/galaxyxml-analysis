@@ -1,5 +1,5 @@
 <tool id="bamtools" name="Convert, Merge, Randomize" version="2.4.0">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>BAM datasets and perform other transformations</description>
   <edam_operations>
     <edam_operation>operation_0258</edam_operation>

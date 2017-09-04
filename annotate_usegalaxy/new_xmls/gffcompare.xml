@@ -1,5 +1,5 @@
 <tool id="gffcompare" name="GffCompare" version="0.9.8">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>compare assembled transcripts to a reference annotation</description>
   <edam_operations>
     <edam_operation>operation_3800</edam_operation>

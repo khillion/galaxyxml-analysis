@@ -1,0 +1,35 @@
+<tool id="snpEff_download" name="SnpEff Download" version="@WRAPPER_VERSION@.0">
+    <description>Download a new database</description>
+    <macros>
+        <import>snpEff_macros.xml</import>
+    </macros>
+    <expand macro="requirements" />
+    <expand macro="stdio" />
+    <expand macro="version_command" />
+    <command><![CDATA[
+snpEff download -dataDir '$snpeff_db.files_path' -v '$genome_version'
+    ]]></command>
+    <inputs>
+        <param name="genome_version" type="text" value="" label="Select the genome version you want to download (e.g. GRCh38.86, GRCh37.75, hg38, or GRCm38.86)">
+            <help>@SNPEFF_DATABASE_URL@</help>
+            <validator type="regex" message="A genome version name is required">\S+</validator>
+        </param>
+    </inputs>
+    <outputs>
+        <data format="snpeffdb" name="snpeff_db" label="${tool.name} @SNPEFF_VERSION@ ${genome_version}" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="genome_version" value="ebola_zaire"/>
+            <output name="snpeff_db">
+                <assert_contents>
+                    <has_text text="ebola_zaire" />
+                </assert_contents>
+            </output>
+        </test>
+    </tests>
+    <help><![CDATA[
+@EXTERNAL_DOCUMENTATION@
+    ]]></help>
+    <expand macro="citations" />
+</tool>

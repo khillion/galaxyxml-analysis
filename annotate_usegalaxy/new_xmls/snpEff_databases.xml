@@ -1,0 +1,35 @@
+<tool id="snpEff_databases" name="SnpEff available databases" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Genetic variant annotation and effect prediction toolbox.</description>
+  <edam_operations>
+    <edam_operation>operation_2423</edam_operation>
+    <edam_operation>operation_3225</edam_operation>
+    <edam_operation>operation_3661</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3673</edam_topic>
+    <edam_topic>topic_0622</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+snpEff databases | grep -v '^---' | sed 's/^Genome/#Genome/' | sed 's/  *//g' > '$snpeff_dbs'
+    ]]></command>
+  <inputs/>
+  <outputs>
+    <data format="tabular" hidden="false" label="${tool.name} @SNPEFF_VERSION@ available databases" name="snpeff_dbs"/>
+  </outputs>
+  <tests>
+    <test>
+      <output name="snpeff_dbs"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+@EXTERNAL_DOCUMENTATION@
+    ]]></help>
+  <citations>
+    <citation type="doi">doi:10.4161/fly.19695</citation>
+  </citations>
+</tool>

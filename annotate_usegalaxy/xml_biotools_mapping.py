@@ -107,8 +107,14 @@ if __name__ == "__main__":
     json_down_report = open(args.download_report, 'r')
     download_report = json.load(json_down_report)
 
+    # Dictionnary for different counts
+    tool_counts = defaultdict(int)
+    # - Count total number of tools downloaded
+    for k, v in download_report.items():
+        tool_counts['total'] += len(v['tools'])
+
     # Get paths of all XML tools (key of dict with macro as value if it exists)
-    tool_paths = {}
+    tool_paths = []
     for root, dirs, files in os.walk(args.directory):
         for file in files:
             if file.endswith(".xml") and file[0] != '.':
@@ -121,11 +127,7 @@ if __name__ == "__main__":
                     repo = root.split('/', 1)[1].split('/')[0]
                     installed_tools = list_installed_tools(download_report, repo)
                     if tool.getroot().attrib['id'] in installed_tools:
-                        if tool.getroot().find('macros') is None:
-                            tool_paths[file_path] = 0
-                        else:
-                            macro = tool.getroot().find('macros')[0].text
-                            tool_paths[file_path] = root + '/' + macro
+                        tool_paths.append(file_path)
 
     # Generates mapping doi -> bio.tools entry from all bio.tools
     doi_to_biot = defaultdict(list)
@@ -149,7 +151,7 @@ if __name__ == "__main__":
 
     # Build list XML doi biotools_id
     final_list = "#XML\tdoi\tbiotools_id\n"
-    for xml in tool_paths.keys():
+    for xml in tool_paths:
         tool = etree.parse(xml)
         if tool.find('macros') is not None:
             for mac_file in tool.find('macros'):
@@ -157,6 +159,7 @@ if __name__ == "__main__":
                     macro_path = os.path.dirname(xml) + "/" + mac_file.text
                     load_macro(tool, macro_path)
         if tool.find('citations') is not None:
+            tool_counts['citations'] += 1
             citations = tool.find('citations')
             for citation in citations:
                 cit_type = citation.attrib.get('type', None)
@@ -176,8 +179,12 @@ if __name__ == "__main__":
                 else:
                     continue
                 final_list += xml + "\t" + doi + "\t" + str(doi_to_biot.get(doi, 'not_found')) + "\n"
+            if not 'id_' in doi:
+                tool_counts['doi'] += 1
         else:
             final_list += xml + "\tno_citation\tno_citation\n"
 
     with open(outfile_name, 'w') as of:
         of.write(final_list)
+
+    LOGGER.info(tool_counts)

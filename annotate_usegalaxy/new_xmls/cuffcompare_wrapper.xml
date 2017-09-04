@@ -1,5 +1,5 @@
 <tool id="cuffcompare" name="Cuffcompare" version="@VERSION@.1">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>compare assembled transcripts to a reference annotation and track Cufflinks transcripts across multiple experiments</description>
   <edam_operations>
     <edam_operation>operation_3800</edam_operation>

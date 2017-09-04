@@ -1,0 +1,78 @@
+<tool id="fastq_paired_end_splitter" name="FASTQ splitter" version="1.0.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>on joined paired end reads</description>
+  <edam_operations>
+    <edam_operation>operation_0004</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <requirements>
+    <requirement type="package" version="1.0.0">galaxy_sequence_utils</requirement>
+  </requirements>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[fastq_paired_end_splitter.py '$input1_file' '${input1_file.extension[len( 'fastq' ):]}' '$output1_file' '$output2_file']]></command>
+  <inputs>
+    <param argument="input1_file" format="fastqsanger,fastqcssanger" label="FASTQ reads" name="input1_file" type="data"/>
+  </inputs>
+  <outputs>
+    <data format="input" hidden="false" name="output1_file"/>
+    <data format="input" hidden="false" name="output2_file"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="fastqsanger" name="input1_file" value="3.fastqsanger"/>
+      <output file="split_pair_reads_1.fastqsanger" name="output1_file"/>
+      <output file="split_pair_reads_2.fastqsanger" name="output2_file"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Splits a single fastq dataset representing paired-end run into two datasets (one for each end). This tool works only for datasets where both ends have **the same** length.  
+
+Sequence identifiers will have /1 or /2 appended for the split left-hand and right-hand reads, respectively.
+
+-----
+
+**Input format**
+
+A multiple-fastq file, for example::
+
+    @HWI-EAS91_1_30788AAXX:7:21:1542:1758
+    GTCAATTGTACTGGTCAATACTAAAAGAATAGGATCGCTCCTAGCATCTGGAGTCTCTATCACCTGAGCCCA
+    +HWI-EAS91_1_30788AAXX:7:21:1542:1758
+    hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh`hfhhVZSWehR
+
+
+-----
+
+**Outputs**
+
+Left-hand Read::
+
+    @HWI-EAS91_1_30788AAXX:7:21:1542:1758/1
+    GTCAATTGTACTGGTCAATACTAAAAGAATAGGATC
+    +HWI-EAS91_1_30788AAXX:7:21:1542:1758/1
+    hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+
+Right-hand Read::
+
+    @HWI-EAS91_1_30788AAXX:7:21:1542:1758/2
+    GCTCCTAGCATCTGGAGTCTCTATCACCTGAGCCCA
+    +HWI-EAS91_1_30788AAXX:7:21:1542:1758/2
+    hhhhhhhhhhhhhhhhhhhhhhhh`hfhhVZSWehR
+
+------
+
+
+  ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btq281</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
+  </citations>
+</tool>

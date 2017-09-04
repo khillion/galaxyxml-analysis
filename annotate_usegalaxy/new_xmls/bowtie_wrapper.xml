@@ -1,16 +1,12 @@
 <tool id="bowtie_wrapper" name="Map with Bowtie for Illumina" version="1.2.0">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
-  <description>Ultrafast memory-efficient short read aligner.</description>
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Bowtie is an ultrafast, memory-efficient short read aligner.</description>
   <edam_operations>
     <edam_operation>operation_3211</edam_operation>
-    <edam_operation>operation_2422</edam_operation>
-    <edam_operation>operation_0227</edam_operation>
-    <edam_operation>operation_0304</edam_operation>
-    <edam_operation>operation_0338</edam_operation>
-    <edam_operation>operation_0292</edam_operation>
+    <edam_operation>operation_3198</edam_operation>
   </edam_operations>
   <edam_topics>
-    <edam_topic>topic_0622</edam_topic>
+    <edam_topic>topic_0003</edam_topic>
   </edam_topics>
   <requirements>
     <requirement type="package" version="1.2.0">bowtie</requirement>

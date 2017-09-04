@@ -1,5 +1,5 @@
 <tool id="deseq2" name="DESeq2" version="2.11.39">
-  <!--This tool descriptor has been annotated by ToolDog v0.3.0-->
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>Determines differentially expressed features from count tables</description>
   <edam_operations>
     <edam_operation>operation_3223</edam_operation>
