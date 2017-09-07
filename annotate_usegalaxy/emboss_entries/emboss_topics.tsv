@@ -1,264 +1,264 @@
-#bio.tools-ID	edam_topics
-xmlget	[{'uri': None, 'term': 'Data search and retrieval'}]
-xmltext	[{'uri': None, 'term': 'Data search and retrieval'}]
-yank	[{'uri': None, 'term': 'Data handling'}]
-wossdata	[{'uri': None, 'term': 'Annotation'}]
-wordmatch	[{'uri': None, 'term': 'Sequence alignment'}]
-wossinput	[{'uri': None, 'term': 'Annotation'}]
-wordfinder	[{'uri': None, 'term': 'Sequence alignment'}]
-wossoperation	[{'uri': None, 'term': 'Annotation'}]
-wossoutput	[{'uri': None, 'term': 'Annotation'}]
-wosstopic	[{'uri': None, 'term': 'Annotation'}]
-wossparam	[{'uri': None, 'term': 'Annotation'}]
-wordcount	[{'uri': None, 'term': 'Sequence composition analysis'}]
-wossname	[{'uri': None, 'term': 'Data handling'}]
-wobble	[{'uri': None, 'term': 'Gene finding'}]
-whichdb	[{'uri': None, 'term': 'Data search and retrieval'}]
-water	[{'uri': None, 'term': 'Sequence alignment'}]
-water-ebi	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-vectorstrip	[{'uri': None, 'term': 'Data handling'}]
-urlget	[{'uri': None, 'term': 'Data search and retrieval'}]
-variationget	[{'uri': None, 'term': 'Data search and retrieval'}]
-union	[{'uri': None, 'term': 'Data handling'}]
-trimspace	[{'uri': None, 'term': 'Data handling'}]
-twofeat	[{'uri': None, 'term': 'Sequence sites and features'}]
-trimseq	[{'uri': None, 'term': 'Data handling'}]
-trimest	[{'uri': None, 'term': 'Nucleic acid sites and features'}]
-tranalign	[{'uri': None, 'term': 'Sequence alignment'}]
-transeq-ebi	[{'uri': 'http://edamontology.org/topic_3489', 'term': 'Database management'}, {'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-transeq	[{'uri': None, 'term': 'Translation'}]
-textsearch	[{'uri': None, 'term': 'Data search and retrieval'}]
-tfextract	[{'uri': None, 'term': 'Transcription'}]
-tfscan	[{'uri': None, 'term': 'Transcription'}]
-tfm	[{'uri': None, 'term': 'Data handling'}]
-textget	[{'uri': None, 'term': 'Data search and retrieval'}]
-taxgetrank	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]
-tcode	[{'uri': None, 'term': 'Gene finding'}]
-taxgetspecies	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]
-taxgetup	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]
-taxgetdown	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]
-taxget	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]
-syco	[{'uri': None, 'term': 'Codon usage analysis'}]
-stretcher	[{'uri': None, 'term': 'Sequence alignment'}]
-stretcher_ws_husar	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-supermatcher	[{'uri': None, 'term': 'Sequence alignment'}]
-stretcher-ebi	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-stssearch	[{'uri': None, 'term': 'Nucleic acid analysis'}]
-splitter	[{'uri': None, 'term': 'Data handling'}]
-splitsource	[{'uri': None, 'term': 'Data handling'}]
-sirna	[{'uri': None, 'term': 'Nucleic acid sites and features'}]
-sixpack-ebi	[{'uri': 'http://edamontology.org/topic_3489', 'term': 'Database management'}, {'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-sizeseq	[{'uri': None, 'term': 'Data handling'}]
-skipredundant	[{'uri': None, 'term': 'Data handling'}]
-skipseq	[{'uri': None, 'term': 'Data handling'}]
-sixpack	[{'uri': None, 'term': 'Translation'}]
-showserver	[{'uri': None, 'term': 'Data handling'}]
-silent	[{'uri': None, 'term': 'Nucleic acid restriction'}]
-sigcleave	[{'uri': None, 'term': 'Protein sites and features'}]
-shuffleseq	[{'uri': None, 'term': 'Data handling'}]
-showalign	[{'uri': None, 'term': 'Sequence alignment'}]
-showseq	[{'uri': None, 'term': 'Translation'}]
-showfeat	[{'uri': None, 'term': 'Sequence sites and features'}]
-showdb	[{'uri': None, 'term': 'Data handling'}]
-showpep	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]
-showorf	[{'uri': None, 'term': 'Translation'}]
-seqxrefget	[{'uri': None, 'term': 'Data search and retrieval'}]
-seqretsplit	[{'uri': None, 'term': 'Data handling'}]
-seqret	[{'uri': None, 'term': 'Data search and retrieval'}]
-seqmatchall	[{'uri': None, 'term': 'Sequence alignment'}]
-seqretsetall	[{'uri': None, 'term': 'Data handling'}]
-servertell	[{'uri': None, 'term': 'Data handling'}]
-seqxref	[{'uri': None, 'term': 'Data search and retrieval'}]
-seqmatchall_ws_husar	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-seqcount	[{'uri': None, 'term': 'Data handling'}]
-seealso	[{'uri': None, 'term': 'Data handling'}]
-restrict	[{'uri': None, 'term': 'Nucleic acid restriction'}]
-restover	[{'uri': None, 'term': 'Nucleic acid restriction'}]
-revseq	[{'uri': None, 'term': 'Data handling'}]
-refseqget	[{'uri': None, 'term': 'Data search and retrieval'}]
-rebaseextract	[{'uri': None, 'term': 'Nucleic acid restriction'}]
-recoder	[{'uri': None, 'term': 'Nucleic acid restriction'}]
-redata	[{'uri': None, 'term': 'Nucleic acid restriction'}]
-psiphi	[{'uri': 'http://edamontology.org/topic_2814', 'term': 'Protein structure analysis'}]
-prosextract	[{'uri': None, 'term': 'Sequence motifs'}]
-prophet	[{'uri': None, 'term': 'Sequence profiles and HMMs'}]
-profit	[{'uri': None, 'term': 'Sequence profiles and HMMs'}]
-primersearch	[{'uri': None, 'term': 'Nucleic acid analysis'}]
-printsextract	[{'uri': None, 'term': 'Sequence profiles and HMMs'}]
-preg	[{'uri': None, 'term': 'Sequence motifs'}]
-prettyseq	[{'uri': None, 'term': 'Translation'}]
-prettyplot	[{'uri': None, 'term': 'Sequence alignment'}]
-polydot	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-plotcon	[{'uri': None, 'term': 'Sequence alignment'}]
-plotorf	[{'uri': None, 'term': 'Gene finding'}]
-pepcoil	[{'uri': None, 'term': 'Protein secondary structure prediction'}]
-pepnet	[{'uri': None, 'term': 'Protein hydropathy'}]
-pepwindow	[{'uri': None, 'term': 'Protein hydropathy'}]
-pepwindow-ebi	[{'uri': 'http://edamontology.org/topic_0123', 'term': 'Protein properties'}]
-pepwindowall	[{'uri': None, 'term': 'Protein hydropathy'}]
-pepdigest	[{'uri': None, 'term': 'Protein cleavage sites and proteolysis'}]
-pepstats	[{'uri': 'http://edamontology.org/topic_0123', 'term': 'Protein properties'}]
-pepinfo	[{'uri': 'http://edamontology.org/topic_0123', 'term': 'Protein properties'}]
-pepwheel	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]
-patmatmotifs	[{'uri': None, 'term': 'Sequence motifs'}]
-patmatdb	[{'uri': None, 'term': 'Sequence motifs'}]
-pasteseq	[{'uri': None, 'term': 'Data handling'}]
-palindrome	[{'uri': None, 'term': 'Sequence composition analysis'}]
-ontoisobsolete	[{'uri': None, 'term': 'Ontology'}]
-ontotext	[{'uri': None, 'term': 'Ontology'}]
-ontocount	[{'uri': None, 'term': 'Ontology'}]
-ontoget	[{'uri': None, 'term': 'Ontology'}]
-ontogetroot	[{'uri': None, 'term': 'Ontology'}]
-ontogetdown	[{'uri': None, 'term': 'Ontology'}]
-ontogetsibs	[{'uri': None, 'term': 'Ontology'}]
-ontogetobsolete	[{'uri': None, 'term': 'Ontology'}]
-ontogetup	[{'uri': None, 'term': 'Ontology'}]
-ontogetcommon	[{'uri': None, 'term': 'Ontology'}]
-octanol	[{'uri': None, 'term': 'Protein hydropathy'}]
-oddcomp	[{'uri': None, 'term': 'Sequence composition analysis'}]
-notab	[{'uri': None, 'term': 'Data handling'}]
-nospace	[{'uri': None, 'term': 'Data handling'}]
-nthseq	[{'uri': None, 'term': 'Data handling'}]
-notseq	[{'uri': None, 'term': 'Data handling'}]
-nthseqset	[{'uri': None, 'term': 'Data handling'}]
-noreturn	[{'uri': None, 'term': 'Data handling'}]
-newseq	[{'uri': None, 'term': 'Data handling'}]
-newcpgseek	[{'uri': None, 'term': 'Sequence composition analysis'}]
-newcpgreport-ebi	[{'uri': 'http://edamontology.org/topic_0157', 'term': 'Sequence composition, complexity and repeats'}, {'uri': 'http://edamontology.org/topic_3512', 'term': 'Gene transcripts'}]
-nohtml	[{'uri': None, 'term': 'Data handling'}]
-newcpgreport	[{'uri': None, 'term': 'Sequence composition analysis'}]
-needle	[{'uri': None, 'term': 'Sequence alignment'}]
-needleall	[{'uri': None, 'term': 'Sequence alignment'}]
-mwcontam	[{'uri': None, 'term': 'Sequence composition analysis'}]
-mwfilter	[{'uri': None, 'term': 'Sequence composition analysis'}]
-msbar	[{'uri': None, 'term': 'Data handling'}]
-merger	[{'uri': None, 'term': 'Sequence alignment'}]
-megamerger	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-megamerger_ws_husar	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-matcher	[{'uri': None, 'term': 'Sequence alignment'}]
-maskfeat	[{'uri': None, 'term': 'Sequence sites and features'}]
-maskseq	[{'uri': None, 'term': 'Data handling'}]
-maskambigprot	[{'uri': None, 'term': 'Data handling'}]
-marscan	[{'uri': None, 'term': 'Gene finding'}]
-maskambignuc	[{'uri': None, 'term': 'Data handling'}]
-makeprotseq	[{'uri': None, 'term': 'Data handling'}]
-makenucseq	[{'uri': None, 'term': 'Data handling'}]
-listor	[{'uri': None, 'term': 'Data handling'}]
-lindna	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]
-isochore	[{'uri': None, 'term': 'Sequence composition analysis'}]
-jaspextract	[{'uri': None, 'term': 'Transcription'}]
-jaspscan	[{'uri': None, 'term': 'Transcription'}]
-infoalign	[{'uri': None, 'term': 'Sequence alignment'}]
-inforesidue	[{'uri': 'http://edamontology.org/topic_0154', 'term': 'Small molecules'}]
-infoassembly	[{'uri': None, 'term': 'Data search and retrieval'}]
-infobase	[{'uri': 'http://edamontology.org/topic_0154', 'term': 'Small molecules'}]
-infoseq	[{'uri': None, 'term': 'Data search and retrieval'}]
-iep	[{'uri': None, 'term': 'Protein hydropathy'}]
-hmoment	[{'uri': None, 'term': 'Protein hydropathy'}]
-helixturnhelix	[{'uri': None, 'term': 'Protein secondary structure prediction'}]
-godef	[{'uri': None, 'term': 'Ontology'}]
-goname	[{'uri': None, 'term': 'Ontology'}]
-getorf	[{'uri': None, 'term': 'Gene finding'}]
-geecee	[{'uri': None, 'term': 'Sequence composition analysis'}]
-garnier	[{'uri': None, 'term': 'Protein secondary structure prediction'}]
-fuzznuc	[{'uri': None, 'term': 'Sequence motifs'}]
-fuzztran	[{'uri': None, 'term': 'Sequence motifs'}]
-fuzzpro	[{'uri': None, 'term': 'Sequence motifs'}]
-freak	[{'uri': None, 'term': 'Sequence composition analysis'}]
-featmerge	[{'uri': None, 'term': 'Sequence sites and features'}]
-featcopy	[{'uri': None, 'term': 'Sequence sites and features'}]
-featreport	[{'uri': None, 'term': 'Sequence sites and features'}]
-findkm	[{'uri': None, 'term': 'Enzymes and reactions'}]
-feattext	[{'uri': None, 'term': 'Sequence sites and features'}]
-extractfeat	[{'uri': None, 'term': 'Sequence sites and features'}]
-extractalign	[{'uri': None, 'term': 'Sequence alignment'}]
-extractseq	[{'uri': None, 'term': 'Data handling'}]
-etandem	[{'uri': None, 'term': 'Sequence composition analysis'}]
-est2genome	[{'uri': None, 'term': 'Sequence alignment'}]
-entret	[{'uri': None, 'term': 'Data search and retrieval'}]
-epestfind	[{'uri': None, 'term': 'Sequence motifs'}]
-eprimer3	[{'uri': None, 'term': 'Nucleic acid analysis'}]
-eprimer32	[{'uri': None, 'term': 'Nucleic acid analysis'}]
-equicktandem	[{'uri': None, 'term': 'Sequence composition analysis'}]
-embossversion	[{'uri': None, 'term': 'Data handling'}]
-einverted	[{'uri': None, 'term': 'Sequence composition analysis'}]
-emma	[{'uri': None, 'term': 'Sequence alignment'}]
-embossdata	[{'uri': None, 'term': 'Data handling'}]
-embossupdate	[{'uri': None, 'term': 'Data handling'}]
-emowse	[{'uri': None, 'term': 'Sequence composition analysis'}]
-edialign	[{'uri': None, 'term': 'Sequence alignment'}]
-edamisformat	[{'uri': None, 'term': 'Ontology'}]
-edamdef	[{'uri': None, 'term': 'Ontology'}]
-edamhasoutput	[{'uri': None, 'term': 'Ontology'}]
-edamname	[{'uri': None, 'term': 'Ontology'}]
-edamisid	[{'uri': None, 'term': 'Ontology'}]
-edamhasinput	[{'uri': None, 'term': 'Ontology'}]
-drget	[{'uri': None, 'term': 'Data search and retrieval'}]
-drfindresource	[{'uri': None, 'term': 'Annotation'}]
-drfindid	[{'uri': None, 'term': 'Annotation'}]
-dreg	[{'uri': None, 'term': 'Sequence motifs'}]
-drfindformat	[{'uri': None, 'term': 'Annotation'}]
-drtext	[{'uri': None, 'term': 'Data search and retrieval'}]
-drfinddata	[{'uri': None, 'term': 'Annotation'}]
-dottup	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-dotpath	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-dotmatcher	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-diffseq	[{'uri': None, 'term': 'Sequence alignment'}]
-distmat	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-descseq	[{'uri': None, 'term': 'Data handling'}]
-degapseq	[{'uri': None, 'term': 'Data handling'}]
-density	[{'uri': None, 'term': 'Sequence composition analysis'}]
-dbxstat	[{'uri': None, 'term': 'Data handling'}]
-dbxtax	[{'uri': None, 'term': 'Data handling'}]
-dbxflat	[{'uri': None, 'term': 'Data handling'}]
-dbiflat	[{'uri': None, 'term': 'Data handling'}]
-dbiblast	[{'uri': None, 'term': 'Data handling'}]
-dbxuncompress	[{'uri': None, 'term': 'Data handling'}]
-dbxfasta	[{'uri': None, 'term': 'Data handling'}]
-dbifasta	[{'uri': None, 'term': 'Data handling'}]
-dbxcompress	[{'uri': None, 'term': 'Data handling'}]
-dbtell	[{'uri': None, 'term': 'Data handling'}]
-dbxobo	[{'uri': None, 'term': 'Data handling'}]
-dbxgcg	[{'uri': None, 'term': 'Data handling'}]
-dbigcg	[{'uri': None, 'term': 'Data handling'}]
-dbxreport	[{'uri': None, 'term': 'Data handling'}]
-dbxresource	[{'uri': None, 'term': 'Data handling'}]
-dbxedam	[{'uri': None, 'term': 'Data handling'}]
-dan	[{'uri': None, 'term': 'Nucleic acid thermodynamics'}]
-cutgextract	[{'uri': None, 'term': 'Codon usage analysis'}]
-cusp	[{'uri': None, 'term': 'Codon usage analysis'}]
-cutseq	[{'uri': None, 'term': 'Data handling'}]
-cpgplot	[{'uri': None, 'term': 'Sequence composition analysis'}]
-cpgreport	[{'uri': None, 'term': 'Sequence composition analysis'}]
-consambig	[{'uri': None, 'term': 'Sequence alignment'}]
-compseq	[{'uri': None, 'term': 'Sequence composition analysis'}]
-cons	[{'uri': None, 'term': 'Sequence alignment'}]
-codcopy	[{'uri': None, 'term': 'Codon usage analysis'}]
-coderet	[{'uri': None, 'term': 'Data search and retrieval'}]
-codcmp	[{'uri': None, 'term': 'Codon usage analysis'}]
-cirdna	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]
-chips	[{'uri': None, 'term': 'Codon usage analysis'}]
-charge	[{'uri': None, 'term': 'Protein hydropathy'}]
-checktrans	[{'uri': None, 'term': 'Gene finding'}]
-chaos	[{'uri': None, 'term': 'Sequence composition analysis'}]
-cachedas	[{'uri': None, 'term': 'Data handling'}]
-cacheebeyesearch	[{'uri': None, 'term': 'Data handling'}]
-cai	[{'uri': None, 'term': 'Codon usage analysis'}]
-cachedbfetch	[{'uri': None, 'term': 'Data handling'}]
-cacheensembl	[{'uri': None, 'term': 'Data handling'}]
-btwisted	[{'uri': 'http://edamontology.org/topic_0097', 'term': 'Nucleic acid structure analysis'}]
-biosed	[{'uri': None, 'term': 'Data handling'}]
-banana	[{'uri': 'http://edamontology.org/topic_0097', 'term': 'Nucleic acid structure analysis'}]
-backtranseq	[{'uri': None, 'term': 'Translation'}]
-backtranseq-ebi	[{'uri': 'http://edamontology.org/topic_3489', 'term': 'Database management'}, {'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]
-backtranambig	[{'uri': None, 'term': 'Translation'}]
-assemblyget	[{'uri': None, 'term': 'Data search and retrieval'}]
-antigenic	[{'uri': None, 'term': 'Sequence motifs'}]
-aligncopy	[{'uri': None, 'term': 'Data handling'}]
-aligncopypair	[{'uri': None, 'term': 'Data handling'}]
-acdpretty	[{'uri': None, 'term': 'Data handling'}]
-abiview	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]
-acdtable	[{'uri': None, 'term': 'Data handling'}]
-aaindexextract	[{'uri': 'http://edamontology.org/topic_0154', 'term': 'Small molecules'}]
-acdtrace	[{'uri': None, 'term': 'Data handling'}]
-acdvalid	[{'uri': None, 'term': 'Data handling'}]
+#bio.tools-ID	edam_topics	link
+xmlget	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/xmlget
+xmltext	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/xmltext
+yank	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/yank
+wossdata	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/wossdata
+wordmatch	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/wordmatch
+wossinput	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/wossinput
+wordfinder	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/wordfinder
+wossoperation	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/wossoperation
+wossoutput	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/wossoutput
+wosstopic	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/wosstopic
+wossparam	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/wossparam
+wordcount	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/wordcount
+wossname	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/wossname
+wobble	[{'uri': None, 'term': 'Gene finding'}]	https://bio.tools/api/wobble
+whichdb	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/whichdb
+water	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/water
+water-ebi	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/water-ebi
+vectorstrip	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/vectorstrip
+urlget	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/urlget
+variationget	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/variationget
+union	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/union
+trimspace	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/trimspace
+twofeat	[{'uri': None, 'term': 'Sequence sites and features'}]	https://bio.tools/api/twofeat
+trimseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/trimseq
+trimest	[{'uri': None, 'term': 'Nucleic acid sites and features'}]	https://bio.tools/api/trimest
+tranalign	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/tranalign
+transeq-ebi	[{'uri': 'http://edamontology.org/topic_3489', 'term': 'Database management'}, {'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/transeq-ebi
+transeq	[{'uri': None, 'term': 'Translation'}]	https://bio.tools/api/transeq
+textsearch	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/textsearch
+tfextract	[{'uri': None, 'term': 'Transcription'}]	https://bio.tools/api/tfextract
+tfscan	[{'uri': None, 'term': 'Transcription'}]	https://bio.tools/api/tfscan
+tfm	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/tfm
+textget	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/textget
+taxgetrank	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]	https://bio.tools/api/taxgetrank
+tcode	[{'uri': None, 'term': 'Gene finding'}]	https://bio.tools/api/tcode
+taxgetspecies	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]	https://bio.tools/api/taxgetspecies
+taxgetup	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]	https://bio.tools/api/taxgetup
+taxgetdown	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]	https://bio.tools/api/taxgetdown
+taxget	[{'uri': 'http://edamontology.org/topic_0637', 'term': 'Taxonomy'}]	https://bio.tools/api/taxget
+syco	[{'uri': None, 'term': 'Codon usage analysis'}]	https://bio.tools/api/syco
+stretcher	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/stretcher
+stretcher_ws_husar	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/stretcher_ws_husar
+supermatcher	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/supermatcher
+stretcher-ebi	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/stretcher-ebi
+stssearch	[{'uri': None, 'term': 'Nucleic acid analysis'}]	https://bio.tools/api/stssearch
+splitter	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/splitter
+splitsource	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/splitsource
+sirna	[{'uri': None, 'term': 'Nucleic acid sites and features'}]	https://bio.tools/api/sirna
+sixpack-ebi	[{'uri': 'http://edamontology.org/topic_3489', 'term': 'Database management'}, {'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/sixpack-ebi
+sizeseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/sizeseq
+skipredundant	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/skipredundant
+skipseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/skipseq
+sixpack	[{'uri': None, 'term': 'Translation'}]	https://bio.tools/api/sixpack
+showserver	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/showserver
+silent	[{'uri': None, 'term': 'Nucleic acid restriction'}]	https://bio.tools/api/silent
+sigcleave	[{'uri': None, 'term': 'Protein sites and features'}]	https://bio.tools/api/sigcleave
+shuffleseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/shuffleseq
+showalign	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/showalign
+showseq	[{'uri': None, 'term': 'Translation'}]	https://bio.tools/api/showseq
+showfeat	[{'uri': None, 'term': 'Sequence sites and features'}]	https://bio.tools/api/showfeat
+showdb	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/showdb
+showpep	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]	https://bio.tools/api/showpep
+showorf	[{'uri': None, 'term': 'Translation'}]	https://bio.tools/api/showorf
+seqxrefget	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/seqxrefget
+seqretsplit	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/seqretsplit
+seqret	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/seqret
+seqmatchall	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/seqmatchall
+seqretsetall	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/seqretsetall
+servertell	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/servertell
+seqxref	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/seqxref
+seqmatchall_ws_husar	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/seqmatchall_ws_husar
+seqcount	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/seqcount
+seealso	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/seealso
+restrict	[{'uri': None, 'term': 'Nucleic acid restriction'}]	https://bio.tools/api/restrict
+restover	[{'uri': None, 'term': 'Nucleic acid restriction'}]	https://bio.tools/api/restover
+revseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/revseq
+refseqget	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/refseqget
+rebaseextract	[{'uri': None, 'term': 'Nucleic acid restriction'}]	https://bio.tools/api/rebaseextract
+recoder	[{'uri': None, 'term': 'Nucleic acid restriction'}]	https://bio.tools/api/recoder
+redata	[{'uri': None, 'term': 'Nucleic acid restriction'}]	https://bio.tools/api/redata
+psiphi	[{'uri': 'http://edamontology.org/topic_2814', 'term': 'Protein structure analysis'}]	https://bio.tools/api/psiphi
+prosextract	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/prosextract
+prophet	[{'uri': None, 'term': 'Sequence profiles and HMMs'}]	https://bio.tools/api/prophet
+profit	[{'uri': None, 'term': 'Sequence profiles and HMMs'}]	https://bio.tools/api/profit
+primersearch	[{'uri': None, 'term': 'Nucleic acid analysis'}]	https://bio.tools/api/primersearch
+printsextract	[{'uri': None, 'term': 'Sequence profiles and HMMs'}]	https://bio.tools/api/printsextract
+preg	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/preg
+prettyseq	[{'uri': None, 'term': 'Translation'}]	https://bio.tools/api/prettyseq
+prettyplot	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/prettyplot
+polydot	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/polydot
+plotcon	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/plotcon
+plotorf	[{'uri': None, 'term': 'Gene finding'}]	https://bio.tools/api/plotorf
+pepcoil	[{'uri': None, 'term': 'Protein secondary structure prediction'}]	https://bio.tools/api/pepcoil
+pepnet	[{'uri': None, 'term': 'Protein hydropathy'}]	https://bio.tools/api/pepnet
+pepwindow	[{'uri': None, 'term': 'Protein hydropathy'}]	https://bio.tools/api/pepwindow
+pepwindow-ebi	[{'uri': 'http://edamontology.org/topic_0123', 'term': 'Protein properties'}]	https://bio.tools/api/pepwindow-ebi
+pepwindowall	[{'uri': None, 'term': 'Protein hydropathy'}]	https://bio.tools/api/pepwindowall
+pepdigest	[{'uri': None, 'term': 'Protein cleavage sites and proteolysis'}]	https://bio.tools/api/pepdigest
+pepstats	[{'uri': 'http://edamontology.org/topic_0123', 'term': 'Protein properties'}]	https://bio.tools/api/pepstats
+pepinfo	[{'uri': 'http://edamontology.org/topic_0123', 'term': 'Protein properties'}]	https://bio.tools/api/pepinfo
+pepwheel	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]	https://bio.tools/api/pepwheel
+patmatmotifs	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/patmatmotifs
+patmatdb	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/patmatdb
+pasteseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/pasteseq
+palindrome	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/palindrome
+ontoisobsolete	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontoisobsolete
+ontotext	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontotext
+ontocount	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontocount
+ontoget	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontoget
+ontogetroot	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontogetroot
+ontogetdown	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontogetdown
+ontogetsibs	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontogetsibs
+ontogetobsolete	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontogetobsolete
+ontogetup	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontogetup
+ontogetcommon	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/ontogetcommon
+octanol	[{'uri': None, 'term': 'Protein hydropathy'}]	https://bio.tools/api/octanol
+oddcomp	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/oddcomp
+notab	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/notab
+nospace	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/nospace
+nthseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/nthseq
+notseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/notseq
+nthseqset	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/nthseqset
+noreturn	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/noreturn
+newseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/newseq
+newcpgseek	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/newcpgseek
+newcpgreport-ebi	[{'uri': 'http://edamontology.org/topic_0157', 'term': 'Sequence composition, complexity and repeats'}, {'uri': 'http://edamontology.org/topic_3512', 'term': 'Gene transcripts'}]	https://bio.tools/api/newcpgreport-ebi
+nohtml	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/nohtml
+newcpgreport	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/newcpgreport
+needle	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/needle
+needleall	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/needleall
+mwcontam	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/mwcontam
+mwfilter	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/mwfilter
+msbar	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/msbar
+merger	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/merger
+megamerger	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/megamerger
+megamerger_ws_husar	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/megamerger_ws_husar
+matcher	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/matcher
+maskfeat	[{'uri': None, 'term': 'Sequence sites and features'}]	https://bio.tools/api/maskfeat
+maskseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/maskseq
+maskambigprot	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/maskambigprot
+marscan	[{'uri': None, 'term': 'Gene finding'}]	https://bio.tools/api/marscan
+maskambignuc	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/maskambignuc
+makeprotseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/makeprotseq
+makenucseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/makenucseq
+listor	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/listor
+lindna	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]	https://bio.tools/api/lindna
+isochore	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/isochore
+jaspextract	[{'uri': None, 'term': 'Transcription'}]	https://bio.tools/api/jaspextract
+jaspscan	[{'uri': None, 'term': 'Transcription'}]	https://bio.tools/api/jaspscan
+infoalign	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/infoalign
+inforesidue	[{'uri': 'http://edamontology.org/topic_0154', 'term': 'Small molecules'}]	https://bio.tools/api/inforesidue
+infoassembly	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/infoassembly
+infobase	[{'uri': 'http://edamontology.org/topic_0154', 'term': 'Small molecules'}]	https://bio.tools/api/infobase
+infoseq	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/infoseq
+iep	[{'uri': None, 'term': 'Protein hydropathy'}]	https://bio.tools/api/iep
+hmoment	[{'uri': None, 'term': 'Protein hydropathy'}]	https://bio.tools/api/hmoment
+helixturnhelix	[{'uri': None, 'term': 'Protein secondary structure prediction'}]	https://bio.tools/api/helixturnhelix
+godef	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/godef
+goname	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/goname
+getorf	[{'uri': None, 'term': 'Gene finding'}]	https://bio.tools/api/getorf
+geecee	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/geecee
+garnier	[{'uri': None, 'term': 'Protein secondary structure prediction'}]	https://bio.tools/api/garnier
+fuzznuc	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/fuzznuc
+fuzztran	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/fuzztran
+fuzzpro	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/fuzzpro
+freak	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/freak
+featmerge	[{'uri': None, 'term': 'Sequence sites and features'}]	https://bio.tools/api/featmerge
+featcopy	[{'uri': None, 'term': 'Sequence sites and features'}]	https://bio.tools/api/featcopy
+featreport	[{'uri': None, 'term': 'Sequence sites and features'}]	https://bio.tools/api/featreport
+findkm	[{'uri': None, 'term': 'Enzymes and reactions'}]	https://bio.tools/api/findkm
+feattext	[{'uri': None, 'term': 'Sequence sites and features'}]	https://bio.tools/api/feattext
+extractfeat	[{'uri': None, 'term': 'Sequence sites and features'}]	https://bio.tools/api/extractfeat
+extractalign	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/extractalign
+extractseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/extractseq
+etandem	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/etandem
+est2genome	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/est2genome
+entret	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/entret
+epestfind	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/epestfind
+eprimer3	[{'uri': None, 'term': 'Nucleic acid analysis'}]	https://bio.tools/api/eprimer3
+eprimer32	[{'uri': None, 'term': 'Nucleic acid analysis'}]	https://bio.tools/api/eprimer32
+equicktandem	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/equicktandem
+embossversion	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/embossversion
+einverted	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/einverted
+emma	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/emma
+embossdata	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/embossdata
+embossupdate	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/embossupdate
+emowse	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/emowse
+edialign	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/edialign
+edamisformat	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/edamisformat
+edamdef	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/edamdef
+edamhasoutput	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/edamhasoutput
+edamname	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/edamname
+edamisid	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/edamisid
+edamhasinput	[{'uri': None, 'term': 'Ontology'}]	https://bio.tools/api/edamhasinput
+drget	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/drget
+drfindresource	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/drfindresource
+drfindid	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/drfindid
+dreg	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/dreg
+drfindformat	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/drfindformat
+drtext	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/drtext
+drfinddata	[{'uri': None, 'term': 'Annotation'}]	https://bio.tools/api/drfinddata
+dottup	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/dottup
+dotpath	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/dotpath
+dotmatcher	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/dotmatcher
+diffseq	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/diffseq
+distmat	[{'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/distmat
+descseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/descseq
+degapseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/degapseq
+density	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/density
+dbxstat	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxstat
+dbxtax	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxtax
+dbxflat	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxflat
+dbiflat	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbiflat
+dbiblast	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbiblast
+dbxuncompress	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxuncompress
+dbxfasta	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxfasta
+dbifasta	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbifasta
+dbxcompress	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxcompress
+dbtell	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbtell
+dbxobo	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxobo
+dbxgcg	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxgcg
+dbigcg	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbigcg
+dbxreport	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxreport
+dbxresource	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxresource
+dbxedam	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/dbxedam
+dan	[{'uri': None, 'term': 'Nucleic acid thermodynamics'}]	https://bio.tools/api/dan
+cutgextract	[{'uri': None, 'term': 'Codon usage analysis'}]	https://bio.tools/api/cutgextract
+cusp	[{'uri': None, 'term': 'Codon usage analysis'}]	https://bio.tools/api/cusp
+cutseq	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/cutseq
+cpgplot	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/cpgplot
+cpgreport	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/cpgreport
+consambig	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/consambig
+compseq	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/compseq
+cons	[{'uri': None, 'term': 'Sequence alignment'}]	https://bio.tools/api/cons
+codcopy	[{'uri': None, 'term': 'Codon usage analysis'}]	https://bio.tools/api/codcopy
+coderet	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/coderet
+codcmp	[{'uri': None, 'term': 'Codon usage analysis'}]	https://bio.tools/api/codcmp
+cirdna	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]	https://bio.tools/api/cirdna
+chips	[{'uri': None, 'term': 'Codon usage analysis'}]	https://bio.tools/api/chips
+charge	[{'uri': None, 'term': 'Protein hydropathy'}]	https://bio.tools/api/charge
+checktrans	[{'uri': None, 'term': 'Gene finding'}]	https://bio.tools/api/checktrans
+chaos	[{'uri': None, 'term': 'Sequence composition analysis'}]	https://bio.tools/api/chaos
+cachedas	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/cachedas
+cacheebeyesearch	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/cacheebeyesearch
+cai	[{'uri': None, 'term': 'Codon usage analysis'}]	https://bio.tools/api/cai
+cachedbfetch	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/cachedbfetch
+cacheensembl	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/cacheensembl
+btwisted	[{'uri': 'http://edamontology.org/topic_0097', 'term': 'Nucleic acid structure analysis'}]	https://bio.tools/api/btwisted
+biosed	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/biosed
+banana	[{'uri': 'http://edamontology.org/topic_0097', 'term': 'Nucleic acid structure analysis'}]	https://bio.tools/api/banana
+backtranseq	[{'uri': None, 'term': 'Translation'}]	https://bio.tools/api/backtranseq
+backtranseq-ebi	[{'uri': 'http://edamontology.org/topic_3489', 'term': 'Database management'}, {'uri': 'http://edamontology.org/topic_0080', 'term': 'Sequence analysis'}]	https://bio.tools/api/backtranseq-ebi
+backtranambig	[{'uri': None, 'term': 'Translation'}]	https://bio.tools/api/backtranambig
+assemblyget	[{'uri': None, 'term': 'Data search and retrieval'}]	https://bio.tools/api/assemblyget
+antigenic	[{'uri': None, 'term': 'Sequence motifs'}]	https://bio.tools/api/antigenic
+aligncopy	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/aligncopy
+aligncopypair	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/aligncopypair
+acdpretty	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/acdpretty
+abiview	[{'uri': 'http://edamontology.org/topic_0092', 'term': 'Data visualisation'}]	https://bio.tools/api/abiview
+acdtable	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/acdtable
+aaindexextract	[{'uri': 'http://edamontology.org/topic_0154', 'term': 'Small molecules'}]	https://bio.tools/api/aaindexextract
+acdtrace	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/acdtrace
+acdvalid	[{'uri': None, 'term': 'Data handling'}]	https://bio.tools/api/acdvalid
