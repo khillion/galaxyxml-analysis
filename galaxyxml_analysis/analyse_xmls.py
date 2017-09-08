@@ -235,7 +235,7 @@ if __name__ == "__main__":
     plt.bar([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7], barplot_values, width=0.6,
             alpha=0.8, color='#5dade2')
     plt.title(graph_title, fontsize=20)
-    plt.ylabel("Number of tool descriptions", fontsize=18)
+    plt.ylabel("% of tool descriptions", fontsize=18)
     plt.xticks([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7], barplot_legend, rotation=45)
     plt.subplots_adjust(bottom=0.2)
     plt.savefig(file_name)
