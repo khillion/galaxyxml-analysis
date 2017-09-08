@@ -2,10 +2,7 @@
 Analyses of XMLs from a Galaxy (from directory created with get_xmls_from_galaxy.py)
 
 Need to be improved:
-* better checking of macro content
-* separate use of <citations> tag and presence of reference in the help
 * how many tools have a version in the tool tag ?
-* display percentages in the figure
 """
 
 ###########  Import  ###########
@@ -179,12 +176,6 @@ if __name__ == "__main__":
                 except etree.XMLSyntaxError:
                     continue
                 if tool.getroot().tag == 'tool':
-                    # Macro ?
-                    if tool.find('macros') is not None:
-                        for mac_file in tool.find('macros'):
-                            if mac_file.tag == 'import':
-                                macro_path = os.path.dirname(file_path) + "/" + mac_file.text
-                                load_macro(tool, macro_path)
                     repo = root.split('/', 1)[1].split('/')[0]
                     installed_tools = list_installed_tools(download_report, repo)
                     if tool.getroot().attrib['id'] in installed_tools:
@@ -195,6 +186,12 @@ if __name__ == "__main__":
     cpt_tool = 0  # For number of tool XMLs
     for xml in tool_paths:
         tool = etree.parse(xml)
+        # Macro ?
+        if tool.find('macros') is not None:
+            for mac_file in tool.find('macros'):
+                if mac_file.tag == 'import':
+                    macro_path = os.path.dirname(xml) + "/" + mac_file.text
+                    load_macro(tool, macro_path)
         cpt_tool += 1
         tool_id = tool.getroot().attrib['id']
         init_xml_dict(xmls_infos, tool_id)
@@ -225,18 +222,21 @@ if __name__ == "__main__":
             cpt_all_fields += 1
     # Add it to the graph (and also total number of tools)
     total = total.append(pd.Series([cpt_all_fields, cpt_tool], index=["H+D+C", "Total"]))
+    #   Transform to percentage
+    total_desc = total['Total']
+    total = total/total_desc * 100
 
     # Make list of bar plot in the desired order
-    barplot_values = [total['Total'], total['Help'], total['Description'], total['Citations'],
+    barplot_values = [total['Help'], total['Description'], total['Citations'],
                       total['Citations_info'], total['H+D+C'], total['edam_operations'], total['edam_topics']]
-    barplot_legend = ['Total', 'Help', 'Description', 'Citations', 'Citations_info', 'H+D+C', 'edam_ope',
+    barplot_legend = ['Help', 'Description', 'Citations', 'Citations_info', 'H+D+C', 'edam_ope',
                       'edam_top']
 
-    plt.bar([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7, 6.7], barplot_values, width=0.6,
+    plt.bar([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7], barplot_values, width=0.6,
             alpha=0.8, color='#5dade2')
     plt.title(graph_title, fontsize=20)
     plt.ylabel("Number of tool descriptions", fontsize=18)
-    plt.xticks([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7, 6.7], barplot_legend, rotation=45)
+    plt.xticks([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7, 5.7], barplot_legend, rotation=45)
     plt.subplots_adjust(bottom=0.2)
     plt.savefig(file_name)
 
