@@ -1,36 +1,38 @@
 # galaxyxml_analysis
 
-This folder gathers scripts to retrieve and analyse Galaxy XML tools from a given instance and perform analysis of their content.
+This folder contains scripts used to retrieve Galaxy XML tools from a given instance and perform an analysis of their content.
 
 ## Requirements
 
-In order to clone repositories from the toolshed, you need [mercurial](https://www.mercurial-scm.org/) on your machine.
+In order to clone repositories from Galaxy Toolsheds, you need [mercurial](https://www.mercurial-scm.org/) on your machine.
 
 All Python libraries required for the different scripts are listed in `requirements.txt`.
 
-You also need to have an account on the Galaxy instance with an API key as well
-as an account on the corresponding toolshed(s).
+You also need to have an account on the Galaxy instance with an API key, as well as an account on the corresponding Toolshed(s).
 
-## How it works ?
+## How does it work ?
 
 ### get\_xmls\_from\_galaxy.py
 
-```
-python get_xml_from_galaxy.py -k API_KEY -g GALAXY_URL -u TOOLSHED_USERNAME
+```bash
+python get_xml_from_galaxy.py -k API_KEY -g GALAXY_URL -u USERNAME -o OUT_DIR
 ```
 
 The script will clone all repositories containing tools installed on the given Galaxy instance.
-It also generates a JSON report for further analysis by other scripts (mainly reminding which
+It also generates a JSON file (`OUT_DIR/download_report.json`) for further analysis by other scripts (mainly reporting which
 tools and versions are installed on the instance).
 
 ### analyse\_xmls.py
 
-This script perform analysis of XMLs by checking the presence of several tags and content:
+```bash
+python analyse_xmls.py -r REPORT -d DIRECTORY -o GRAPH_FILE -t GRAPH_TITLE
+```
+
+This script performs an analysis of Galaxy tools by checking the presence of several tags and content (also inspecting macro content) and generates a histogram:
 
 * `<help>`
 * Non empty `<description>`
 * `<citations>`
-* `<citations>` or the presence of words referring to references in the help message
 * `<edam_operations>`
 * `<edam_topics>`
 
