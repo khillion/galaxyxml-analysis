@@ -229,8 +229,8 @@ if __name__ == "__main__":
     # Make list of bar plot in the desired order
     barplot_values = [total['Help'], total['Description'], total['Citations'],
                       total['H+D+C'], total['edam_operations'], total['edam_topics']]
-    barplot_legend = ['Help', 'Description', 'Citations', 'H+D+C', 'operations',
-                      'topics']
+    barplot_legend = ['Help', 'Description', 'Citations', 'H+D+C', 'Operations',
+                      'Topics']
 
     plt.bar([-0.3, 0.7, 1.7, 2.7, 3.7, 4.7,], barplot_values, width=0.6,
             alpha=0.8, color='#5dade2')
