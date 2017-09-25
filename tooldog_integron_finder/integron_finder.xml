@@ -1,0 +1,134 @@
+<tool id="integron_finder" name="integron_finder" version="integron_finder version 1.5.1rc3&#10;Python 2.7.9 (default, Jun 29 2016, 13:08:31) &#10;[GCC 4.9.2]&#10;&#10; - open-source GPLv3,&#10; - Jean Cury, Bertrand Neron, Eduardo Rocha,&#10; - citation:&#10;&#10; Identification and analysis of integrons and cassette arrays in bacterial genomes&#10; Jean Cury; Thomas Jove; Marie Touchon; Bertrand Neron; Eduardo PC Rocha&#10; Nucleic Acids Research 2016; doi: 10.1093/nar/gkw319&#10; ">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>A tool to detect Integron in DNA sequences.</description>
+  <edam_operations>
+    <edam_operation>operation_0415</edam_operation>
+    <edam_operation>operation_0239</edam_operation>
+    <edam_operation>operation_3092</edam_operation>
+    <edam_operation>operation_0362</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0085</edam_topic>
+    <edam_topic>topic_0798</edam_topic>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0091</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command>python /usr/local/bin/integron_finder --version</version_command>
+  <command><![CDATA[integron_finder 
+#if $positional_1 and $positional_1 is not None:
+$positional_1
+#end if
+$local_max
+$func_annot
+
+#if $cpu and $cpu is not None:
+--cpu $cpu
+#end if
+
+#if $distance_thresh and $distance_thresh is not None:
+--distance_thresh $distance_thresh
+#end if
+
+#if $outdir and $outdir is not None:
+--outdir $outdir
+#end if
+$linear
+$union_integrases
+
+#if $cmsearch and $cmsearch is not None:
+--cmsearch $cmsearch
+#end if
+
+#if $hmmsearch and $hmmsearch is not None:
+--hmmsearch $hmmsearch
+#end if
+
+#if $prodigal and $prodigal is not None:
+--prodigal $prodigal
+#end if
+
+#if $path_func_annot and $path_func_annot is not None:
+--path_func_annot $path_func_annot
+#end if
+$gembase
+
+#if $attc_model and $attc_model is not None:
+--attc_model $attc_model
+#end if
+
+#if $evalue_attc and $evalue_attc is not None:
+--evalue_attc $evalue_attc
+#end if
+$keep_palindromes
+$no_proteins
+
+#if $max_attc_size and $max_attc_size is not None:
+--max_attc_size $max_attc_size
+#end if
+
+#if $min_attc_size and $min_attc_size is not None:
+--min_attc_size $min_attc_size
+#end if
+$eagle_eyes
+> $default]]></command>
+  <inputs>
+    <param area="false" argument="positional_1" label="Path to the replicon file (in fasta format), eg : path/to/file.fst or file.fst" name="positional_1" type="text"/>
+    <param argument="local_max" checked="false" falsevalue="" label="Allows thorough local detection (slower but more sensitive and do not increase false positive rate)." name="local_max" truevalue="--local_max" type="boolean"/>
+    <param argument="func_annot" checked="false" falsevalue="" label="Functional annotation of CDS associated with integrons HMM files are needed in Func_annot folder." name="func_annot" truevalue="--func_annot" type="boolean"/>
+    <param area="false" argument="cpu" label="Number of CPUs used by INFERNAL and HMMER" name="cpu" optional="true" type="text" value="1"/>
+    <param argument="distance_thresh" label="Two elements are aggregated if they are distant of DISTANCE_THRESH [4kb] or less" name="distance_thresh" optional="true" type="integer" value="4000"/>
+    <param area="false" argument="outdir" label="Set the output directory (default: current)" name="outdir" optional="true" type="text" value="."/>
+    <param argument="linear" checked="false" falsevalue="" label="Consider replicon as linear. If replicon smaller than 20kb, it will be considered as linear" name="linear" truevalue="--linear" type="boolean"/>
+    <param argument="union_integrases" checked="false" falsevalue="" label="Instead of taking intersection of hits from Phage_int profile (Tyr recombinases) and integron_integrase profile, use the union of the hits" name="union_integrases" truevalue="--union_integrases" type="boolean"/>
+    <param area="false" argument="cmsearch" label="Complete path to cmsearch if not in PATH. eg: /usr/local/bin/cmsearch" name="cmsearch" optional="true" type="text"/>
+    <param area="false" argument="hmmsearch" label="Complete path to hmmsearch if not in PATH. eg: /usr/local/bin/hmmsearch" name="hmmsearch" optional="true" type="text"/>
+    <param area="false" argument="prodigal" label="Complete path to prodigal if not in PATH. eg: /usr/local/bin/prodigal" name="prodigal" optional="true" type="text"/>
+    <param area="false" argument="path_func_annot" label="Path to file containing all hmm bank paths (one per line)" name="path_func_annot" optional="true" type="text"/>
+    <param argument="gembase" checked="false" falsevalue="" label="Use gembase formatted protein file instead of Prodigal. Folder structure must be preserved" name="gembase" truevalue="--gembase" type="boolean"/>
+    <param area="false" argument="attc_model" label="path or file to the attc model (Covariance Matrix)" name="attc_model" optional="true" type="text" value="attc_4.cm"/>
+    <param argument="evalue_attc" label="set evalue threshold to filter out hits above it (default: 1)" name="evalue_attc" optional="true" type="float" value="1.0"/>
+    <param argument="keep_palindromes" checked="false" falsevalue="" label="for a given hit, if the palindromic version is found, don't remove the one with highest evalue " name="keep_palindromes" truevalue="--keep_palindromes" type="boolean"/>
+    <param argument="no_proteins" checked="false" falsevalue="" label="Don't annotate CDS and don't find integrase, just look for attC sites." name="no_proteins" truevalue="--no_proteins" type="boolean"/>
+    <param argument="max_attc_size" label="set maximum value fot the attC size (default: 200bp)" name="max_attc_size" optional="true" type="integer" value="200"/>
+    <param argument="min_attc_size" label="set minimum value fot the attC size (default: 40bp)" name="min_attc_size" optional="true" type="integer" value="40"/>
+    <param argument="eagle_eyes" checked="false" falsevalue="" label="Synonym of --local_max. Like a soaring eagle in the sky, catching rabbits(or attC sites) by surprise." name="eagle_eyes" truevalue="--eagle_eyes" type="boolean"/>
+    <param argument="INPUT1" format="fasta" label="DNA sequence (raw)" name="INPUT1" type="data">
+      <!--This parameter has been automatically generated from https://bio.tools/tool/integron_finder by ToolDog v0.3.1.-->
+      <!--FIXME: Please map this parameter to its command line argument.-->
+    </param>
+  </inputs>
+  <outputs>
+    <data format="txt" hidden="false" name="default"/>
+    <data format="genbank" from_work_dir="OUTPUT1.genbank" hidden="false" name="OUTPUT1">
+      <!--This parameter has been automatically generated from https://bio.tools/tool/integron_finder by ToolDog v0.3.1.-->
+      <!--FIXME: Please map this parameter to its command line argument.-->
+    </data>
+    <data format="tabular" from_work_dir="OUTPUT2.tabular" hidden="false" name="OUTPUT2">
+      <!--This parameter has been automatically generated from https://bio.tools/tool/integron_finder by ToolDog v0.3.1.-->
+      <!--FIXME: Please map this parameter to its command line argument.-->
+    </data>
+  </outputs>
+  <help><![CDATA[
+
+What it is ?
+============
+
+A tool to detect Integron in DNA sequences
+
+External links:
+===============
+
+- Tool homepage_
+- bio.tools_ entry
+
+.. _homepage: https://github.com/gem-pasteur/Integron_Finder
+.. _bio.tools: https://bio.tools/tool/integron_finder]]></help>
+  <citations>
+    <citation type="doi">10.1093/nar/gkw319</citation>
+  </citations>
+</tool>
+
