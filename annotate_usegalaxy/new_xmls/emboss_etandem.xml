@@ -1,0 +1,81 @@
+<tool id="EMBOSS: etandem33" name="etandem" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Looks for tandem repeats in a nucleotide sequence</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[etandem -sequence '$input1' -outfile '$out_file1' -origfile '$ofile2' -minrepeat $minrepeat -maxrepeat $maxrepeat -threshold $threshold -mismatch $mismatch -uniform $uniform -rformat2 $out_format1 -auto]]></command>
+  <inputs>
+    <param argument="input1" format="fasta" label="Sequence" name="input1" type="data"/>
+    <param argument="minrepeat" label="Minimum repeat size" name="minrepeat" type="integer" value="10"/>
+    <param argument="maxrepeat" label="Maximum repeat size" name="maxrepeat" type="integer" value="10"/>
+    <param argument="threshold" label="Threshold score" name="threshold" type="integer" value="20"/>
+    <param argument="mismatch" label="Allow N as a mismatch" name="mismatch" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="uniform" label="Allow uniform consensus" name="uniform" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="out_format1" label="Output report file format" name="out_format1" type="select">
+      <option value="table">Table</option>
+      <option value="embl">EMBL</option>
+      <option value="genbank">GENBANK</option>
+      <option value="gff">GFF</option>
+      <option value="pir">PIR</option>
+      <option value="swiss">SwissProt</option>
+      <option value="dbmotif">DbMotif</option>
+      <option value="diffseq">Diffseq</option>
+      <option value="excel">Excel (tab delimited)</option>
+      <option value="feattable">FeatTable</option>
+      <option value="motif">Motif</option>
+      <option value="regions">Regions</option>
+      <option value="seqtable">SeqTable</option>
+      <option value="simple">SRS Simple</option>
+      <option value="srs">SRS</option>
+      <option value="tagseq">TagSeq</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="etandem" hidden="false" name="out_file1"/>
+    <data format="table" hidden="false" name="ofile2"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="1.fasta"/>
+      <param name="minrepeat" value="10"/>
+      <param name="maxrepeat" value="10"/>
+      <param name="threshold" value="20"/>
+      <param name="mismatch" value="no"/>
+      <param name="uniform" value="no"/>
+      <param name="out_format1" value="table"/>
+      <output file="emboss_etandem_out.table" name="ofile2"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+.. class:: warningmark
+
+The input dataset needs to be sequences.
+
+-----
+
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/etandem.html
+  ]]></help>
+  <citations/>
+</tool>

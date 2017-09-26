@@ -1,8 +1,6 @@
-<tool id="kraken-translate" name="Kraken-translate" version="1.2.1">
+<tool id="kraken-translate" name="Kraken-translate" version="@WRAPPER_VERSION@">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
-  <description>
-        convert taxonomy IDs to names
-    </description>
+  <description>convert taxonomy IDs to names</description>
   <edam_operations>
     <edam_operation>operation_3460</edam_operation>
   </edam_operations>
@@ -14,10 +12,13 @@
   </stdio>
   <version_command/>
   <command><![CDATA[
-        
         @SET_DATABASE_PATH@ &&
-        kraken-translate @INPUT_DATABASE@ $mpa_format "${input}" > "${translated}"
-        
+
+        kraken-translate
+            @INPUT_DATABASE@
+            $mpa_format
+            '${input}'
+            > '${translated}'
     ]]></command>
   <inputs>
     <param argument="input" format="tabular" help="Select taxonomy classification produced by kraken" label="Kraken output" name="input" type="data"/>
@@ -35,7 +36,6 @@
     </test>
   </tests>
   <help><![CDATA[
-        
 
 .. class:: warningmark
 
@@ -58,7 +58,6 @@ Alternatively, kraken-translate accepts the option ``--mpa-format`` which will r
  SEQ1  d__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Escherichia|s__Escherichia_coli
 
 Taxonomy assignments above the superkingdom rank are represented as just "root" when using the ``--mpa-report`` option with kraken-translate.
-        
     ]]></help>
   <citations>
     <citation type="doi">10.1186/gb-2014-15-3-r46</citation>

@@ -1,4 +1,4 @@
-<tool id="bedtools_genomecoveragebed" name="Genome Coverage" version="@WRAPPER_VERSION@.0">
+<tool id="bedtools_genomecoveragebed" name="Genome Coverage" version="@WRAPPER_VERSION@.1">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>compute the coverage over an entire genome</description>
   <edam_operations>
@@ -14,12 +14,7 @@
   <command><![CDATA[
 
         bedtools genomecov
-        #if $input_type.input_type_select == 'bam'
-            -ibam '$input_type.input'
-        #else
-            -i '$input_type.input'
-            -g '$input_type.genome'
-        #end if
+        @GENOME_FILE_COVERAGE@
 
         $split
         $strand
@@ -94,6 +89,7 @@
     <test>
       <param name="input_type_select" value="bed"/>
       <param ftype="bed" name="input" value="genomeCoverageBed1.bed"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param ftype="tabular" name="genome" value="genomeCoverageBed1.len"/>
       <param name="report_select" value="hist"/>
       <output file="genomeCoverageBed_result1.bed" ftype="tabular" name="output"/>

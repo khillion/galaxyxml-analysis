@@ -1,0 +1,87 @@
+<tool id="EMBOSS: extractfeat34" name="extractfeat" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Extract features from a sequence</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[extractfeat -sequence '$input1' -outseq '$out_file1' -before $before -after $after -source '$source' -type '$type' -sense $sense -minscore $minscore -maxscore $maxscore -tag '$tag' -value
+  '$value' -join $join -featinname $featinname -describe '$describe' -osformat2 $out_format1 -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequences" name="input1" type="data"/>
+    <param argument="before" label="Number of bases or residues before the feature to include in the extracted sequence" name="before" type="integer" value="0"/>
+    <param argument="after" label="Number of bases or residues after the feature to include in the extracted sequence" name="after" type="integer" value="0"/>
+    <param area="false" argument="source" label="Feature source" name="source" type="text" value="*"/>
+    <param area="false" argument="type" label="Feature type" name="type" type="text" value="*"/>
+    <param argument="sense" label="Feature sense" name="sense" type="select">
+      <option value="0">Any sense</option>
+      <option value="1">Forward sense</option>
+      <option value="-1">Reverse sense</option>
+    </param>
+    <param argument="minscore" label="Minimum score" name="minscore" type="float" value="0.0"/>
+    <param argument="maxscore" label="Maximum score" name="maxscore" type="float" value="0.0"/>
+    <param area="false" argument="tag" label="Feature tags" name="tag" type="text" value="*"/>
+    <param area="false" argument="value" label="Tag values" name="value" type="text" value="*"/>
+    <param argument="join" label="Join features" name="join" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="featinname" label="Put feature type in sequence name" name="featinname" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param area="false" argument="describe" label="Specify one or more tag names that should be added to the output sequence Description text" name="describe" type="text" value=""/>
+    <param argument="out_format1" label="Output sequence file format" name="out_format1" type="select">
+      <option value="fasta">FASTA (m)</option>
+      <option value="acedb">ACeDB (m)</option>
+      <option value="asn1">ASN.1 (m)</option>
+      <option value="clustal">Clustal (m)</option>
+      <option value="codata">CODATA (m)</option>
+      <option value="embl">EMBL (m)</option>
+      <option value="fitch">Fitch (m)</option>
+      <option value="gcg">Wisconsin Package GCG 9.x and 10.x (s)</option>
+      <option value="genbank">GENBANK (m)</option>
+      <option value="gff">GFF (m)</option>
+      <option value="hennig86">Hennig86 (m)</option>
+      <option value="ig">Intelligenetics (m)</option>
+      <option value="jackknifer">Jackknifer (m)</option>
+      <option value="jackknifernon">Jackknifernon (m)</option>
+      <option value="mega">Mega (m)</option>
+      <option value="meganon">Meganon (m)</option>
+      <option value="msf">Wisconsin Package GCG's MSF (m)</option>
+      <option value="pir">NBRF (PIR) (m)</option>
+      <option value="ncbi">NCBI style FASTA (m)</option>
+      <option value="nexus">Nexus/PAUP (m)</option>
+      <option value="nexusnon">Nexusnon/PAUPnon (m)</option>
+      <option value="phylip">PHYLIP interleaved (m)</option>
+      <option value="phylipnon">PHYLIP non-interleaved (m)</option>
+      <option value="selex">SELEX (m)</option>
+      <option value="staden">Staden (s)</option>
+      <option value="strider">DNA strider (m)</option>
+      <option value="swiss">SwisProt entry (m)</option>
+      <option value="text">Plain sequence (s)</option>
+      <option value="treecon">Treecon (m)</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="fasta" hidden="false" name="out_file1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/extractfeat.html
+  ]]></help>
+  <citations/>
+</tool>

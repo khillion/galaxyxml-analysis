@@ -1,0 +1,60 @@
+<tool id="EMBOSS: antigenic1" name="antigenic" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Predicts potentially antigenic regions of a protein sequence, using the method of Kolaskar and Tongaonkar.</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[antigenic -sequence '$input1' -outfile '$out_file1' -minlen $minlen -rformat2 $out_format1 -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="On query" name="input1" type="data"/>
+    <param argument="minlen" label="Minimum length of region" name="minlen" type="integer" value="6"/>
+    <param argument="out_format1" label="Output format" name="out_format1" type="select">
+      <option value="gff">GFF</option>
+      <option value="pir">PIR</option>
+      <option value="swiss">SwissProt</option>
+      <option value="dbmotif">DbMotif</option>
+      <option value="diffseq">diffseq</option>
+      <option value="excel">Excel (TAB Delimited)</option>
+      <option value="feattable">FeatTable</option>
+      <option value="motif">Motif</option>
+      <option value="nametable">NameTable</option>
+      <option value="regions">Regions</option>
+      <option value="seqtable">SeqTable</option>
+      <option value="simple">SRS simple</option>
+      <option value="srs">SRS</option>
+      <option value="table">Table</option>
+      <option value="tagseq">Tagseq</option>
+      <option value="antigenic">Antigenic Output File</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="antigenic" hidden="false" name="out_file1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="2.fasta"/>
+      <param name="minlen" value="6"/>
+      <param name="out_format1" value="excel"/>
+      <output file="emboss_antigenic_out.tabular" name="out_file1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/antigenic.html
+  ]]></help>
+  <citations/>
+</tool>

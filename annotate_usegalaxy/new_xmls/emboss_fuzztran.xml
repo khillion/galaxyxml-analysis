@@ -1,0 +1,101 @@
+<tool id="EMBOSS: fuzztran39" name="fuzztran" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Protein pattern search after translation</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[fuzztran -sequence '$input1' -outfile '$out_file1' -pattern '$pattern' -pmismatch $mismatch -frame $frame -table $table -rformat2 $out_format1 -auto]]></command>
+  <inputs>
+    <param argument="input1" format="fasta" label="Sequences" name="input1" type="data"/>
+    <param area="false" argument="pattern" label="Search pattern" name="pattern" type="text" value=""/>
+    <param argument="mismatch" label="Number of mismatches" name="mismatch" type="integer" value="0"/>
+    <param argument="frame" label="Frame(s) to translate" name="frame" type="select">
+      <option value="1">Frame 1</option>
+      <option value="2">Frame 2</option>
+      <option value="3">Frame 3</option>
+      <option value="F">Forward three frames</option>
+      <option value="-1">Frame -1</option>
+      <option value="-2">Frame -2</option>
+      <option value="-3">Frame -3</option>
+      <option value="R">Reverse three frames</option>
+      <option value="6">All six frames</option>
+    </param>
+    <param argument="table" label="Code to use" name="table" type="select">
+      <option value="0">Standard</option>
+      <option value="1">Standard (with alternative initiation codons)</option>
+      <option value="2">Vertebrate Mitochondrial</option>
+      <option value="3">Yeast Mitochondrial</option>
+      <option value="4">Mold, Protozoan, Coelenterate Mitochondrial and Mycoplasma/Spiroplasma</option>
+      <option value="5">Invertebrate Mitochondrial</option>
+      <option value="6">Ciliate Macronuclear and Dasycladacean</option>
+      <option value="9">Echinoderm Mitochondrial</option>
+      <option value="10">Euplotid Nuclear</option>
+      <option value="11">Bacterial</option>
+      <option value="12">Alternative Yeast Nuclear</option>
+      <option value="13">Ascidian Mitochondrial</option>
+      <option value="14">Flatworm Mitochondrial</option>
+      <option value="15">Blepharisma Macronuclear</option>
+      <option value="16">Chlorophycean Mitochondrial</option>
+      <option value="21">Trematode Mitochondrial</option>
+      <option value="22">Scenedesmus obliquus</option>
+      <option value="23">Thraustochytrium Mitochondrial</option>
+    </param>
+    <param argument="out_format1" label="Output report file format" name="out_format1" type="select">
+      <option value="table">Table</option>
+      <option value="embl">EMBL</option>
+      <option value="genbank">GENBANK</option>
+      <option value="gff">GFF</option>
+      <option value="pir">PIR</option>
+      <option value="swiss">SwissProt</option>
+      <option value="dbmotif">DbMotif</option>
+      <option value="diffseq">Diffseq</option>
+      <option value="excel">Excel (tab delimited)</option>
+      <option value="feattable">FeatTable</option>
+      <option value="motif">Motif</option>
+      <option value="regions">Regions</option>
+      <option value="seqtable">SeqTable</option>
+      <option value="simple">SRS Simple</option>
+      <option value="srs">SRS</option>
+      <option value="tagseq">TagSeq</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="fuzztran" hidden="false" name="out_file1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="1.fasta"/>
+      <param name="pattern" value="AA"/>
+      <param name="mismatch" value="0"/>
+      <param name="frame" value="6"/>
+      <param name="table" value="0"/>
+      <param name="out_format1" value="excel"/>
+      <output file="emboss_fuzztran_out.tabular" name="out_file1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+.. class:: warningmark
+
+The input dataset needs to be sequences.
+
+-----
+
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/fuzztran.html
+  ]]></help>
+  <citations/>
+</tool>

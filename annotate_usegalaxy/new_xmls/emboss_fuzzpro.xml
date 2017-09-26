@@ -1,0 +1,53 @@
+<tool id="EMBOSS: fuzzpro38" name="fuzzpro" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Protein pattern search</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[fuzzpro -sequence '$input1' -outfile '$out_file1' -pattern '$pattern' -pmismatch $mismatch -rformat2 $out_format1 -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequences" name="input1" type="data"/>
+    <param area="false" argument="pattern" label="Search pattern" name="pattern" type="text" value=""/>
+    <param argument="mismatch" label="Number of mismatches" name="mismatch" type="integer" value="0"/>
+    <param argument="out_format1" label="Output report file format" name="out_format1" type="select">
+      <option value="seqtable">SeqTable</option>
+      <option value="embl">EMBL</option>
+      <option value="genbank">GENBANK</option>
+      <option value="gff">GFF</option>
+      <option value="pir">PIR</option>
+      <option value="swiss">SwissProt</option>
+      <option value="dbmotif">DbMotif</option>
+      <option value="diffseq">Diffseq</option>
+      <option value="excel">Excel (tab delimited)</option>
+      <option value="feattable">FeatTable</option>
+      <option value="motif">Motif</option>
+      <option value="regions">Regions</option>
+      <option value="simple">SRS Simple</option>
+      <option value="srs">SRS</option>
+      <option value="table">Table</option>
+      <option value="tagseq">TagSeq</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="fuzzpro" hidden="false" name="out_file1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/fuzzpro.html
+  ]]></help>
+  <citations/>
+</tool>

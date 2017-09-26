@@ -2,14 +2,10 @@
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>compare assembled transcripts to a reference annotation and track Cufflinks transcripts across multiple experiments</description>
   <edam_operations>
-    <edam_operation>operation_3800</edam_operation>
-    <edam_operation>operation_3198</edam_operation>
-    <edam_operation>operation_3258</edam_operation>
+    <edam_operation>operation_0004</edam_operation>
   </edam_operations>
   <edam_topics>
-    <edam_topic>topic_3320</edam_topic>
-    <edam_topic>topic_3308</edam_topic>
-    <edam_topic>topic_3170</edam_topic>
+    <edam_topic>topic_0003</edam_topic>
   </edam_topics>
   <stdio>
     <exit_code level="fatal" range="1:"/>
@@ -239,5 +235,7 @@ This is a list of implemented Cuffcompare options::
     ]]></help>
   <citations>
     <citation type="doi">10.1038/nbt.1621</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
   </citations>
 </tool>

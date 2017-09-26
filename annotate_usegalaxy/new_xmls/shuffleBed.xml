@@ -1,4 +1,4 @@
-<tool id="bedtools_shufflebed" name="ShuffleBed" version="@WRAPPER_VERSION@.0">
+<tool id="bedtools_shufflebed" name="ShuffleBed" version="@WRAPPER_VERSION@.1">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>randomly redistrubute intervals in a genome</description>
   <edam_operations>
@@ -14,7 +14,7 @@
   <command><![CDATA[
 
         bedtools shuffle
-        -g '$genome'
+        -g @GENOME_FILE@
         -i '$inputA'
         $bedpe
         #if str($seed.seed_choose) == "True":
@@ -63,6 +63,7 @@
   <tests>
     <test>
       <param ftype="bed" name="inputA" value="shuffleBed1.bed"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param ftype="tabular" name="genome" value="shuffleBed.len"/>
       <param name="chrom" value=""/>
       <param name="seed_choose" value="True"/>
@@ -71,6 +72,7 @@
     </test>
     <test>
       <param ftype="bed" name="inputA" value="shuffleBed1.bed"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param ftype="tabular" name="genome" value="shuffleBed.len"/>
       <param name="chrom" value="True"/>
       <param name="seed_choose" value="True"/>
@@ -79,6 +81,7 @@
     </test>
     <test>
       <param ftype="bed" name="inputA" value="shuffleBed1.bed"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param ftype="tabular" name="genome" value="shuffleBed.len"/>
       <param ftype="bed" name="excl" value="shuffleBed2.bed"/>
       <param name="seed_choose" value="True"/>
@@ -87,6 +90,7 @@
     </test>
     <test>
       <param ftype="bed" name="inputA" value="shuffleBed1.bed"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param ftype="bed" name="genome" value="shuffleBed.len"/>
       <param name="allow_beyond" value="True"/>
       <param name="seed_choose" value="True"/>

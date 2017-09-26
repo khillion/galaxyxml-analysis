@@ -9,6 +9,7 @@
   </edam_topics>
   <requirements>
     <requirement type="package" version="1.14.1">bioconductor-deseq2</requirement>
+    <requirement type="package" version="1.20.0">r-getopt</requirement>
   </requirements>
   <stdio>
     <exit_code level="fatal" range="1:"/>

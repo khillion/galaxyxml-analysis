@@ -1,0 +1,62 @@
+<tool id="EMBOSS: prettyseq80" name="prettyseq" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Output sequence with translated ranges</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[prettyseq -sequence '$input1' -outfile '$out_file1' -ruler $ruler -plabel $plabel -nlabel $nlabel -width $width -auto]]></command>
+  <inputs>
+    <param argument="input1" format="fasta" label="Sequence" name="input1" type="data"/>
+    <param argument="ruler" label="Add a ruler" name="ruler" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="plabel" label="Number translations" name="plabel" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="nlabel" label="Number DNA sequence" name="nlabel" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="width" label="Width of screen" min="10" name="width" type="integer" value="60"/>
+  </inputs>
+  <outputs>
+    <data format="prettyseq" hidden="false" name="out_file1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="2.fasta"/>
+      <param name="ruler" value="yes"/>
+      <param name="plabel" value="yes"/>
+      <param name="nlabel" value="yes"/>
+      <param name="width" value="60"/>
+      <output file="emboss_prettyseq_out.prettyseq" name="out_file1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+.. class:: warningmark
+
+The input dataset needs to be sequences.
+
+-----
+
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/prettyseq.html
+  ]]></help>
+  <citations/>
+</tool>

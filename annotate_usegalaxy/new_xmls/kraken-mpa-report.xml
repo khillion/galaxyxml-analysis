@@ -1,4 +1,4 @@
-<tool id="kraken-mpa-report" name="Kraken-mpa-report" version="1.2.1">
+<tool id="kraken-mpa-report" name="Kraken-mpa-report" version="@WRAPPER_VERSION@">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>view report of classification for multiple samples</description>
   <edam_operations>
@@ -12,28 +12,37 @@
   </stdio>
   <version_command/>
   <command><![CDATA[
+    #set $names = []
 
+    #for $input_count, $input_classification in enumerate( $classification ):
+        #set $name_base = str( getattr( $input_classification, 'element_identifier', 'sample' ) ).replace( "/", '-' ).replace( "\t", "-" )
+        #set $name = $name_base
+        #set $i = 1
+        #while $name in $names:
+            #set $name = "%s_%s" % ( $name_base, $i )
+            #set $i = $i + 1
+        #end while
+        #silent $names.append( $name )
+        ln -s '${input_classification}' '${name}' &&
+    #end for
 
-#for $input_count, $input_classification in enumerate( $classification ):
-    ln -s "${input_classification}" "sample_${input_count}" &&
-#end for
+    @SET_DATABASE_PATH@ &&
 
-@SET_DATABASE_PATH@ && kraken-mpa-report @INPUT_DATABASE@
+    kraken-mpa-report
+        @INPUT_DATABASE@
+        #for $name in $names:
+            "${name}"
+        #end for
 
-#for $input_count, $input_classification in enumerate( $classification ):
-    "sample_${input_count}"
-#end for
+        ${show_zeros}
+        ${header_line}
 
-${show_zeros}
-${header_line}
-
-> "$output_report"
-
+        > '$output_report'
     ]]></command>
   <inputs>
     <param argument="classification" format="tabular" label="Kraken output" multiple="True" name="classification" type="data"/>
-    <param argument="show_zeros" checked="False" falsevalue="" help="--show-zeros" label="Display taxa even if they lack a read in any sample" name="show_zeros" truevalue="--show-zeros" type="boolean"/>
-    <param argument="header_line" checked="False" falsevalue="" help="--header-line" label="Display a header line indicating sample IDs" name="header_line" truevalue="--header-line" type="boolean"/>
+    <param argument="show_zeros" checked="False" falsevalue="" label="Display taxa even if they lack a read in any sample" name="show_zeros" truevalue="--show-zeros" type="boolean"/>
+    <param argument="header_line" checked="False" falsevalue="" label="Display a header line indicating sample IDs" name="header_line" truevalue="--header-line" type="boolean"/>
   </inputs>
   <outputs>
     <data format="tabular" hidden="false" name="output_report"/>
@@ -58,17 +67,13 @@ ${header_line}
 
 **What is Does**
 
-Kraken-mpa-report summarizes read counts across taxonomic ranks for multiple samples. This is convenient for comparing results across multiple expreriments, conditions, locations, etc. It support sthe following parameters::
-
---show-zeros    Display taxa even if they lack a read in any sample
---header-line   Display a header line indicating sample IDs
-                (sample IDs are the filenames)
+Kraken-mpa-report summarizes read counts across taxonomic ranks for multiple samples. This is convenient for comparing results across multiple experiments, conditions, locations, etc.
 
 -----
 
 **Output**
 
-The output of kraken-mpa-report is tab-delimited, with one line per taxon.
+The output of kraken-mpa-report is a tab-delimited table, with one line per taxon.
 
 
     ]]></help>

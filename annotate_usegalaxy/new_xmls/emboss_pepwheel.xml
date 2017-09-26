@@ -1,0 +1,47 @@
+<tool id="EMBOSS: pepwheel72" name="pepwheel" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Shows protein sequences as helices</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[perl '$__tool_directory__/emboss_single_outputfile_wrapper.pl' pepwheel -sequence '$input1' -graph png -goutfile '$out_file1' -squares '$squares' -diamonds '$diamonds' -octags '$octags' -amphipathic
+  $amphipathic -steps $steps -turns $turns -wheel $wheel -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequence" name="input1" type="data"/>
+    <param argument="steps" label="Steps, the number of residues plotted per turn is this value divided by the 'turns' value" name="steps" type="integer" value="18"/>
+    <param argument="turns" label="Turns, the number of residues plotted per turn is the 'steps' value divided by this value" name="turns" type="integer" value="5"/>
+    <param area="false" argument="squares" label="Residues to mark with squares" name="squares" type="text" value="ILVM"/>
+    <param area="false" argument="diamonds" label="Residues to mark with diamonds" name="diamonds" type="text" value="DENQST"/>
+    <param area="false" argument="octags" label="Residues to mark with octagons" name="octags" type="text" value="HKR"/>
+    <param argument="wheel" label="Plot the wheel" name="wheel" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="amphipathic" help="If this is true then the residues ACFGILMVWY are marked as squares and all other residues are unmarked. This overrides any other markup that you may have specified" label="Amphipathic?" name="amphipathic" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="png" hidden="false" name="out_file1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/pepwheel.html
+  ]]></help>
+  <citations/>
+</tool>

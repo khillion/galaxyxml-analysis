@@ -27,7 +27,7 @@
   </inputs>
   <outputs>
     <data format="fastq" hidden="false" label="${input.name} (as FASTQ)" metadata_source="input" name="output"/>
-    <data format="fastq2" hidden="false" label="${input.name} (as FASTQ)" metadata_source="input" name="output2">
+    <data format="fastq" hidden="false" label="${input.name} (as FASTQ)" metadata_source="input" name="output2">
       <filter>fq2 is True</filter>
     </data>
   </outputs>

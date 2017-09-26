@@ -1,0 +1,49 @@
+<tool id="EMBOSS: newcpgreport57" name="newcpgreport" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Report CpG rich areas</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[newcpgreport -sequence '$input1' -window $window -shift $shift -minlen $minlen -minpc $minpc -outfile '$out_file1' -minoe $minoe -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequence" name="input1" type="data"/>
+    <param argument="window" label="Window size" name="window" type="integer" value="100"/>
+    <param argument="shift" label="Step size (shift)" name="shift" type="integer" value="1"/>
+    <param argument="minlen" label="Minimum length" name="minlen" type="integer" value="200"/>
+    <param argument="minoe" label="Minimum average observed to expected ratio" name="minoe" type="float" value="0.6"/>
+    <param argument="minpc" label="Minimum average percentage of G plus C" name="minpc" type="float" value="50.0"/>
+  </inputs>
+  <outputs>
+    <data format="newcpgreport" hidden="false" name="out_file1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="2.fasta"/>
+      <param name="window" value="100"/>
+      <param name="shift" value="1"/>
+      <param name="minlen" value="200"/>
+      <param name="minoe" value="0.6"/>
+      <param name="minpc" value="50.0"/>
+      <output file="emboss_newcpgreport_out.newcpgreport" name="out_file1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/newcpgreport.html
+  ]]></help>
+  <citations/>
+</tool>

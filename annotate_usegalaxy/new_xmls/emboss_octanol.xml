@@ -1,0 +1,47 @@
+<tool id="EMBOSS: octanol63" name="octanol" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Displays protein hydropathy</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[perl '$__tool_directory__/emboss_single_outputfile_wrapper.pl' octanol -sequence '$input1' -graph png -goutfile '$out_file1' -width $width -octanolplot $octanolplot -interfaceplot $interfaceplot
+  -differenceplot $differenceplot -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequences" name="input1" type="data"/>
+    <param argument="width" label="Window size" name="width" type="integer" value="19"/>
+    <param argument="octanolplot" label="Display the octanol plot" name="octanolplot" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="interfaceplot" label="Display the interface plot" name="interfaceplot" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="differenceplot" label="Display the difference plot" name="differenceplot" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="png" hidden="false" name="out_file1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/octanol.html
+  ]]></help>
+  <citations/>
+</tool>

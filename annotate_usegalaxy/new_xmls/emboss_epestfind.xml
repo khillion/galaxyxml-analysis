@@ -1,0 +1,58 @@
+<tool id="EMBOSS: epestfind29" name="epestfind" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Finds PEST motifs as potential proteolytic cleavage sites</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[perl '$__tool_directory__/emboss_single_outputfile_wrapper.pl' epestfind -sequence '$input1' -goutfile '$ofile2' -outfile '$ofile1' -window $window -order $order -potential $potential -poor $poor
+  -invalid $invalid -map $map -graph png -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequence" name="input1" type="data"/>
+    <param argument="window" label="Minimal distance between positively charged amino acids" name="window" type="integer" value="10"/>
+    <param argument="order" label="Sort by" name="order" type="select">
+      <option value="3">Score</option>
+      <option value="1">Length</option>
+      <option value="2">Position</option>
+    </param>
+    <param argument="threshold" label="Threshold value to discriminate weak from potential PEST motifs" name="threshold" type="float" value="5.0"/>
+    <param argument="potential" label="Decide whether potential PEST motifs should be printed" name="potential" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="poor" label="Decide whether poor PEST motifs should be printed" name="poor" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="invalid" label="Decide whether invalid PEST motifs should be printed" name="invalid" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="map" label="Decide whether PEST motifs should be mapped to sequence" name="map" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="png" hidden="false" name="ofile2"/>
+    <data format="epestfind" hidden="false" name="ofile1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/epestfind.html
+  ]]></help>
+  <citations/>
+</tool>

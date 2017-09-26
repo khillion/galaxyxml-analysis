@@ -1,0 +1,58 @@
+<tool id="EMBOSS: dan19" name="dan" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Calculates DNA RNA/DNA melting temperature</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[perl '$__tool_directory__/emboss_single_outputfile_wrapper.pl' dan -sequence '$input1' -windowsize $window -goutfile '$out_file1' -graph png -plot $plot1 -shiftincrement $shift -dnaconc $dnaconc
+  -saltconc $saltconc -product $product -formamide $formamide -mismatch $mismatch -prodlen $prodlen -thermo $thermo -temperature $temperature -rna $rna -outfile $out_file1 -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="On query" name="input1" type="data"/>
+    <param argument="window" label="Window size" name="window" type="integer" value="20"/>
+    <param argument="shift" label="Step size (shift increment)" name="shift" type="integer" value="1"/>
+    <param argument="dnaconc" label="DNA Concentration (nM)" name="dnaconc" type="float" value="50.0"/>
+    <param argument="saltconc" label="Salt concentration (mM)" name="saltconc" type="float" value="50.0"/>
+    <param argument="thermo" label="Output the DeltaG, DeltaH and DeltaS values" name="thermo" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="temperature" label="Temperature at which to calculate the DeltaG, DeltaH and DeltaS values" name="temperature" type="float" value="25.0"/>
+    <param argument="rna" label="Sequence is RNA" name="rna" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="product" label="Include percent formamide, percent of mismatches allowed and product length" name="product" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="formamide" label="Formamide concentration (nM)" name="formamide" type="float" value="0.0"/>
+    <param argument="mismatch" label="Percent mismatch to be used in calculations" name="mismatch" type="float" value="0.0"/>
+    <param argument="prodlen" label="Product length to be used in calculations" name="prodlen" type="integer" value="20"/>
+    <param argument="plot1" label="Create a graph" name="plot1" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="dan" hidden="false" name="out_file1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/dan.html
+  ]]></help>
+  <citations/>
+</tool>

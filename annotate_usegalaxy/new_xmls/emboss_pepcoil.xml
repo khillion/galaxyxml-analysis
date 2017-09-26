@@ -1,0 +1,56 @@
+<tool id="EMBOSS: pepcoil68" name="pepcoil" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Predicts coiled coil regions</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[pepcoil -sequence '$input1' -outfile '$out_file1' -window $window -coil $coil -frame $frame -other $other -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequence" name="input1" type="data"/>
+    <param argument="window" label="Window size" name="window" type="integer" value="28"/>
+    <param argument="coil" label="Report coiled coil regions" name="coil" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="frame" label="Show coil frameshifts" name="frame" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="other" label="Report non coiled coil regions" name="other" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="pepcoil" hidden="false" name="out_file1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="2.fasta"/>
+      <param name="window" value="28"/>
+      <param name="coil" value="yes"/>
+      <param name="frame" value="yes"/>
+      <param name="other" value="yes"/>
+      <output file="emboss_pepcoil_out.pepcoil" name="out_file1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/pepcoil.html
+  ]]></help>
+  <citations/>
+</tool>

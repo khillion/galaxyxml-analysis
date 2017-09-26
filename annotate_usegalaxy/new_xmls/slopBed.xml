@@ -1,4 +1,4 @@
-<tool id="bedtools_slopbed" name="SlopBed" version="@WRAPPER_VERSION@.0">
+<tool id="bedtools_slopbed" name="SlopBed" version="@WRAPPER_VERSION@.1">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>adjust the size of intervals</description>
   <edam_operations>
@@ -16,7 +16,7 @@
         bedtools slop
         $pct
         $strand
-        -g '$genome'
+        -g @GENOME_FILE@
         -i '$inputA'
         #if $addition.addition_select == 'b':
             -b $addition.b
@@ -39,6 +39,7 @@
   <tests>
     <test>
       <param ftype="bed" name="inputA" value="a.bed"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param ftype="bed" name="genome" value="mm9_chr1.len"/>
       <param name="addition_select" value="b"/>
       <param name="b" value="5"/>
@@ -46,6 +47,7 @@
     </test>
     <test>
       <param ftype="bed" name="inputA" value="a.bed"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param ftype="bed" name="genome" value="mm9_chr1.len"/>
       <param name="addition_select" value="lr"/>
       <param name="l" value="2"/>

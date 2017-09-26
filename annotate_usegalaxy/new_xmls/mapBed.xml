@@ -1,4 +1,4 @@
-<tool id="bedtools_map" name="MapBed" version="@WRAPPER_VERSION@.0">
+<tool id="bedtools_map" name="MapBed" version="@WRAPPER_VERSION@.1">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>apply a function to a column for each overlapping interval</description>
   <edam_operations>
@@ -14,17 +14,15 @@
   <command><![CDATA[
 
         bedtools map
-        -a "${inputA}"
-        -b "${inputB}"
+        -a '${inputA}'
+        -b '${inputB}'
         $strand
         @C_AND_O_ARGUMENT@
         -f $overlap
         $reciprocal
         $split
         $header
-        #if $genome.genome_choose == "-g" :
-            -g $genome.genome
-        #end if
+        @GENOME_FILE_MAPBED@
         > "${output}"
 
     ]]></command>
@@ -33,7 +31,10 @@
     <param argument="inputB" format="bam,bed,gff,vcf,gff3" label="File B (BAM/BED/VCF/GFF)" name="inputB" type="data"/>
     <param argument="reciprocal" checked="false" falsevalue="" help="If set, the overlap between the BAM alignment and the BED interval must affect the above fraction of both the alignment and the BED interval. (-r)" label="Require reciprocal overlap" name="reciprocal" truevalue="-r" type="boolean"/>
     <conditional argument="genome" label="Author did not provide help for this parameter... " name="genome">
-      <param argument="genome_choose" checked="false" falsevalue="" help="(-g)" label="Treat split/spliced BAM or BED12 entries as distinct BED intervals when computing coverage." name="genome_choose" truevalue="-g" type="boolean"/>
+      <param argument="genome_choose" label="Specify a genome file the defines the expected chromosome order in the input files." name="genome_choose" type="select">
+        <option selected="true" value="">No</option>
+        <option value="-g">Yes</option>
+      </param>
       <when value="-g"/>
       <when value=""/>
     </conditional>
@@ -63,6 +64,15 @@
       <param ftype="bed" name="inputB" value="mapBed2.bed"/>
       <param name="strand" value="-s"/>
       <output file="mapBed_result4.bed" ftype="bed" name="output"/>
+    </test>
+    <test>
+      <param ftype="bed" name="inputA" value="mapBed3.bed"/>
+      <param ftype="bed" name="inputB" value="mapBed4.bed"/>
+      <param name="strand" value="-s"/>
+      <param name="genome_choose" value="-g"/>
+      <param name="genome_file_opts_selector" value="hist"/>
+      <param ftype="bed" name="genome" value="mm9.len"/>
+      <output file="mapBed_result5.bed" ftype="bed" name="output"/>
     </test>
   </tests>
   <help><![CDATA[

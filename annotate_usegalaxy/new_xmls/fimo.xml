@@ -1,0 +1,236 @@
+<tool id="meme_fimo" name="FIMO" version="@WRAPPER_VERSION@.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>- Scan a set of sequences for motifs.</description>
+  <edam_operations>
+    <edam_operation>operation_0004</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+mkdir -p output &&
+python '$__tool_directory__/fimo_wrapper.py'
+--input_motifs '${input_motifs}'
+#if str($fasta_type.fasta_type_selector) == 'history':
+    --input_fasta '${fasta_type.input_database}'
+#else:
+    --input_fasta '${fasta_type.input_database.fields.path}'
+#end if
+--options_type $options_type.options_type_selector
+#if str($options_type.options_type_selector) == 'advanced':
+    --alpha '${options_type.alpha}'
+    #if str($options_type.bgfile_type.bgfile_type_selector) == 'motif_file':
+        --bgfile 'motif-file'
+    #elif str($options_type.bgfile_type.bgfile_type_selector) == 'bgfile':
+        --bgfile '${options_type.bgfile_type.bgfile}'
+    #end if
+    ${options_type.max_strand}
+    --max_stored_scores '${options_type.max_stored_scores}'
+    #if str($options_type.motifs_cond.motifs_selector) == 'no':
+        #for $motif in $options_type.motifs:
+            --motif '${motif.motif}'
+        #end for
+    #end if
+    --output_separate_motifs ${options_type.output_separate_motifs}
+    --motif_pseudo '${options_type.motif_pseudo}'
+    ${options_type.no_qvalue}
+    ${options_type.norc}
+    #if str($options_type.parse_genomic_coord_cond.parse_genomic_coord) == 'yes':
+        --parse_genomic_coord 'yes'
+        --remove_duplicate_coords ${options_type.parse_genomic_coord_cond.remove_duplicate_coords}
+    #end if
+    #if str($options_type.psp_cond.psp_selector) == 'yes':
+        --input_psp '${input_psp}'
+    #end if
+    #if str($options_type.prior_dist_cond.prior_dist_selector) == 'yes':
+        --input_prior_dist '${input_prior_dist}'
+    #end if
+    ${options_type.qv_thresh}
+    --thresh ${options_type.thresh}
+#end if
+--output_path '${html_outfile.files_path}'
+--html_output '${html_outfile}'
+--interval_output '${interval_outfile}'
+--txt_output '${txt_outfile}'
+--xml_output '${xml_outfile}'
+--gff_output '${gff_outfile}'
+    ]]></command>
+  <inputs>
+    <param argument="input_motifs" format="memexml" label="'MEME output' formatted file" name="input_motifs" type="data"/>
+    <conditional argument="fasta_type" label="Author did not provide help for this parameter... " name="fasta_type">
+      <param argument="fasta_type_selector" label="Source for sequence to search" name="fasta_type_selector" type="select">
+        <option value="cached">Locally Cached sequences</option>
+        <option selected="true" value="history">Sequences from your history</option>
+      </param>
+      <when value="cached">
+        <param argument="input_database" label="Genome to search" name="input_database" type="select">
+          <options from_data_table="all_fasta"/>
+        </param>
+      </when>
+      <when value="history">
+        <param argument="input_database" format="fasta" label="Sequences" name="input_database" type="data"/>
+      </when>
+    </conditional>
+    <conditional argument="options_type" label="Author did not provide help for this parameter... " name="options_type">
+      <param argument="options_type_selector" label="Options configuration" name="options_type_selector" type="select">
+        <option selected="true" value="basic">Basic</option>
+        <option value="advanced">Advanced</option>
+      </param>
+      <when value="basic"/>
+      <when value="advanced">
+        <param argument="alpha" help="Represents the fraction of all transcription factor binding sites that are binding sites for the TF of interest (must be between 0 and 1)." label="Alpha parameter for calculating position specific priors" max="1.0" min="0" name="alpha" type="float" value="1.0"/>
+        <conditional argument="bgfile_type" label="Author did not provide help for this parameter... " name="bgfile_type">
+          <param argument="bgfile_type_selector" label="Background file type" name="bgfile_type_selector" type="select">
+            <option selected="true" value="default">Use frequencies embedded in the application from the non-redundant database</option>
+            <option value="motif_file">Use frequencies from motif file</option>
+            <option value="bgfile">Use frequencies from background file</option>
+          </param>
+          <when value="motif_file"/>
+          <when value="default"/>
+          <when value="bgfile">
+            <param argument="bgfile" format="txt" help="File must be in MEME background file format." label="Background Model" name="bgfile" optional="True" type="data"/>
+          </when>
+        </conditional>
+        <param argument="max_strand" checked="False" falsevalue="" help="If the scores are tied, the matching strand is chosen at random.  Leave unchecked to report both matches." label="If matches on both strands at a given position satisfy the output threshold, only report the match for the strand with the higher score" name="max_strand" truevalue="--max_strand" type="boolean"/>
+        <param argument="max_stored_scores" label="Maximum number of scores that will be stored" name="max_stored_scores" type="integer" value="100000"/>
+        <conditional argument="motifs_cond" label="Author did not provide help for this parameter... " name="motifs_cond">
+          <param argument="motifs_selector" label="Use all motifs in input?" name="motifs_selector" type="select">
+            <option selected="true" value="yes">Yes</option>
+            <option value="no">No</option>
+          </param>
+          <when value="yes"/>
+          <when value="no">
+            <repeat name="motifs" title="Limit to specified motif">
+              <param area="false" argument="motif" label="Specify motif by id" name="motif" type="text" value=""/>
+            </repeat>
+          </when>
+        </conditional>
+        <param argument="output_separate_motifs" help="Output a collection consisting of a separate dataset for each motif in the input" label="Output a dataset per motif?" name="output_separate_motifs" type="select">
+          <option selected="true" value="no">No</option>
+          <option value="yes">Yes</option>
+        </param>
+        <param argument="motif_pseudo" help="A pseudocount to be added to each count in the motif matrix, after first multiplying by the corresponding background frequency" label="Pseudocount to add to counts in motif matrix" name="motif_pseudo" type="float" value="0.1"/>
+        <param argument="no_qvalue" checked="True" falsevalue="" help="The q-value calculation is that of Benjamini and Hochberg (1995)." label="Do not compute a q-value for each p-value" name="no_qvalue" truevalue="--no_qvalue" type="boolean"/>
+        <param argument="norc" checked="False" falsevalue="" label="Do not score the reverse complement DNA strand" name="norc" truevalue="--norc" type="boolean"/>
+        <conditional argument="parse_genomic_coord_cond" label="Author did not provide help for this parameter... " name="parse_genomic_coord_cond">
+          <param argument="parse_genomic_coord" label="Check each sequence header for UCSC style genomic coordinates" name="parse_genomic_coord" type="select">
+            <option selected="true" value="no">No</option>
+            <option value="yes">Yes</option>
+          </param>
+          <when value="yes">
+            <param argument="remove_duplicate_coords" help="Remove duplicate entries as defined by the unique GFF coordinates" label="Remove duplicate entries in unique GFF coordinates?" name="remove_duplicate_coords" type="select">
+              <option selected="true" value="no">No</option>
+              <option value="yes">Yes</option>
+            </param>
+          </when>
+          <when value="no"/>
+        </conditional>
+        <conditional argument="psp_cond" label="Author did not provide help for this parameter... " name="psp_cond">
+          <param argument="psp_selector" label="Use position-specific priors?" name="psp_selector" type="select">
+            <option selected="true" value="no">No</option>
+            <option value="yes">Yes</option>
+          </param>
+          <when value="no"/>
+          <when value="yes">
+            <param argument="input_psp" format="txt" help="Format must be meme psp or wiggle." label="Select dataset containing position specific priors" name="input_psp" type="data"/>
+          </when>
+        </conditional>
+        <conditional argument="prior_dist_cond" label="Author did not provide help for this parameter... " name="prior_dist_cond">
+          <param argument="prior_dist_selector" label="Use binned distribution of priors?" name="prior_dist_selector" type="select">
+            <option selected="true" value="no">No</option>
+            <option value="yes">Yes</option>
+          </param>
+          <when value="no"/>
+          <when value="yes">
+            <param argument="input_prior_dist" format="txt" label="Select dataset containing binned distribution of priors" name="input_prior_dist" type="data"/>
+          </when>
+        </conditional>
+        <param argument="qv_thresh" checked="False" falsevalue="" help="Leave unchecked to use p-values for the output threshold." label="Use q-values for the output threshold" name="qv_thresh" truevalue="--qv_thresh" type="boolean"/>
+        <param argument="thresh" help="Only search results with a p-value less than the threshold will be output. The threshold can be set to use q-values rather than p-values via the option above." label="Output threshold for displaying search results" name="thresh" type="float" value="1e-4"/>
+      </when>
+    </conditional>
+    <param argument="non_commercial_use" checked="False" falsevalue="COMMERCIAL_USE" label="I certify that I am not using this tool for commercial purposes." name="non_commercial_use" truevalue="NON_COMMERCIAL_USE" type="boolean"/>
+  </inputs>
+  <outputs>
+    <data format="html" hidden="false" label="${tool.name} on ${on_string} (html)" name="html_outfile"/>
+    <data format="tabular" hidden="false" label="${tool.name} on ${on_string} (text)" name="txt_outfile"/>
+    <data format="tabular" hidden="false" label="${tool.name} on ${on_string} (almost-gff)" name="gff_outfile">
+      <filter>options_type['options_type_selector'] == 'basic' or (options_type['options_type_selector'] == 'advanced' and options_type['output_separate_motifs'] == 'no')</filter>
+    </data>
+    <collection label="Motifs: ${tool.name} on ${on_string}" name="motifs" type="list">
+      <discover_datasets directory="output" ext="gff" pattern="(?P&lt;designation&gt;.*)" visible="false"/>
+      <filter>options_type['options_type_selector'] == 'advanced' and options_type['output_separate_motifs'] == 'yes'</filter>
+    </collection>
+    <data format="cisml" hidden="false" label="${tool.name} on ${on_string} (xml)" name="xml_outfile"/>
+    <data format="interval" hidden="false" label="${tool.name} on ${on_string} (interval)" name="interval_outfile"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="memexml" name="input_motifs" value="meme_output_xml_1.xml"/>
+      <param name="fasta_type_selector" value="history"/>
+      <param ftype="fasta" name="input_database" value="phiX.fasta"/>
+      <param name="options_type_selector" value="basic"/>
+      <param name="non_commercial_use" value="True"/>
+      <output compare="contains" file="fimo_output_html_1.html" name="html_outfile"/>
+      <output compare="contains" file="fimo_output_txt_1.txt" name="txt_outfile"/>
+      <output compare="contains" file="fimo_output_almost-gff_1.txt" name="gff_outfile"/>
+      <output compare="contains" file="fimo_output_xml_1.xml" name="xml_outfile"/>
+      <output compare="contains" file="fimo_output_interval_1.txt" name="interval_outfile"/>
+    </test>
+    <test>
+      <param ftype="memexml" name="input_motifs" value="meme_output_xml_1.xml"/>
+      <param name="fasta_type_selector" value="history"/>
+      <param ftype="fasta" name="input_database" value="phiX.fasta"/>
+      <param name="options_type_selector" value="advanced"/>
+      <param name="non_commercial_use" value="True"/>
+      <output compare="contains" file="fimo_output_html_2.html" name="html_outfile"/>
+      <output compare="contains" file="fimo_output_txt_2.txt" name="txt_outfile"/>
+      <output compare="contains" file="fimo_output_almost-gff_2.txt" name="gff_outfile"/>
+      <output compare="contains" file="fimo_output_xml_2.xml" name="xml_outfile"/>
+      <output compare="contains" file="fimo_output_interval_2.txt" name="interval_outfile"/>
+    </test>
+    <test>
+      <param ftype="memexml" name="input_motifs" value="meme_output_xml_1.xml"/>
+      <param name="fasta_type_selector" value="history"/>
+      <param ftype="fasta" name="input_database" value="phiX.fasta"/>
+      <param name="options_type_selector" value="advanced"/>
+      <param name="parse_genomic_coord" value="yes"/>
+      <param name="remove_duplicate_coords" value="yes"/>
+      <param name="output_separate_motifs" value="yes"/>
+      <param name="non_commercial_use" value="True"/>
+      <output compare="contains" file="fimo_output_html_2.html" name="html_outfile"/>
+      <output compare="contains" file="fimo_output_txt_2.txt" name="txt_outfile"/>
+      <output compare="contains" file="fimo_output_xml_2.xml" name="xml_outfile"/>
+      <output compare="contains" file="fimo_output_interval_2.txt" name="interval_outfile"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+
+.. class:: warningmark
+
+**WARNING: This tool is only available for non-commercial use. Use for educational, research and non-profit purposes is permitted.
+Before using, be sure to review, agree, and comply with the license.**
+
+FIMO scans a sequence database for individual matches to each of the motifs you provide (sample output for motifs and sequences).
+The name FIMO stands for 'Find Individual Motif Occurrences'.  The program searches a database of sequences for occurrences of
+known motifs, treating each motif independently.  Motifs must be in MEME Motif Format.  You can define the statistical threshold
+(p-value) for motifs and whether FIMO scans just the given sequences or their reverse complements (where applicable).
+
+.. class:: infomark
+
+For detailed information on FIMO, click here_, or view the license_.
+
+.. _here: http://meme-suite.org/doc/fimo.html?man_type=web
+.. _license: http://meme-suite.org/doc/copyright.html?man_type=web
+
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btr064</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
+  </citations>
+</tool>

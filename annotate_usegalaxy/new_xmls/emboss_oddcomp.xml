@@ -1,0 +1,39 @@
+<tool id="EMBOSS: oddcomp64" name="oddcomp" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Find protein sequence regions with a biased composition</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[oddcomp -sequence '$input1' -infile '$input2' -outfile '$out_file1' -window $window -ignorebz $ignorebz -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequences" name="input1" type="data"/>
+    <param argument="input2" format="data" label="Dataset in the format of the output produced by 'compseq' that is used to set the minimum frequencies of words in this analysis" name="input2" type="data"/>
+    <param argument="window" help="If you want to count frequencies in a 40 aa stretch you should enter 40 here" label="Size of window in which to count" name="window" type="integer" value="30"/>
+    <param argument="ignorebz" help="The amino acid code B represents Asparagine or Aspartic acid and the code Z represents Glutamine or Glutamic acid. These are not commonly used codes and you may wish not to count words containing them, just noting them in the count of 'Other' words" label="Ignore B and Z" name="ignorebz" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="oddcomp" hidden="false" name="out_file1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/oddcomp.html
+  ]]></help>
+  <citations/>
+</tool>

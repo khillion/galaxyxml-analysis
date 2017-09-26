@@ -1,0 +1,142 @@
+<tool id="EMBOSS: transeq101" name="transeq" version="5.0.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Translate nucleic acid sequences</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+    transeq 
+      -sequence '$input1' 
+      -outseq '$out_file1' 
+      -frame $frame 
+      -table $table
+      #if str($regions).strip():
+        -regions '$regions'
+      #end if
+      -trim $trim 
+      -clean $clean 
+      -alternative $alternative 
+      -osformat2 '$out_format1' 
+      -auto
+  
+  ]]></command>
+  <inputs>
+    <param argument="input1" format="fasta" label="Sequences" name="input1" type="data"/>
+    <param argument="frame" label="Frame(s) to translate" name="frame" type="select">
+      <option value="1">Frame 1</option>
+      <option value="2">Frame 2</option>
+      <option value="3">Frame 3</option>
+      <option value="F">Forward three frames</option>
+      <option value="-1">Frame -1</option>
+      <option value="-2">Frame -2</option>
+      <option value="-3">Frame -3</option>
+      <option value="R">Reverse three frames</option>
+      <option value="6">All six frames</option>
+    </param>
+    <param argument="table" label="Code to use" name="table" type="select">
+      <option value="0">Standard</option>
+      <option value="1">Standard (with alternative initiation codons)</option>
+      <option value="2">Vertebrate Mitochondrial</option>
+      <option value="3">Yeast Mitochondrial</option>
+      <option value="4">Mold, Protozoan, Coelenterate Mitochondrial and Mycoplasma/Spiroplasma</option>
+      <option value="5">Invertebrate Mitochondrial</option>
+      <option value="6">Ciliate Macronuclear and Dasycladacean</option>
+      <option value="9">Echinoderm Mitochondrial</option>
+      <option value="10">Euplotid Nuclear</option>
+      <option value="11">Bacterial</option>
+      <option value="12">Alternative Yeast Nuclear</option>
+      <option value="13">Ascidian Mitochondrial</option>
+      <option value="14">Flatworm Mitochondrial</option>
+      <option value="15">Blepharisma Macronuclear</option>
+      <option value="16">Chlorophycean Mitochondrial</option>
+      <option value="21">Trematode Mitochondrial</option>
+      <option value="22">Scenedesmus obliquus</option>
+      <option value="23">Thraustochytrium Mitochondrial</option>
+    </param>
+    <param area="false" argument="regions" label="Regions to translate" name="regions" type="text" value=""/>
+    <param argument="trim" label="Remove all 'X' and '*' characters from the right end of the translation" name="trim" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="clean" label="Change all STOP codon positions from the '*' character to 'X'" name="clean" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="alternative" label="Define frame '-1' as using the set of codons starting with the last codon of the sequence" name="alternative" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="out_format1" label="Output sequence file format" name="out_format1" type="select">
+      <option value="fasta">FASTA (m)</option>
+      <option value="acedb">ACeDB (m)</option>
+      <option value="asn1">ASN.1 (m)</option>
+      <option value="clustal">Clustal (m)</option>
+      <option value="codata">CODATA (m)</option>
+      <option value="embl">EMBL (m)</option>
+      <option value="fitch">Fitch (m)</option>
+      <option value="gcg">Wisconsin Package GCG 9.x and 10.x (s)</option>
+      <option value="genbank">GENBANK (m)</option>
+      <option value="gff">GFF (m)</option>
+      <option value="hennig86">Hennig86 (m)</option>
+      <option value="ig">Intelligenetics (m)</option>
+      <option value="jackknifer">Jackknifer (m)</option>
+      <option value="jackknifernon">Jackknifernon (m)</option>
+      <option value="mega">Mega (m)</option>
+      <option value="meganon">Meganon (m)</option>
+      <option value="msf">Wisconsin Package GCG's MSF (m)</option>
+      <option value="pir">NBRF (PIR) (m)</option>
+      <option value="ncbi">NCBI style FASTA (m)</option>
+      <option value="nexus">Nexus/PAUP (m)</option>
+      <option value="nexusnon">Nexusnon/PAUPnon (m)</option>
+      <option value="phylip">PHYLIP interleaved (m)</option>
+      <option value="phylipnon">PHYLIP non-interleaved (m)</option>
+      <option value="selex">SELEX (m)</option>
+      <option value="staden">Staden (s)</option>
+      <option value="strider">DNA strider (m)</option>
+      <option value="swiss">SwisProt entry (m)</option>
+      <option value="text">Plain sequence (s)</option>
+      <option value="treecon">Treecon (m)</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="fasta" hidden="false" name="out_file1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="2.fasta"/>
+      <param name="frame" value="1"/>
+      <param name="table" value="0"/>
+      <param name="regions" value=""/>
+      <param name="trim" value="no"/>
+      <param name="clean" value="no"/>
+      <param name="alternative" value="no"/>
+      <param name="out_format1" value="fasta"/>
+      <output file="emboss_transeq_out.fasta" name="out_file1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+.. class:: warningmark
+
+The input dataset needs to be sequences.
+
+-----
+
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/transeq.html
+  ]]></help>
+  <citations/>
+</tool>

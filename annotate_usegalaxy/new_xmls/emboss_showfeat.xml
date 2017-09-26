@@ -1,0 +1,108 @@
+<tool id="EMBOSS: showfeat85" name="showfeat" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Show features of a sequence</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[showfeat -sequence '$input1' -outfile '$out_file1' -matchsource '$matchsource' -matchtype '$matchtype' -matchtag '$matchtag' -matchvalue '$matchvalue' -sort $sort -annotation '$annotation' -id
+  $id -description $description -scale $scale -width $width -collapse $collapse -forward $forward -reverse $reverse -unknown $unknown -strand $strand -source $source -position $position -type
+  $type -tags $tags -values $values -stricttags $stricttags -html $html_out1 -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequences" name="input1" type="data"/>
+    <param argument="html_out1" label="Format output as an HTML table" name="html_out1" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param area="false" argument="matchsource" label="Feature source to match" name="matchsource" type="text" value="*"/>
+    <param area="false" argument="matchtype" label="Feature type to match" name="matchtype" type="text" value="*"/>
+    <param area="false" argument="matchtag" label="Feature tags to match" name="matchtag" type="text" value="*"/>
+    <param area="false" argument="matchvalue" label="Tag values to match" name="matchvalue" type="text" value="*"/>
+    <param argument="sort" label="Sort by" name="sort" type="select">
+      <option value="start">Start position</option>
+      <option value="source">Source</option>
+      <option value="type">Type</option>
+      <option value="nosort">No sorting done</option>
+      <option value="join">Join coding regions together</option>
+    </param>
+    <param area="false" argument="annotation" label="Regions to annotate by marking" name="annotation" type="text" value=""/>
+    <param argument="id" label="Display the ID name of the sequence" name="id" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="description" label="Display the description of the sequence" name="description" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="scale" label="Display the scale line" name="scale" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="width" label="Screen width" name="width" type="integer" value="60"/>
+    <param argument="collapse" label="Collapse features" name="collapse" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="forward" label="Display forward sense features" name="forward" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="reverse" label="Display reverse sense features" name="reverse" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="unknown" label="Display unknown sense features" name="unknown" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="strand" label="Display the strand of the features" name="strand" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="source" label="Display the source of the features" name="source" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="position" label="Display the start and end position of the features" name="position" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="type" label="Display the type of the features" name="type" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="tags" label="Display the tags and values of the features" name="tags" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="values" label="Display the tag values of the features" name="values" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="stricttags" label="Display only those tag/value pairs in a feature that match the specified tag and value" name="stricttags" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="showfeat" hidden="false" name="out_file1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/showfeat.html
+  ]]></help>
+  <citations/>
+</tool>

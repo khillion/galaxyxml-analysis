@@ -1,0 +1,84 @@
+<tool id="EMBOSS: lindna48" name="lindna" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Draws linear maps of DNA constructs</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[lindna -infile '$input1' -graphout png -goutfile '$out_file1' -ruler $ruler -blocktype $blocktype -maxgroups $maxgroups -maxlabels $maxlabels -intersymbol $intersymbol -intercolour $intercolour
+  -interticks $interticks -gapsize $gapsize -ticklines $ticklines -textheight $textheight -textlength $textlength -margin $margin -tickheight $tickheight -blockheight $blockheight -rangeheight
+  $rangeheight -gapgroup $gapgroup -postext $postext -auto]]></command>
+  <inputs>
+    <param argument="input1" format="data" label="Sequences" name="input1" type="data"/>
+    <param argument="ruler" label="Draw a ruler" name="ruler" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="blocktype" label="Type of blocks" name="blocktype" type="select">
+      <option value="Filled">Filled blocks</option>
+      <option value="Open">Open blocks</option>
+      <option value="Outline">Black border</option>
+    </param>
+    <param argument="maxgroups" label="Maximum number of groups" name="maxgroups" type="integer" value="20"/>
+    <param argument="maxlabels" label="Maximum number of labels" name="maxlabels" type="integer" value="10000"/>
+    <param argument="intersymbol" label="Type of blocks" name="intersymbol" type="select">
+      <option value="Straight">Straight</option>
+    </param>
+    <param argument="intercolour" label="Colour of junctions between blocks" name="intercolour" type="select">
+      <option value="1">Red</option>
+      <option value="0">Black</option>
+      <option value="2">Yellow</option>
+      <option value="3">Green</option>
+      <option value="4">Aquamarine</option>
+      <option value="5">Pink</option>
+      <option value="6">Wheat</option>
+      <option value="7">Grey</option>
+      <option value="8">Brown</option>
+      <option value="9">Blue</option>
+      <option value="10">Blue-violet</option>
+      <option value="11">Cyan</option>
+      <option value="12">Turquoise</option>
+      <option value="13">Magenta</option>
+      <option value="14">Salmon</option>
+      <option value="15">White</option>
+    </param>
+    <param argument="interticks" label="Horizontal junctions between ticks" name="interticks" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="gapsize" label="Interval between ticks in the ruler" name="gapsize" type="integer" value="500"/>
+    <param argument="ticklines" label="Vertical lines at the ruler's ticks" name="ticklines" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="textheight" help="Enter a number &lt;1.0 or &gt;1.0 to decrease or increase the size, respectively" label="Height of text" name="textheight" type="float" value="1.0"/>
+    <param argument="textlength" help="Enter a number &lt;1.0 or &gt;1.0 to decrease or increase the size, respectively" label="Length of text" name="textlength" type="float" value="1.0"/>
+    <param argument="margin" help="This is the region left to the groups where the names of the groups are displayed. Enter a number &lt;1.0 or &gt;1.0 to decrease or increase the size, respectively" label="Width of left margin" name="margin" type="float" value="1.0"/>
+    <param argument="tickheight" help="Enter a number &lt;1.0 or &gt;1.0 to decrease or increase the size, respectively" label="Height of ticks" name="tickheight" type="float" value="1.0"/>
+    <param argument="blockheight" help="Enter a number &lt;1.0 or &gt;1.0 to decrease or increase the size, respectively" label="Height of blocks" name="blockheight" type="float" value="1.0"/>
+    <param argument="rangeheight" help="Enter a number &lt;1.0 or &gt;1.0 to decrease or increase the size, respectively" label="Height of range ends" name="rangeheight" type="float" value="1.0"/>
+    <param argument="gapgroup" help="Enter a number &lt;1.0 or &gt;1.0 to decrease or increase the size, respectively" label="Space between groups" name="gapgroup" type="float" value="1.0"/>
+    <param argument="postext" help="Enter a number &lt;1.0 or &gt;1.0 to decrease or increase the size, respectively" label="Space between text and ticks, blocks, and ranges" name="postext" type="float" value="1.0"/>
+  </inputs>
+  <outputs>
+    <data format="png" hidden="false" name="out_file1"/>
+  </outputs>
+  <help><![CDATA[
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/lindna.html
+  ]]></help>
+  <citations/>
+</tool>

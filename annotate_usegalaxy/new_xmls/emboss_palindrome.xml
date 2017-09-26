@@ -1,0 +1,58 @@
+<tool id="EMBOSS: palindrome65" name="palindrome" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Looks for inverted repeats in a nucleotide sequence</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[palindrome -sequence '$input1' -outfile '$out_file1' -minpallen $minpallen -maxpallen $maxpallen -gaplimit $gaplimit -nummismatches $nummismatches -overlap $overlap -auto]]></command>
+  <inputs>
+    <param argument="input1" format="fasta" label="Sequences" name="input1" type="data"/>
+    <param argument="minpallen" label="Minimum length of palindrome" name="minpallen" type="integer" value="10"/>
+    <param argument="maxpallen" label="Maximum length of palindrome" name="maxpallen" type="integer" value="100"/>
+    <param argument="gaplimit" label="Maximum gap between repeated regions" name="gaplimit" type="integer" value="100"/>
+    <param argument="nummismatches" label="Number of mismatches allowed" name="nummismatches" type="integer" value="0"/>
+    <param argument="overlap" label="Report overlapping matches" name="overlap" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="palindrome" hidden="false" name="out_file1"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="2.fasta"/>
+      <param name="minpallen" value="10"/>
+      <param name="maxpallen" value="100"/>
+      <param name="gaplimit" value="100"/>
+      <param name="nummismatches" value="0"/>
+      <param name="overlap" value="yes"/>
+      <output file="emboss_palindrome_out.palindrome" name="out_file1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+.. class:: warningmark
+
+The input dataset needs to be sequences.
+
+-----
+
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/palindrome.html
+  ]]></help>
+  <citations/>
+</tool>

@@ -1,4 +1,4 @@
-<tool id="bedtools_bedtobam" name="BED to BAM" version="@WRAPPER_VERSION@.0">
+<tool id="bedtools_bedtobam" name="BED to BAM" version="@WRAPPER_VERSION@.1">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>converter</description>
   <edam_operations>
@@ -16,7 +16,7 @@
         bedtools bedtobam
         $bed12
         -mapq $mapq
-        -g $genome
+        -g @GENOME_FILE@
         -i '$input'
         > '$output'
 
@@ -32,6 +32,7 @@
   <tests>
     <test>
       <param ftype="bed" name="input" value="bedToBam1.bed"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param ftype="tabular" name="genome" value="mm9_chr1.len"/>
       <output file="bedToBam_result.bam" ftype="bam" lines_diff="4" name="output"/>
     </test>

@@ -86,7 +86,7 @@
       <param name="max_rank" value="Genus"/>
       <param name="root_name" value="Root"/>
       <param name="combine_inputs" value="False"/>
-      <output file="krona_test1.html" ftype="html" lines_diff="100" name="output"/>
+      <output file="krona_test1.html" ftype="html" lines_diff="102" name="output"/>
     </test>
   </tests>
   <help><![CDATA[
@@ -94,8 +94,6 @@
 
 This tool renders results of a metagenomic profiling as a zoomable pie chart using Krona_.
 
-
-.. _Krona: https://github.com/marbl/Krona/wiki
 
 ------
 

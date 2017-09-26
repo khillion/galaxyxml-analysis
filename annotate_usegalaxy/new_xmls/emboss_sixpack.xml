@@ -1,0 +1,130 @@
+<tool id="EMBOSS: sixpack90" name="sixpack" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Display a DNA sequence with 6-frame translation and ORFs</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[sixpack -sequence '$input1' -outfile '$ofile1' -outseq '$ofile2' -table $table -firstorf $firstorf -lastorf $lastorf -mstart $mstart -reverse $reverse -orfminsize $orfminsize -uppercase
+  '$uppercase' -number $number -width $width -length $length -margin $margin -name $disp_name -description $description -offset $offset -html $html_out1 -osformat $out_format2 -auto]]></command>
+  <inputs>
+    <param argument="input1" format="fasta" label="Sequences" name="input1" type="data"/>
+    <param argument="table" label="Code to use" name="table" type="select">
+      <option value="0">Standard</option>
+      <option value="1">Standard (with alternative initiation codons)</option>
+      <option value="2">Vertebrate Mitochondrial</option>
+      <option value="3">Yeast Mitochondrial</option>
+      <option value="4">Mold, Protozoan, Coelenterate Mitochondrial and Mycoplasma/Spiroplasma</option>
+      <option value="5">Invertebrate Mitochondrial</option>
+      <option value="6">Ciliate Macronuclear and Dasycladacean</option>
+      <option value="9">Echinoderm Mitochondrial</option>
+      <option value="10">Euplotid Nuclear</option>
+      <option value="11">Bacterial</option>
+      <option value="12">Alternative Yeast Nuclear</option>
+      <option value="13">Ascidian Mitochondrial</option>
+      <option value="14">Flatworm Mitochondrial</option>
+      <option value="15">Blepharisma Macronuclear</option>
+      <option value="16">Chlorophycean Mitochondrial</option>
+      <option value="21">Trematode Mitochondrial</option>
+      <option value="22">Scenedesmus obliquus</option>
+      <option value="23">Thraustochytrium Mitochondrial</option>
+    </param>
+    <param argument="firstorf" label="Count the beginning of a sequence as a possible ORF" name="firstorf" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="lastorf" label="Count the end of a sequence as a possible ORF" name="lastorf" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="mstart" label="Displays only ORFs starting with an M" name="mstart" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="reverse" label="Display the translation of the DNA sequence in the 3 reverse frames" name="reverse" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="orfminsize" label="Minimum size of Open Reading Frames (ORFs) to display in the translations" name="orfminsize" type="integer" value="1"/>
+    <param area="false" argument="uppercase" label="Regions to put in uppercase" name="uppercase" type="text" value=""/>
+    <param argument="number" label="Number the sequence at the beginning and the end of each line" name="number" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="width" label="Number of nucleotides displayed on each line" name="width" type="integer" value="60"/>
+    <param argument="length" label="Line length of page" name="length" type="integer" value="0"/>
+    <param argument="margin" label="Margin around sequence for numbering" name="margin" type="integer" value="10"/>
+    <param argument="disp_name" label="Display the ID name of the sequence" name="disp_name" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="description" label="Display the description of the sequence" name="description" type="select">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </param>
+    <param argument="offset" label="Number from which you want the DNA sequence to be numbered" name="offset" type="integer" value="1"/>
+    <param argument="html_out1" label="Format output as an HTML table" name="html_out1" type="select">
+      <option value="no">No</option>
+      <option value="yes">Yes</option>
+    </param>
+    <param argument="out_format2" label="Output sequence file format" name="out_format2" type="select">
+      <option value="fasta">FASTA (m)</option>
+      <option value="acedb">ACeDB (m)</option>
+      <option value="asn1">ASN.1 (m)</option>
+      <option value="clustal">Clustal (m)</option>
+      <option value="codata">CODATA (m)</option>
+      <option value="embl">EMBL (m)</option>
+      <option value="fitch">Fitch (m)</option>
+      <option value="gcg">Wisconsin Package GCG 9.x and 10.x (s)</option>
+      <option value="genbank">GENBANK (m)</option>
+      <option value="gff">GFF (m)</option>
+      <option value="hennig86">Hennig86 (m)</option>
+      <option value="ig">Intelligenetics (m)</option>
+      <option value="jackknifer">Jackknifer (m)</option>
+      <option value="jackknifernon">Jackknifernon (m)</option>
+      <option value="mega">Mega (m)</option>
+      <option value="meganon">Meganon (m)</option>
+      <option value="msf">Wisconsin Package GCG's MSF (m)</option>
+      <option value="pir">NBRF (PIR) (m)</option>
+      <option value="ncbi">NCBI style FASTA (m)</option>
+      <option value="nexus">Nexus/PAUP (m)</option>
+      <option value="nexusnon">Nexusnon/PAUPnon (m)</option>
+      <option value="phylip">PHYLIP interleaved (m)</option>
+      <option value="phylipnon">PHYLIP non-interleaved (m)</option>
+      <option value="selex">SELEX (m)</option>
+      <option value="staden">Staden (s)</option>
+      <option value="strider">DNA strider (m)</option>
+      <option value="swiss">SwisProt entry (m)</option>
+      <option value="text">Plain sequence (s)</option>
+      <option value="treecon">Treecon (m)</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="sixpack" hidden="false" name="ofile1"/>
+    <data format="fasta" hidden="false" name="ofile2"/>
+  </outputs>
+  <help><![CDATA[
+.. class:: warningmark
+
+The input dataset needs to be sequences.
+
+-----
+
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/sixpack.html
+  ]]></help>
+  <citations/>
+</tool>

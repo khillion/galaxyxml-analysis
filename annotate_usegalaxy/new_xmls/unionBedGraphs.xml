@@ -1,4 +1,4 @@
-<tool id="bedtools_unionbedgraph" name="Merge BedGraph files" version="@WRAPPER_VERSION@.0">
+<tool id="bedtools_unionbedgraph" name="Merge BedGraph files" version="@WRAPPER_VERSION@.1">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>combines coverage intervals from multiple BEDGRAPH files</description>
   <edam_operations>
@@ -16,10 +16,8 @@
     unionBedGraphs
         $header
         -filler "${filler}"
-        #if $zero.value == True:
-            -empty
-            -g $genome
-        #end if
+        $empty.empty_selector
+        @GENOME_FILE_UNION@
 
         #if str($tag.tag_select) == "tag":
             #set files = '" "'.join( [ str( $file ) for $file in $tag.inputs ] )
@@ -53,7 +51,14 @@
         </repeat>
       </when>
     </conditional>
-    <param argument="zero" checked="true" help="If set, regions without any coverage will also be reported. Requires a valid organism key for all input datasets" label="Report regions with zero coverage" name="zero" type="boolean" truevalue="zero" falsevalue=""/>
+    <conditional argument="empty" label="Author did not provide help for this parameter... " name="empty">
+      <param argument="empty_selector" help="Include regions that have zero coverage in all BedGraph datasets" label="Report empty regions" name="empty_selector" type="select">
+        <option value="-empty">Yes</option>
+        <option value="">No</option>
+      </param>
+      <when value="-empty"/>
+      <when value=""/>
+    </conditional>
     <param area="false" argument="filler" help="Can be 0.0, N/A, - or any other value. (-filler)" label="Text to use for no-coverage value" name="filler" type="text" value="N/A"/>
   </inputs>
   <outputs>
@@ -63,26 +68,28 @@
     <test>
       <param name="tag_select" value="tag"/>
       <param ftype="bedgraph" name="inputs" value="unionBedGraphs1.bg,unionBedGraphs2.bg,unionBedGraphs3.bg"/>
-      <param name="zero" value="False"/>
+      <param name="empty_selector" value=""/>
       <output file="unionBedGraphs_result1.bg" ftype="bedgraph" name="output"/>
     </test>
     <test>
       <param name="tag_select" value="tag"/>
       <param ftype="bedgraph" name="inputs" value="unionBedGraphs1.bg,unionBedGraphs2.bg,unionBedGraphs3.bg"/>
       <param name="header" value="True"/>
-      <param name="zero" value="False"/>
+      <param name="empty_selector" value=""/>
       <output file="unionBedGraphs_result2.bg" ftype="bedgraph" name="output"/>
     </test>
     <test>
       <param name="tag_select" value="tag"/>
       <param ftype="bedgraph" name="inputs" value="unionBedGraphs1.bg,unionBedGraphs2.bg,unionBedGraphs3.bg"/>
-      <param name="zero" value="True"/>
+      <param name="empty_selector" value="-empty"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param name="genome" value="unionBedGraphs1.len"/>
       <output file="unionBedGraphs_result3.bg" ftype="bedgraph" name="output"/>
     </test>
     <test>
       <param name="tag_select" value="custom"/>
-      <param name="zero" value="True"/>
+      <param name="empty_selector" value="-empty"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param name="genome" value="unionBedGraphs1.len"/>
       <output file="unionBedGraphs_result4.bg" ftype="bedgraph" name="output"/>
     </test>

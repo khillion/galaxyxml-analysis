@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 
 """
 Perform mapping of XML to bio.tools entry using citation information.
@@ -145,6 +145,8 @@ if __name__ == "__main__":
                     id_query = publication['pmid']
                 elif publication['pmcid'] is not None:
                     id_query = publication['pmcid']
+                else:
+                    continue
                 doi = get_doi(id_query)
             doi_to_biot[doi].append(tool['id'])
     doi_to_biot['no_id_in_bibtex'] = 'no_id_in_bibtex'

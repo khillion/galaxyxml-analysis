@@ -1,0 +1,63 @@
+<tool id="EMBOSS: cpgreport16" name="cpgreport" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Reports all CpG rich regions</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[
+    cpgreport
+      -sequence '$input1'
+      -outfile '$out_file1'
+      -outfeat '$out_file2'
+      -offormat3 $out_format2
+      -score $score
+      -auto
+  
+  ]]></command>
+  <inputs>
+    <param argument="input1" format="fasta" label="On query" name="input1" type="data"/>
+    <param argument="score" label="Score for each CG sequence found" max="200" min="1" name="score" type="integer" value="17"/>
+    <param argument="out_format2" label="Output feature file format" name="out_format2" type="select">
+      <option value="gff">GFF</option>
+      <option value="embl">EMBL</option>
+      <option value="swiss">SwissProt</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="cpgreport" hidden="false" name="out_file1"/>
+    <data format="gff" hidden="false" name="out_file2"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="2.fasta"/>
+      <param name="score" value="17"/>
+      <param name="out_format2" value="embl"/>
+      <output file="emboss_cpgreport_out2.cpgreport" name="out_file1"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+.. class:: warningmark
+
+The input dataset needs to be sequences.
+
+-----
+
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/cpgreport.html
+  ]]></help>
+  <citations/>
+</tool>

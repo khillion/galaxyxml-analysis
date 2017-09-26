@@ -1,0 +1,50 @@
+<tool id="EMBOSS: wobble108" name="wobble" version="5.0.0.1">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>Wobble base plot</description>
+  <edam_operations>
+    <edam_operation>operation_2403</edam_operation>
+    <edam_operation>operation_0495</edam_operation>
+    <edam_operation>operation_0258</edam_operation>
+    <edam_operation>operation_0496</edam_operation>
+    <edam_operation>operation_0292</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_3047</edam_topic>
+    <edam_topic>topic_0080</edam_topic>
+    <edam_topic>topic_3070</edam_topic>
+  </edam_topics>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command/>
+  <command><![CDATA[perl '$__tool_directory__/emboss_single_outputfile_wrapper.pl' wobble -sequence '$input1' -graph png -goutfile '$ofile1' -outfile '$ofile2' -window $window -bases '$bases' -auto]]></command>
+  <inputs>
+    <param argument="input1" format="fasta" label="Sequence" name="input1" type="data"/>
+    <param argument="window" label="Window size, in codons" name="window" type="integer" value="30"/>
+    <param area="false" argument="bases" label="Bases used" name="bases" type="text" value="GC"/>
+  </inputs>
+  <outputs>
+    <data format="png" hidden="false" name="ofile1"/>
+    <data format="wobble" hidden="false" name="ofile2"/>
+  </outputs>
+  <tests>
+    <test>
+      <param name="input1" value="2.fasta"/>
+      <param name="window" value="30"/>
+      <param name="bases" value="GC"/>
+      <output file="emboss_wobble_out.wobble" name="ofile2"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+.. class:: warningmark
+
+The input dataset needs to be sequences.
+
+-----
+
+    You can view the original documentation here_.
+
+    .. _here: http://galaxy-iuc.github.io/emboss-5.0-docs/wobble.html
+  ]]></help>
+  <citations/>
+</tool>

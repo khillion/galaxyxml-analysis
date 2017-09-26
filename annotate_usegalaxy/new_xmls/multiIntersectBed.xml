@@ -1,4 +1,4 @@
-<tool id="bedtools_multiintersectbed" name="Multiple Intersect" version="@WRAPPER_VERSION@.0">
+<tool id="bedtools_multiintersectbed" name="Multiple Intersect" version="@WRAPPER_VERSION@.1">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
   <description>identifies common intervals among multiple interval files</description>
   <edam_operations>
@@ -17,10 +17,8 @@
         $header
         $cluster
         -filler "${filler}"
-        #if $zero.value == True:
-            -empty
-            -g $genome
-        #end if
+        $empty.empty_selector
+        @GENOME_FILE_UNION@
 
         #if str($tag.tag_select) == "tag":
             #set files = '" "'.join( [ str( $file ) for $file in $tag.inputs ] )
@@ -56,7 +54,14 @@
       </when>
     </conditional>
     <param argument="cluster" checked="false" falsevalue="" help="(-cluster)" label="Invoke Ryan Layers's clustering algorithm" name="cluster" truevalue="-cluster" type="boolean"/>
-    <param argument="zero" checked="true" help="If set, regions that are not overlapped by any file will also be reported. Requires a valid organism key for all input datasets" label="Report regions that are not covered by any of the files" name="zero" type="boolean" truevalue="zero" falsevalue=""/>
+    <conditional argument="empty" label="Author did not provide help for this parameter... " name="empty">
+      <param argument="empty_selector" help="Include regions that have zero coverage in all BedGraph datasets" label="Report empty regions" name="empty_selector" type="select">
+        <option value="-empty">Yes</option>
+        <option value="">No</option>
+      </param>
+      <when value="-empty"/>
+      <when value=""/>
+    </conditional>
     <param area="false" argument="filler" help="Can be 0.0, N/A, - or any other value. (-filler)" label="Text to use for no-coverage value" name="filler" type="text" value="N/A"/>
   </inputs>
   <outputs>
@@ -66,20 +71,21 @@
     <test>
       <param name="tag_select" value="tag"/>
       <param ftype="bed" name="inputs" value="multiIntersectBed1.bed,multiIntersectBed2.bed,multiIntersectBed3.bed"/>
-      <param name="zero" value="False"/>
+      <param name="empty_selector" value=""/>
       <output file="multiIntersectBed_result1.bed" ftype="bed" name="output"/>
     </test>
     <test>
       <param name="tag_select" value="tag"/>
       <param ftype="bed" name="inputs" value="multiIntersectBed1.bed,multiIntersectBed2.bed,multiIntersectBed3.bed"/>
       <param name="header" value="True"/>
-      <param name="zero" value="False"/>
+      <param name="empty_selector" value=""/>
       <output file="multiIntersectBed_result2.bed" ftype="bed" lines_diff="2" name="output"/>
     </test>
     <test>
       <param name="tag_select" value="tag"/>
       <param ftype="bed" name="inputs" value="multiIntersectBed1.bed,multiIntersectBed2.bed,multiIntersectBed3.bed"/>
-      <param name="zero" value="True"/>
+      <param name="empty_selector" value="-empty"/>
+      <param name="genome_file_opts_selector" value="hist"/>
       <param name="genome" value="multiIntersectBed1.len"/>
       <output file="multiIntersectBed_result3.bed" ftype="bed" name="output"/>
     </test>

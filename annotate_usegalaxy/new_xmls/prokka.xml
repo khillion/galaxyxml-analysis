@@ -1,0 +1,225 @@
+<tool id="prokka" name="Prokka" version="1.12.0">
+  <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
+  <description>prokaryotic genome annotation</description>
+  <edam_operations>
+    <edam_operation>operation_0004</edam_operation>
+  </edam_operations>
+  <edam_topics>
+    <edam_topic>topic_0003</edam_topic>
+  </edam_topics>
+  <requirements>
+    <requirement type="package" version="1.12">prokka</requirement>
+  </requirements>
+  <stdio>
+    <exit_code level="fatal" range="1:"/>
+  </stdio>
+  <version_command>prokka --version</version_command>
+  <command><![CDATA[
+prokka
+--cpus \${GALAXY_SLOTS:-8}
+--quiet ## to avoid non-error messages written to stderr
+--outdir outdir --prefix prokka ## used in outputs section
+#if $locustag
+    --locustag '$locustag'
+#end if
+#if str($increment)
+    --increment $increment
+#end if
+--gffver $gffver
+#if $compliant.compliant_select == "no"
+    #if $compliant.addgenes
+        --addgenes
+    #end if
+    #if str($compliant.mincontig)
+        --mincontig $compliant.mincontig
+    #end if
+#else
+    --compliant
+#end if
+#if $centre
+    --centre '$centre'
+#end if
+#if $genus
+    --genus '$genus'
+#end if
+#if $species
+    --species '$species'
+#end if
+#if $strain
+    --strain '$strain'
+#end if
+#if $plasmid
+    --plasmid '$plasmid'
+#end if
+--kingdom $kingdom.kingdom_select
+#if str($kingdom.gcode)
+    --gcode $kingdom.gcode
+#end if
+#if $usegenus
+    --usegenus
+#end if
+#if $proteins
+    --proteins '$proteins'
+#end if
+#if $metagenome
+    --metagenome
+#end if
+#if $fast
+    --fast
+#end if
+#if str($evalue)
+    --evalue $evalue
+#end if
+#if $rfam
+    --rfam
+#end if
+#if $norrna
+    --norrna
+#end if
+#if $notrna
+    --notrna
+#end if
+$input
+    ]]></command>
+  <inputs>
+    <param argument="input" format="fasta" help="FASTA format" label="Contigs to annotate" name="input" type="data"/>
+    <param area="false" argument="locustag" label="Locus tag prefix (--locustag)" name="locustag" type="text" value="PROKKA"/>
+    <param argument="increment" label="Locus tag counter increment (--increment)" min="1" name="increment" optional="true" type="integer" value="1"/>
+    <param argument="gffver" label="GFF version (--gffver)" name="gffver" type="select">
+      <option value="3">3</option>
+      <option value="2">2</option>
+      <option value="1">1</option>
+    </param>
+    <conditional argument="compliant" label="Author did not provide help for this parameter... " name="compliant">
+      <param argument="compliant_select" help="Equivalent to --addgenes --mincontiglen 200 --centre Prokka (or other centre specified below)" label="Force GenBank/ENA/DDJB compliance (--compliant)" name="compliant_select" type="select">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </param>
+      <when value="no">
+        <param argument="addgenes" checked="false" label="Add 'gene' features for each 'CDS' feature (--addgenes)" name="addgenes" type="boolean" truevalue="addgenes" falsevalue=""/>
+        <param argument="mincontig" help="NCBI needs 200" label="Minimum contig size (--mincontiglen)" name="mincontig" optional="true" type="integer" value="200"/>
+      </when>
+      <when value="yes"/>
+    </conditional>
+    <param area="false" argument="centre" label="Sequencing centre ID (--centre)" name="centre" type="text" value=""/>
+    <param area="false" argument="genus" help="May be used to aid annotation, see --usegenus below" label="Genus name (--genus)" name="genus" type="text" value=""/>
+    <param area="false" argument="species" label="Species name (--species)" name="species" type="text" value=""/>
+    <param area="false" argument="strain" label="Strain name (--strain)" name="strain" type="text" value=""/>
+    <param area="false" argument="plasmid" label="Plasmid name or identifier (--plasmid)" name="plasmid" type="text" value=""/>
+    <conditional argument="kingdom" label="Author did not provide help for this parameter... " name="kingdom">
+      <param argument="kingdom_select" label="Kingdom (--kingdom)" name="kingdom_select" type="select">
+        <option value="Archaea">Archaea</option>
+        <option selected="true" value="Bacteria">Bacteria</option>
+        <option value="Viruses">Viruses</option>
+      </param>
+      <when value="Archaea">
+        <param argument="gcode" label="Genetic code (transl_table)" max="23" min="1" name="gcode" optional="true" type="integer" value="11"/>
+      </when>
+      <when value="Bacteria">
+        <param argument="gcode" label="Genetic code (transl_table)" max="23" min="1" name="gcode" optional="true" type="integer" value="11"/>
+      </when>
+      <when value="Viruses">
+        <param argument="gcode" label="Genetic code (transl_table)" max="23" min="1" name="gcode" optional="true" type="integer" value="1"/>
+      </when>
+    </conditional>
+    <param argument="usegenus" checked="false" help="Will use the BLAST database for the genus specified above, if installed" label="Use genus-specific BLAST database (--usegenus)" name="usegenus" type="boolean" truevalue="usegenus" falsevalue=""/>
+    <param argument="proteins" format="fasta" label="Optional FASTA file of trusted proteins to first annotate from (--proteins)" name="proteins" optional="true" type="data"/>
+    <param argument="metagenome" checked="false" help="Will set --meta option for Prodigal" label="Improve gene predictions for highly fragmented genomes (--metagenome)" name="metagenome" type="boolean" truevalue="metagenome" falsevalue=""/>
+    <param argument="fast" checked="false" help="Skip CDS /product searching" label="Fast mode (--fast)" name="fast" type="boolean" truevalue="fast" falsevalue=""/>
+    <param argument="evalue" label="Similarity e-value cut-off" min="0" name="evalue" optional="true" type="float" value="1e-06"/>
+    <param argument="rfam" checked="false" label="Enable searching for ncRNAs with Infernal+Rfam (SLOW!) (--rfam)" name="rfam" type="boolean" truevalue="rfam" falsevalue=""/>
+    <param argument="norrna" checked="false" label="Don't run rRNA search with Barrnap" name="norrna" type="boolean" truevalue="norrna" falsevalue=""/>
+    <param argument="notrna" checked="false" label="Don't run tRNA search with Aragorn" name="notrna" type="boolean" truevalue="notrna" falsevalue=""/>
+    <param argument="outputs" display="checkboxes" label="Additional outputs" multiple="true" name="outputs" type="select">
+      <option selected="true" value="gff">Annotation in GFF3 format, containing both sequences and annotations (.gff)</option>
+      <option selected="true" value="gbk">Standard GenBank file. If the input was a multi-FASTA, then this will be a multi-GenBank, with one record for each sequence (.gbk)</option>
+      <option selected="true" value="fna">Nucleotide FASTA file of the input contig sequences (.fna)</option>
+      <option selected="true" value="faa">Protein FASTA file of the translated CDS sequences (.faa)</option>
+      <option selected="true" value="ffn">Nucleotide FASTA file of all the annotated sequences, not just CDS (.ffn)</option>
+      <option selected="true" value="sqn">An ASN1 format "Sequin" file for submission to GenBank. It needs to be edited to set the correct taxonomy, authors, related publication, etc. (.sqn)</option>
+      <option selected="true" value="fsa">Nucleotide FASTA file of the input contig sequences, with extra Sequin tags in the sequence description lines (.fsa)</option>
+      <option selected="true" value="tbl">Feature Table file (.tbl)</option>
+      <option selected="true" value="err">Unacceptable annotations - the NCBI discrepancy report (.err)</option>
+      <option selected="true" value="txt">Statistics relating to the annotated features found (.txt)</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data format="gff" from_work_dir="outdir/prokka.gff" hidden="false" label="${tool.name} on ${on_string}: gff" name="out_gff">
+      <filter>outputs and 'gff' in outputs</filter>
+    </data>
+    <data format="txt" from_work_dir="outdir/prokka.gbk" hidden="false" label="${tool.name} on ${on_string}: gbk" name="out_gbk">
+      <filter>outputs and 'gbk' in outputs</filter>
+    </data>
+    <data format="fasta" from_work_dir="outdir/prokka.fna" hidden="false" label="${tool.name} on ${on_string}: fna" name="out_fna">
+      <filter>outputs and 'fna' in outputs</filter>
+    </data>
+    <data format="fasta" from_work_dir="outdir/prokka.faa" hidden="false" label="${tool.name} on ${on_string}: faa" name="out_faa">
+      <filter>outputs and 'faa' in outputs</filter>
+    </data>
+    <data format="fasta" from_work_dir="outdir/prokka.ffn" hidden="false" label="${tool.name} on ${on_string}: ffn" name="out_ffn">
+      <filter>outputs and 'ffn' in outputs</filter>
+    </data>
+    <data format="asn1" from_work_dir="outdir/prokka.sqn" hidden="false" label="${tool.name} on ${on_string}: sqn" name="out_sqn">
+      <filter>outputs and 'sqn' in outputs</filter>
+    </data>
+    <data format="fasta" from_work_dir="outdir/prokka.fsa" hidden="false" label="${tool.name} on ${on_string}: fsa" name="out_fsa">
+      <filter>outputs and 'fsa' in outputs</filter>
+    </data>
+    <data format="txt" from_work_dir="outdir/prokka.tbl" hidden="false" label="${tool.name} on ${on_string}: tbl" name="out_tbl">
+      <filter>outputs and 'tbl' in outputs</filter>
+    </data>
+    <data format="txt" from_work_dir="outdir/prokka.err" hidden="false" label="${tool.name} on ${on_string}: err" name="out_err">
+      <filter>outputs and 'err' in outputs</filter>
+    </data>
+    <data format="txt" from_work_dir="outdir/prokka.txt" hidden="false" label="${tool.name} on ${on_string}: txt" name="out_txt">
+      <filter>outputs and 'txt' in outputs</filter>
+    </data>
+    <data format="txt" from_work_dir="outdir/prokka.log" hidden="false" label="${tool.name} on ${on_string}: log" name="out_log"/>
+  </outputs>
+  <tests>
+    <test>
+      <param ftype="fasta" name="input" value="phiX174.fasta"/>
+      <param name="outputs" value="gff,gbk,fna,faa,ffn,sqn,fsa,tbl,err,txt"/>
+      <output file="out.gff" name="out_gff"/>
+      <output file="out.gbk" lines_diff="14" name="out_gbk"/>
+      <output file="out.fna" name="out_fna"/>
+      <output file="out.faa" name="out_faa"/>
+      <output file="out.ffn" name="out_ffn"/>
+      <output file="out.sqn" lines_diff="84" name="out_sqn"/>
+      <output file="out.fsa" name="out_fsa"/>
+      <output file="out.tbl" name="out_tbl"/>
+      <output file="out.err" name="out_err"/>
+      <output file="out.txt" name="out_txt"/>
+      <output name="out_log"/>
+    </test>
+  </tests>
+  <help><![CDATA[
+**What it does**
+
+Prokka_ is a software tool to rapidly annotate bacterial, archaeal and viral genomes, and produce output files that require only minor tweaking to submit to GenBank/ENA/DDBJ.
+
+.. _Prokka: http://github.com/tseemann/prokka
+
+**Output files**
+
+Prokka creates several output files, which are described in the **Additional outputs** section above.
+
+**License and citation**
+
+This Galaxy tool is Copyright &#169; 2013 Lionel Guy, &#169; 2013-2014 `CRS4 Srl.`_, &#169; 2015-2016 `Earlham Institute`_ and is released under the `MIT license`_.
+
+.. _CRS4 Srl.: http://www.crs4.it/
+.. _Earlham Institute: http://earlham.ac.uk/
+.. _MIT license: https://opensource.org/licenses/MIT
+
+You can use this tool only if you agree to the license terms of: `Prokka`_.
+
+.. _Prokka: http://github.com/tseemann/prokka
+    ]]></help>
+  <citations>
+    <citation type="doi">10.1093/bioinformatics/btu135</citation>
+    <citation type="doi">10.1093/bioinformatics/btu153</citation>
+    <citation type="doi">10.1093/nar/gkw343</citation>
+    <citation type="doi">10.7490/f1000research.1114334.1</citation>
+  </citations>
+</tool>

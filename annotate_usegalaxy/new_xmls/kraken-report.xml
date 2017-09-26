@@ -1,8 +1,6 @@
-<tool id="kraken-report" name="Kraken-report" version="1.2.1">
+<tool id="kraken-report" name="Kraken-report" version="@WRAPPER_VERSION@">
   <!--This tool descriptor has been annotated by ToolDog v0.3.1-->
-  <description>
-        view a sample report of your classification
-    </description>
+  <description>view sample report of a classification</description>
   <edam_operations>
     <edam_operation>operation_3460</edam_operation>
   </edam_operations>
@@ -14,10 +12,12 @@
   </stdio>
   <version_command/>
   <command><![CDATA[
-        
         @SET_DATABASE_PATH@ &&
-        kraken-report @INPUT_DATABASE@ "${kraken_output}" > "$output_report"
-        
+
+        kraken-report
+            @INPUT_DATABASE@
+            '${kraken_output}'
+            > '$output_report'
     ]]></command>
   <inputs>
     <param argument="kraken_output" format="tabular" help="Select taxonomy classification produced by kraken" label="Kraken output" name="kraken_output" type="data"/>
@@ -33,7 +33,6 @@
     </test>
   </tests>
   <help><![CDATA[
-
 
 .. class:: warningmark
 
@@ -54,7 +53,6 @@ The output of kraken-report is tab-delimited, with one line per taxon. The field
 
 The scientific names are indented using spaces, according to the tree
 structure specified by the taxonomy.
-    
     ]]></help>
   <citations>
     <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
