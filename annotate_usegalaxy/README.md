@@ -1,12 +1,12 @@
 # Annotation of https://usegalaxy.org wrappers from https://bio.tools entries
 
-## 25 September 2017
+## 25 September 2017
 
-### Get https://bio.tools content
+### Get https://bio.tools content
 
 First, we recover all entries from https://bio.tools using `get_all_biotools.py` script which generates `all_biotools.json` file.
 
-### Mapping between Galaxy wrappers and https://bio.tools entries
+### Mapping between Galaxy wrappers and https://bio.tools entries
 
 The second step is to perform mapping between Galaxy wrappers and entries on https://bio.tools.
 You need to have downloaded all wrappers from the instance first (using: [get\_xmls\_from\_galaxy.py](https://github.com/khillion/galaxyxml-analysis/tree/master/galaxyxml_analysis)).
@@ -18,7 +18,7 @@ python xml_biotools_mapping.py -d USEGALAXY -r USEGALAXY/download_report.json -b
 
 This generates a `mapping.tsv` file that needs to be manually curated prior to use.
 
-### Manual curation of raw `mapping.tsv` file
+### Manual curation of raw `mapping.tsv` file
 
 Prior to run ToolDog to annotate every wrappers, we need to curate the `mapping.tsv` file.
 
