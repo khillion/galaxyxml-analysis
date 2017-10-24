@@ -76,7 +76,7 @@ Re-run analysis and counts number of tools based on different criteria (can be f
 | ----- | ------ | 
 | Total number of tools cloned from toolshed | 665 |
 | Tool description with `<citations>` | 455 |
-| `<citations>` with DOI | 405 |
+| `<citations>` with DOI | 399 |
 | Entry found corresponding to DOI on bio.tools | 224 |
 | Edam terms retrieved from bio.tools | 217 |
 
