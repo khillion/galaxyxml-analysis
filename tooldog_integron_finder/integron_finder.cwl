@@ -114,4 +114,3 @@ s:publication:
 - {id: http://dx.doi.org/10.1093/nar/gkw319}
 s:url: https://github.com/gem-pasteur/Integron_Finder
 
-None
